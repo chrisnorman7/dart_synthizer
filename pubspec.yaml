@@ -6,7 +6,8 @@ homepage: https://www.github.com/chrisnorman7/chrisnorman7/dart_synthizer
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
-#dependencies:
+dependencies:
+  ffi:
 #  path: ^1.7.0
 
 dev_dependencies:
@@ -15,7 +16,7 @@ dev_dependencies:
   ffigen:
 
 ffigen:
-  output: "lib/dart_synthizer.dart"
+  output: "lib/synthizer_bindings.dart"
   name: "Synthizer"
   description: 'Bindings for the Synthizer audio library'
   headers:
