@@ -1,0 +1,22 @@
+{
+  "cSpell.words": [
+    "Biquad",
+    "CUTOFF",
+    "Fdn",
+    "HRTF",
+    "Highpass",
+    "LF",
+    "Lowpass",
+    "OTYPE",
+    "ROLLOFF",
+    "Struct",
+    "Userdata",
+    "ctx",
+    "ffi",
+    "ffigen",
+    "nullptr",
+    "ptr",
+    "synthizer",
+    "syz"
+  ]
+}
