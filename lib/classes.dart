@@ -32,9 +32,17 @@ class Pausable extends SynthizerObject {
 
   /// Play this object.
   void play() => synthizer.syz_play(handle.value);
+
+  /// Get the gain of this object.
+  double get gain =>
+      PropertyStore.getDouble(synthizer, handle, SYZ_PROPERTIES.SYZ_P_GAIN);
+
+  /// Set the gain of this object.
+  set gain(double value) => PropertyStore.setDouble(
+      synthizer, handle, SYZ_PROPERTIES.SYZ_P_GAIN, value);
 }
 
-class Context extends SynthizerObject {
+class Context extends Pausable {
   /// Create a context.
   @override
   Context(Synthizer synthizer, {bool events = false})
@@ -47,6 +55,22 @@ class Context extends SynthizerObject {
 
   /// Enable the streaming of context events.
   void enableEvents() => synthizer.syz_contextEnableEvents(handle.value);
+
+  /// Get the position of this context.
+  Double3 get position => PropertyStore.getDouble3(
+      synthizer, handle, SYZ_PROPERTIES.SYZ_P_POSITION);
+
+  /// Set the position of this context.
+  set position(Double3 value) => PropertyStore.setDouble3(
+      synthizer, handle, SYZ_PROPERTIES.SYZ_P_POSITION, value);
+
+  /// Get the orientation of this context.
+  Double6 get orientation => PropertyStore.getDouble6(
+      synthizer, handle, SYZ_PROPERTIES.SYZ_P_ORIENTATION);
+
+  /// Set the orientation of this context.
+  set orientation(Double6 value) => PropertyStore.setDouble6(
+      synthizer, handle, SYZ_PROPERTIES.SYZ_P_ORIENTATION, value);
 }
 
 /// A synthizer buffer.

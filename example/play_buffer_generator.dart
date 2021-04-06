@@ -10,10 +10,11 @@ Future<void> main() async {
   initialize(synthizer);
   print('Synthizer initialized.');
   final ctx = Context(synthizer);
-  print('Created context $ctx.');
+  print('Created context $ctx with gain ${ctx.gain}.');
   final buffer = Buffer.fromFile(ctx, File('sound.wav'));
   final generator = BufferGenerator(ctx, buffer: buffer);
-  print('Created generator $generator.');
+  print('Created generator $generator with gain ${generator.gain}.');
+  generator.gain = 0.5;
   final source = DirectSource(ctx);
   source.addGenerator(generator);
   await Future.delayed(Duration(seconds: 2));

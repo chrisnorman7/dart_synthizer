@@ -3,6 +3,7 @@ import 'synthizer_bindings.dart';
 import 'util.dart';
 
 export 'classes.dart';
+export 'enumerations.dart';
 export 'error.dart';
 export 'synthizer_bindings.dart';
 export 'util.dart';
