@@ -1,4 +1,4 @@
-/// create a context and exit.
+/// create a streaming generator and exit.
 import 'dart:ffi';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
@@ -10,6 +10,8 @@ void main() {
   print('Synthizer initialized.');
   final ctx = Context(synthizer);
   print('Created context $ctx.');
+  final generator = StreamingGenerator(ctx, 'file', 'sound.wav');
+  print('Created generator $generator.');
   shutdown(synthizer);
   print('Synthizer shutdown.');
 }

@@ -12,6 +12,7 @@
     "ROLLOFF",
     "Struct",
     "Userdata",
+    "autopxd",
     "calloc",
     "ctx",
     "ffi",
@@ -19,6 +20,9 @@
     "msg",
     "nullptr",
     "ptr",
+    "spacialized",
+    "spatialization",
+    "spatialized",
     "synthizer",
     "syz"
   ]

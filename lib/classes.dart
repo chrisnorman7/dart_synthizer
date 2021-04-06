@@ -1,5 +1,6 @@
 /// Provides various classes for use with Synthizer.
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 
@@ -16,6 +17,9 @@ class SynthizerObject {
 
   /// Create an instance.
   SynthizerObject(this.synthizer, this.handle);
+
+  /// Destroy this object.
+  void destroy() => check(synthizer, synthizer.syz_handleFree(handle.value));
 }
 
 /// An object which can be played and paused.
@@ -62,5 +66,76 @@ class Buffer extends SynthizerObject {
             path.toNativeUtf8().cast<Int8>(),
             options.toNativeUtf8().cast<Int8>()));
     return Buffer(context.synthizer, out);
+  }
+
+  /// Create a buffer from a file object.
+  factory Buffer.fromFile(Context context, File file) {
+    return Buffer.fromStream(context, 'file', file.absolute.path);
+  }
+
+  /// Get the number of channels for this buffer.
+  int get channels {
+    final out = calloc<Uint32>();
+    check(synthizer, synthizer.syz_bufferGetChannels(out, handle.value));
+    return out.value;
+  }
+
+  /// Get the length of this buffer in samples.
+  int get lengthInSamples {
+    final out = calloc<Uint32>();
+    check(synthizer, synthizer.syz_bufferGetLengthInSamples(out, handle.value));
+    return out.value;
+  }
+
+  /// Get the length of this buffer in seconds.
+  double get lengthInSeconds {
+    final out = calloc<Double>();
+    check(synthizer, synthizer.syz_bufferGetLengthInSeconds(out, handle.value));
+    return out.value;
+  }
+}
+
+/// The base class for all generators.
+class Generator extends Pausable {
+  Generator(Context context) : super(context.synthizer, calloc<Uint64>());
+}
+
+/// A streaming generator.
+class StreamingGenerator extends Generator {
+  /// Create a generator.
+  StreamingGenerator(Context context, String protocol, String path,
+      {String options = ''})
+      : super(context) {
+    check(
+        synthizer,
+        synthizer.syz_createStreamingGenerator(
+            handle,
+            context.handle.value,
+            protocol.toNativeUtf8().cast<Int8>(),
+            path.toNativeUtf8().cast<Int8>(),
+            options.toNativeUtf8().cast<Int8>()));
+  }
+}
+
+/// The base class for all sources.
+class Source extends Pausable {
+  Source(Context context) : super(context.synthizer, calloc<Uint64>());
+
+  /// Add a generator to this source.
+  void addGenerator(Generator generator) => check(synthizer,
+      synthizer.syz_sourceAddGenerator(handle.value, generator.handle.value));
+
+  /// Remove a generator from this source.
+  void removeGenerator(Generator generator) => check(
+      synthizer,
+      synthizer.syz_sourceRemoveGenerator(
+          handle.value, generator.handle.value));
+}
+
+/// A direct source.
+class DirectSource extends Source {
+  DirectSource(Context context) : super(context) {
+    check(synthizer,
+        synthizer.syz_createDirectSource(handle, context.handle.value));
   }
 }
