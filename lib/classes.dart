@@ -117,6 +117,23 @@ class StreamingGenerator extends Generator {
   }
 }
 
+/// A buffer generator.
+class BufferGenerator extends Generator {
+  BufferGenerator(Context context, {Buffer? buffer}) : super(context) {
+    check(synthizer,
+        synthizer.syz_createBufferGenerator(handle, context.handle.value));
+    if (buffer != null) {
+      setBuffer(buffer);
+    }
+  }
+
+  /// Set the buffer for this generator.
+  void setBuffer(Buffer? buffer) => check(
+      synthizer,
+      synthizer.syz_setO(handle.value, SYZ_PROPERTIES.SYZ_P_BUFFER,
+          buffer?.handle.value ?? 0));
+}
+
 /// The base class for all sources.
 class Source extends Pausable {
   Source(Context context) : super(context.synthizer, calloc<Uint64>());
