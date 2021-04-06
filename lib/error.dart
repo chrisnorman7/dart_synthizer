@@ -20,5 +20,5 @@ class SynthizerError implements Exception {
 
   /// Pretty-printing.
   @override
-  String toString() => 'SynthizerError: $message';
+  String toString() => 'SynthizerError ($code): $message';
 }
