@@ -28,4 +28,3 @@ export 'error.dart';
 export 'generator.dart';
 export 'source.dart';
 export 'synthizer.dart';
-export 'synthizer_bindings.dart';
