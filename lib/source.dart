@@ -5,6 +5,7 @@ import 'package:ffi/ffi.dart';
 
 import 'classes.dart';
 import 'context.dart';
+import 'enumerations.dart';
 import 'generator.dart';
 
 /// The base class for all sources.
@@ -31,4 +32,21 @@ class DirectSource extends Source {
     synthizer.check(synthizer.synthizer
         .syz_createDirectSource(handle, context.handle.value));
   }
+}
+
+/// A source with some kind of panning applied.
+///
+/// Synthizer docs: [https://synthizer.github.io/object_reference/spatialized_source.html]
+class SpatializedSource extends Source {
+  /// This constructor should not be used.
+  ///
+  /// It has only been implemented to shut the linter up.
+  SpatializedSource(Context context) : super(context);
+
+  /// Get the panner strategy for this source.
+  PannerStrategies get pannerStrategy => synthizer.getPannerStrategy(handle);
+
+  /// Set the panner strategy for this source.
+  set pannerStrategy(PannerStrategies value) =>
+      synthizer.setPannerStrategy(handle, value);
 }

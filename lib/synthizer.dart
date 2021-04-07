@@ -180,6 +180,71 @@ class Synthizer {
       check(synthizer.syz_setD6(handle.value, _propertyToInt(property),
           value.x1, value.y1, value.z1, value.x2, value.y2, value.z2));
 
+  /// Get a panner strategy property.
+  PannerStrategies getPannerStrategy(Pointer<Uint64> handle) {
+    final i = getInt(handle, Properties.pannerStrategy);
+    switch (i) {
+      case SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF:
+        return PannerStrategies.hrtf;
+      case SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_STEREO:
+        return PannerStrategies.stereo;
+      default:
+        throw Exception('Invalid panner strategy: $i.');
+    }
+  }
+
+  /// Set a panner strategy.
+  void setPannerStrategy(Pointer<Uint64> handle, PannerStrategies value) {
+    final int i;
+    switch (value) {
+      case PannerStrategies.hrtf:
+        i = SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF;
+        break;
+      case PannerStrategies.stereo:
+        i = SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_STEREO;
+        break;
+    }
+    setInt(handle, Properties.pannerStrategy, i);
+  }
+
+  /// Get a distance model property.
+  DistanceModels getDistanceModel(Pointer<Uint64> handle) {
+    final i = getInt(handle, Properties.distanceModel);
+    switch (i) {
+      case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL:
+        return DistanceModels.exponential;
+      case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_INVERSE:
+        return DistanceModels.inverse;
+      case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_LINEAR:
+        return DistanceModels.linear;
+      case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE:
+        return DistanceModels.none;
+      default:
+        throw Exception('Invalid distance model: $i.');
+    }
+  }
+
+  /// Set a distance model property.
+  void setDistanceModel(Pointer<Uint64> handle, DistanceModels value) {
+    final int i;
+    switch (value) {
+      case DistanceModels.exponential:
+        i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL;
+        break;
+
+      case DistanceModels.none:
+        i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE;
+        break;
+      case DistanceModels.linear:
+        i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_LINEAR;
+        break;
+      case DistanceModels.inverse:
+        i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_INVERSE;
+        break;
+    }
+    setInt(handle, Properties.distanceModel, i);
+  }
+
   /// Initialise the library.
   void initialize() => check(synthizer.syz_initialize());
 

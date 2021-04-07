@@ -50,3 +50,14 @@ enum Properties {
 
 /// All noise types.
 enum NoiseTypes { uniform, vm, filteredBrown }
+
+/// Synthizer panner strategies.
+enum PannerStrategies { hrtf, stereo }
+
+/// Synthizer distance models.
+enum DistanceModels {
+  none,
+  linear,
+  exponential,
+  inverse,
+}

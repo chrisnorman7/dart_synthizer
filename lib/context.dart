@@ -46,6 +46,13 @@ class Context extends Pausable {
   set orientation(Double6 value) =>
       synthizer.setDouble6(handle, Properties.orientation, value);
 
+  /// Get the panner strategy for this context.
+  PannerStrategies get pannerStrategy => synthizer.getPannerStrategy(handle);
+
+  /// Set the panner strategy for this context.
+  set pannerStrategy(PannerStrategies value) =>
+      synthizer.setPannerStrategy(handle, value);
+
   /// Create a buffer generator.
   BufferGenerator createBufferGenerator({Buffer? buffer}) =>
       BufferGenerator(this, buffer: buffer);
