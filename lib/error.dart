@@ -13,7 +13,7 @@ class SynthizerError implements Exception {
 
   SynthizerError(this.message, this.code);
 
-  factory SynthizerError.fromLib(Synthizer lib) {
+  factory SynthizerError.fromLib(DartSynthizer lib) {
     final msg = lib.syz_getLastErrorMessage().cast<Utf8>().toDartString();
     return SynthizerError(msg, lib.syz_getLastErrorCode());
   }

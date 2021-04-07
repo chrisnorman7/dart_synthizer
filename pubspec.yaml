@@ -1,7 +1,7 @@
 name: dart_synthizer
 description: Dart bindings for the Synthizer sound library.
 version: 1.0.0
-homepage: https://www.github.com/chrisnorman7/chrisnorman7/dart_synthizer
+homepage: https://www.github.com/chrisnorman7/dart_synthizer
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -17,8 +17,9 @@ dev_dependencies:
 
 ffigen:
   output: "lib/synthizer_bindings.dart"
-  name: "Synthizer"
-  description: 'Bindings for the Synthizer audio library'
+  name: "DartSynthizer"
+  description: "Bindings for the Synthizer audio library"
   headers:
     entry-points:
-      - 'synthizer/include/**.h'
+      - "synthizer/include/synthizer.h"
+      - "synthizer/include/synthizer_constants.h"

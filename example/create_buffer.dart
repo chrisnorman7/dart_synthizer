@@ -6,10 +6,9 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 void main() {
   final lib = DynamicLibrary.open('synthizer.dll');
   final synthizer = Synthizer(lib);
-  initialize(synthizer);
-  final ctx = Context(synthizer);
-  final buff = Buffer.fromStream(ctx, 'file', 'sound.wav');
+  synthizer.initialize();
+  final buff = Buffer.fromStream(synthizer, 'file', 'sound.wav');
   print('Created buffer $buff.');
-  shutdown(synthizer);
+  synthizer.shutdown();
   print('Synthizer shutdown.');
 }

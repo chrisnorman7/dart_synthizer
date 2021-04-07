@@ -6,7 +6,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 Future<void> main() async {
   final lib = DynamicLibrary.open('synthizer.dll');
   final synthizer = Synthizer(lib);
-  initialize(synthizer);
+  synthizer.initialize();
   print('Synthizer initialized.');
   final ctx = Context(synthizer);
   print('Created context $ctx.');
@@ -16,6 +16,6 @@ Future<void> main() async {
   print('Created generator $generator.');
   source.addGenerator(generator);
   await Future.delayed(Duration(seconds: 2));
-  shutdown(synthizer);
+  synthizer.shutdown();
   print('Synthizer shutdown.');
 }

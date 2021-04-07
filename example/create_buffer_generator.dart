@@ -7,13 +7,13 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 void main() {
   final lib = DynamicLibrary.open('synthizer.dll');
   final synthizer = Synthizer(lib);
-  initialize(synthizer);
+  synthizer.initialize();
   print('Synthizer initialized.');
-  final ctx = Context(synthizer);
+  final ctx = synthizer.createContext();
   print('Created context $ctx.');
-  final buffer = Buffer.fromFile(ctx, File('sound.wav'));
-  final generator = BufferGenerator(ctx, buffer: buffer);
+  final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
+  final generator = ctx.createBufferGenerator(buffer: buffer);
   print('Created generator $generator.');
-  shutdown(synthizer);
+  synthizer.shutdown();
   print('Synthizer shutdown.');
 }

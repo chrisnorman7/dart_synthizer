@@ -4,17 +4,17 @@
 import 'dart:ffi' as ffi;
 
 /// Bindings for the Synthizer audio library
-class Synthizer {
+class DartSynthizer {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
       _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
-  Synthizer(ffi.DynamicLibrary dynamicLibrary)
+  DartSynthizer(ffi.DynamicLibrary dynamicLibrary)
       : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
-  Synthizer.fromLookup(
+  DartSynthizer.fromLookup(
       ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
           lookup)
       : _lookup = lookup;
