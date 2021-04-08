@@ -23,8 +23,23 @@ class SynthizerObject {
       synthizer.check(synthizer.synthizer.syz_handleFree(handle.value));
 }
 
+/// Provides a [gain] property.
+mixin GainMixin {
+  /// The object which is used to get properties.
+  late final Synthizer synthizer;
+
+  /// The C handle for this object.
+  late final Pointer<Uint64> handle;
+
+  /// Get the gain of this object.
+  double get gain => synthizer.getDouble(handle, Properties.gain);
+
+  /// Set the gain of this object.
+  set gain(double value) => synthizer.setDouble(handle, Properties.gain, value);
+}
+
 /// An object which can be played and paused.
-class Pausable extends SynthizerObject {
+class Pausable extends SynthizerObject with GainMixin {
   /// Default constructor.
   Pausable(Synthizer synthizer, Pointer<Uint64> handle)
       : super(synthizer, handle);
@@ -34,12 +49,6 @@ class Pausable extends SynthizerObject {
 
   /// Play this object.
   void play() => synthizer.check(synthizer.synthizer.syz_play(handle.value));
-
-  /// Get the gain of this object.
-  double get gain => synthizer.getDouble(handle, Properties.gain);
-
-  /// Set the gain of this object.
-  set gain(double value) => synthizer.setDouble(handle, Properties.gain, value);
 }
 
 /// Adds common properties for [Source3D] and [Context].

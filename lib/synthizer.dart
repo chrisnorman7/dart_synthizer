@@ -249,6 +249,12 @@ class Synthizer {
     setInt(handle, Properties.distanceModel, i);
   }
 
+  /// Set a biquad property.
+  void setBiquad(
+          Pointer<Uint64> handle, Properties property, BiquadConfig config) =>
+      check(synthizer.syz_setBiquad(
+          handle.value, _propertyToInt(property), config.config));
+
   /// Initialise the library.
   void initialize() => check(synthizer.syz_initialize());
 

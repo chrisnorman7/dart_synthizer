@@ -24,6 +24,7 @@ import 'synthizer.dart';
 export 'biquad.dart';
 export 'buffer.dart';
 export 'context.dart';
+export 'effects.dart';
 export 'enumerations.dart';
 export 'error.dart';
 export 'generator.dart';
