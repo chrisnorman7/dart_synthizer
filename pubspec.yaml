@@ -11,9 +11,9 @@ dependencies:
 #  path: ^1.7.0
 
 dev_dependencies:
+  ffigen:
   pedantic:
   test:
-  ffigen:
 
 ffigen:
   output: "lib/synthizer_bindings.dart"

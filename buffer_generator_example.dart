@@ -5,7 +5,6 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
   final lib = DynamicLibrary.open('synthizer.lib/synthizer.dll');
-  final s = Synthizer(lib);
-  s.initialize();
+  final s = Synthizer(lib)..initialize();
   print(s);
 }

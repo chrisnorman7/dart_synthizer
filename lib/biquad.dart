@@ -12,9 +12,9 @@ import 'synthizer_bindings.dart';
 ///
 /// Synthizer docs: [https://synthizer.github.io/concepts/filters.html]
 class BiquadConfig {
-  /// A pointer to a C struct.
-  final Pointer<syz_BiquadConfig> config;
-
+  /// Default constructor. Do not use.
+  ///
+  /// Instead of instantiating this class directly, use the named constructors.
   const BiquadConfig(this.config);
 
   /// Default filter type.
@@ -46,4 +46,7 @@ class BiquadConfig {
     synthizer.check(synthizer.synthizer
         .syz_biquadDesignBandpass(config, frequency, bandwidth));
   }
+
+  /// A pointer to a C struct.
+  final Pointer<syz_BiquadConfig> config;
 }

@@ -6,8 +6,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('Test buffers', () {
-    final synthizer = Synthizer(DynamicLibrary.open('synthizer.dll'));
-    synthizer.initialize();
+    final synthizer = Synthizer(DynamicLibrary.open('synthizer.dll'))
+      ..initialize();
 
     test('Test Buffer.fromStream', () {
       expect(Buffer.fromStream(synthizer, 'file', 'sound.wav'), isA<Buffer>());
@@ -18,9 +18,8 @@ void main() {
     });
 
     test('Try to load an invalid file', () {
-      expect(() {
-        return Buffer.fromStream(synthizer, 'file', 'nothing.invalid');
-      }, throwsA(TypeMatcher<SynthizerError>()));
+      expect(() => Buffer.fromStream(synthizer, 'file', 'nothing.invalid'),
+          throwsA(TypeMatcher<SynthizerError>()));
     });
 
     test('Test lengthInSamples', () {

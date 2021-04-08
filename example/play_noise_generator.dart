@@ -4,12 +4,10 @@ import 'dart:io';
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
-  final synthizer = Synthizer.fromPath('synthizer.dll');
-  synthizer.initialize();
+  final synthizer = Synthizer.fromPath('synthizer.dll')..initialize();
   final ctx = synthizer.createContext();
-  final noiseGenerator = ctx.createNoiseGenerator(channels: 2);
-  noiseGenerator.gain = 0.1;
   final source = ctx.createDirectSource();
+  final noiseGenerator = ctx.createNoiseGenerator(channels: 2)..gain = 0.1;
   source.addGenerator(noiseGenerator);
 
   /// Listen for kill signal.

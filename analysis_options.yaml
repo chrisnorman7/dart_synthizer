@@ -5,10 +5,60 @@ include: package:pedantic/analysis_options.yaml
 
 # For lint rules and documentation, see http://dart-lang.github.io/linter/lints.
 # Uncomment to specify additional rules.
-# linter:
-#   rules:
-#     - camel_case_types
+linter:
+  rules:
+    - avoid_escaping_inner_quotes
+    - avoid_redundant_argument_values
+    - avoid_renaming_method_parameters
+    - avoid_slow_async_io
+    - avoid_unused_constructor_parameters
+    - camel_case_types
+    - cancel_subscriptions
+    - cascade_invocations
+    - comment_references
+    - constant_identifier_names
+    - directives_ordering
+    - exhaustive_cases
+    - file_names
+    - hash_and_equals
+    - join_return_with_assignment
+    - lines_longer_than_80_chars
+    - one_member_abstracts
+    - only_throw_errors
+    - overridden_fields
+    - package_api_docs
+    - prefer_asserts_with_message
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_expression_function_bodies
+    - prefer_final_in_for_each
+    - prefer_final_locals
+    - prefer_foreach
+    - prefer_function_declarations_over_variables
+    - prefer_initializing_formals
+    - prefer_mixin
+    - prefer_null_aware_operators
+    - prefer_relative_imports
+    - prefer_typing_uninitialized_variables
+    - public_member_api_docs
+    - sort_constructors_first
+    - sort_unnamed_constructors_first
+    - tighten_type_of_initializing_formals
+    - type_annotate_public_apis
+    - unnecessary_await_in_return
+    - unnecessary_lambdas
+    - unnecessary_null_aware_assignments
+    - unnecessary_overrides
+    - unnecessary_parenthesis
+    - unnecessary_raw_strings
+    - unnecessary_string_escapes
+    - unnecessary_string_interpolations
+    - use_is_even_rather_than_modulo
+    - use_named_constants
+    - use_raw_strings
+    - use_string_buffers
+    - sort_pub_dependencies
 
 analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
+  exclude:
+    - lib/synthizer_bindings.dart

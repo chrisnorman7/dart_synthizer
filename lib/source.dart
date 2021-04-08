@@ -5,6 +5,7 @@ import 'package:ffi/ffi.dart';
 
 import 'classes.dart';
 import 'context.dart';
+import 'dart_synthizer.dart';
 import 'enumerations.dart';
 import 'generator.dart';
 
@@ -12,6 +13,7 @@ import 'generator.dart';
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/source.html]
 class Source extends Pausable {
+  /// Create a source.
   Source(Context context) : super(context.synthizer, calloc<Uint64>());
 
   /// Add a generator to this source.
@@ -30,6 +32,7 @@ class Source extends Pausable {
 ///
 /// Direct sources can be created with [Context.createDirectSource].
 class DirectSource extends Source {
+  /// Create a direct source.
   DirectSource(Context context) : super(context) {
     synthizer.check(synthizer.synthizer
         .syz_createDirectSource(handle, context.handle.value));
@@ -39,11 +42,12 @@ class DirectSource extends Source {
 /// Properties common to [PannedSource] and [Source3D].
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/spatialized_source.html]
-class SpatializedSource extends Source {
-  /// This constructor should not be used.
-  ///
-  /// It has only been implemented to shut the linter up.
-  SpatializedSource(Context context) : super(context);
+mixin SpatializedSource {
+  /// The instance which is used to get and set properties.
+  late final Synthizer synthizer;
+
+  /// The C handle for this object.
+  late final Pointer<Uint64> handle;
 
   /// Get the panner strategy for this source.
   PannerStrategies get pannerStrategy => synthizer.getPannerStrategy(handle);
@@ -58,7 +62,8 @@ class SpatializedSource extends Source {
 /// Synthizer docs: [https://synthizer.github.io/object_reference/panned_source.html]
 ///
 /// Panned sources can be created with [Context.createPannedSource].
-class PannedSource extends SpatializedSource {
+class PannedSource extends Source with SpatializedSource {
+  /// Create a panned source.
   PannedSource(Context context) : super(context);
 
   /// Get the azimuth for this source.
@@ -89,6 +94,7 @@ class PannedSource extends SpatializedSource {
 /// Synthizer docs: [https://synthizer.github.io/object_reference/source_3d.html]
 ///
 /// Source 3ds can be created with [Context.createSource3D].
-class Source3D extends SpatializedSource with Properties3D {
+class Source3D extends Source with SpatializedSource, Properties3D {
+  /// Create a 3d source.
   Source3D(Context context) : super(context);
 }

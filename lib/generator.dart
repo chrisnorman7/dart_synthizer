@@ -11,6 +11,7 @@ import 'synthizer_bindings.dart';
 
 /// The base class for all generators.
 class Generator extends Pausable {
+  /// Create a generator.
   Generator(Context context) : super(context.synthizer, calloc<Uint64>());
 
   /// Get the current pitch bend.
@@ -59,6 +60,7 @@ class StreamingGenerator extends LoopableGenerator {
 ///
 /// Buffer generators can be created with [Context.createBufferGenerator].
 class BufferGenerator extends LoopableGenerator {
+  /// Create a buffer generator.
   BufferGenerator(Context context, {Buffer? buffer}) : super(context) {
     synthizer.check(synthizer.synthizer
         .syz_createBufferGenerator(handle, context.handle.value));
@@ -79,6 +81,7 @@ class BufferGenerator extends LoopableGenerator {
 ///
 /// Noise generators can be created with [Context.createNoiseGenerator].
 class NoiseGenerator extends Generator {
+  /// Create a noise generator.
   NoiseGenerator(Context context, {int channels = 1}) : super(context) {
     synthizer.check(synthizer.synthizer
         .syz_createNoiseGenerator(handle, context.handle.value, channels));

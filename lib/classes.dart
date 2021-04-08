@@ -9,14 +9,14 @@ import 'synthizer.dart';
 
 /// The base class for all synthizer objects.
 class SynthizerObject {
+  /// Create an instance.
+  SynthizerObject(this.synthizer, this.handle);
+
   /// The synthizer instance.
   final Synthizer synthizer;
 
   /// The handle for this context.
   final Pointer<Uint64> handle;
-
-  /// Create an instance.
-  SynthizerObject(this.synthizer, this.handle);
 
   /// Destroy this object.
   void destroy() =>
@@ -25,6 +25,7 @@ class SynthizerObject {
 
 /// An object which can be played and paused.
 class Pausable extends SynthizerObject {
+  /// Default constructor.
   Pausable(Synthizer synthizer, Pointer<Uint64> handle)
       : super(synthizer, handle);
 
@@ -42,8 +43,11 @@ class Pausable extends SynthizerObject {
 }
 
 /// Adds common properties for [Source3D] and [Context].
-abstract class Properties3D {
+mixin Properties3D {
+  /// The instance to call methods on.
   late final Synthizer synthizer;
+
+  /// The handle this object uses in C land.
   late final Pointer<Uint64> handle;
 
   /// Get the distance model for this object.

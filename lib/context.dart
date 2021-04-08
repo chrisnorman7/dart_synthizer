@@ -64,4 +64,7 @@ class Context extends Pausable with Properties3D {
 
   /// Create a panned source.
   PannedSource createPannedSource() => PannedSource(this);
+
+  /// Create a 3d source.
+  Source3D createSource3D() => Source3D(this);
 }

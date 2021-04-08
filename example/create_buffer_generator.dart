@@ -1,13 +1,10 @@
 /// create a buffer generator and exit.
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 void main() {
-  final lib = DynamicLibrary.open('synthizer.dll');
-  final synthizer = Synthizer(lib);
-  synthizer.initialize();
+  final synthizer = Synthizer.fromPath('synthizer.dll')..initialize();
   print('Synthizer initialized.');
   final ctx = synthizer.createContext();
   print('Created context $ctx.');

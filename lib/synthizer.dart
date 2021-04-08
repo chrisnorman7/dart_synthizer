@@ -14,12 +14,27 @@ import 'synthizer_bindings.dart';
 ///
 /// You must create an instance of this class in order to use the library.
 class Synthizer {
+  /// Create an instance.
+  ///
+  /// If you would rather create an instance from a filename, use the
+  /// [Synthizer.fromPath] constructor.
+  Synthizer(DynamicLibrary lib) : synthizer = DartSynthizer(lib);
+
+  /// Create an instance from a filename.
+  ///
+  /// If you would rather create a [DynamicLibrary] manually, use the default
+  /// constructor.
+  Synthizer.fromPath(String path)
+      : synthizer = DartSynthizer(DynamicLibrary.open(path));
+
   /// The C portion of the library.
   ///
-  /// This member should not be accessed outside of this library. Instead, utility methods provided by this package should be used.
+  /// This member should not be accessed outside of this library. Instead,
+  /// utility methods provided by this package should be used.
   final DartSynthizer synthizer;
 
-  /// The handle used by all calls to [getInt], [setInt], [getBool], and [setBool].
+  /// The handle used by all calls to [getInt], [setInt], [getBool], and
+  /// [setBool].
   final Pointer<Int32> _intPointer = calloc<Int32>();
 
   /// The handle used for all calls to [getDouble] and [setDouble].
@@ -34,17 +49,6 @@ class Synthizer {
   final Pointer<Double> _x2 = calloc<Double>();
   final Pointer<Double> _y2 = calloc<Double>();
   final Pointer<Double> _z2 = calloc<Double>();
-
-  /// Create an instance.
-  ///
-  /// If you would rather create an instance from a filename, use the [fromPath] constructor.
-  Synthizer(DynamicLibrary lib) : synthizer = DartSynthizer(lib);
-
-  /// Create an instance from a filename.
-  ///
-  /// If you would rather create a [DynamicLibrary] manually, use the default constructor.
-  Synthizer.fromPath(String path)
-      : synthizer = DartSynthizer(DynamicLibrary.open(path));
 
   /// Check if a returned value is an error.
   void check(int value) {

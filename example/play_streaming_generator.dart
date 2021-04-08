@@ -1,12 +1,9 @@
 /// create a streaming generator and exit.
-import 'dart:ffi';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
-  final lib = DynamicLibrary.open('synthizer.dll');
-  final synthizer = Synthizer(lib);
-  synthizer.initialize();
+  final synthizer = Synthizer.fromPath('synthizer.dll')..initialize();
   print('Synthizer initialized.');
   final ctx = Context(synthizer);
   print('Created context $ctx.');

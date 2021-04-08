@@ -11,6 +11,7 @@ import 'synthizer.dart';
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/buffer.html]
 class Buffer extends SynthizerObject {
+  /// Default constructor. Do not use.
   Buffer(Synthizer synthizer, Pointer<Uint64> handle)
       : super(synthizer, handle);
 
@@ -27,9 +28,8 @@ class Buffer extends SynthizerObject {
   }
 
   /// Create a buffer from a file object.
-  factory Buffer.fromFile(Synthizer synthizer, File file) {
-    return Buffer.fromStream(synthizer, 'file', file.absolute.path);
-  }
+  factory Buffer.fromFile(Synthizer synthizer, File file) =>
+      Buffer.fromStream(synthizer, 'file', file.absolute.path);
 
   /// Get the number of channels for this buffer.
   int get channels {
