@@ -16,7 +16,7 @@ import 'synthizer.dart';
 /// Synthizer docs: [https://synthizer.github.io/object_reference/context.html]
 ///
 /// Contexts can be created with [Synthizer.createContext] function.
-class Context extends Pausable {
+class Context extends Pausable with Properties3D {
   /// Create a context.
   @override
   Context(Synthizer synthizer, {bool events = false})
@@ -30,13 +30,6 @@ class Context extends Pausable {
   /// Enable the streaming of context events.
   void enableEvents() => synthizer
       .check(synthizer.synthizer.syz_contextEnableEvents(handle.value));
-
-  /// Get the position of this context.
-  Double3 get position => synthizer.getDouble3(handle, Properties.position);
-
-  /// Set the position of this context.
-  set position(Double3 value) =>
-      synthizer.setDouble3(handle, Properties.position, value);
 
   /// Get the orientation of this context.
   Double6 get orientation =>
@@ -62,10 +55,13 @@ class Context extends Pausable {
           {String options = ''}) =>
       StreamingGenerator(this, protocol, path, options: options);
 
-  /// Create a direct source.
-  DirectSource createDirectSource() => DirectSource(this);
-
   /// Create a noise generator.
   NoiseGenerator createNoiseGenerator({int channels = 1}) =>
       NoiseGenerator(this, channels: channels);
+
+  /// Create a direct source.
+  DirectSource createDirectSource() => DirectSource(this);
+
+  /// Create a panned source.
+  PannedSource createPannedSource() => PannedSource(this);
 }

@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
+import 'biquad.dart';
 import 'context.dart';
 import 'enumerations.dart';
 import 'error.dart';
@@ -231,7 +232,6 @@ class Synthizer {
       case DistanceModels.exponential:
         i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL;
         break;
-
       case DistanceModels.none:
         i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE;
         break;
@@ -284,4 +284,21 @@ class Synthizer {
 
   /// Create a context.
   Context createContext({bool events = false}) => Context(this, events: events);
+
+  /// Shorthand for [BiquadConfig.designIdentity].
+  BiquadConfig designIdentify() => BiquadConfig.designIdentity(this);
+
+  /// Shorthand for [BiquadConfig.designLowpass].
+  BiquadConfig designLowpass(double frequency,
+          {double q = 0.7071135624381276}) =>
+      BiquadConfig.designLowpass(this, frequency, q: q);
+
+  /// Shorthand for [BiquadConfig.designHighpass].
+  BiquadConfig designHighpass(double frequency,
+          {double q = 0.7071135624381276}) =>
+      BiquadConfig.designHighpass(this, frequency, q: q);
+
+  /// Shorthand for [BiquadConfig.designBandpass].
+  BiquadConfig designBandpass(double frequency, double bandwidth) =>
+      BiquadConfig.designBandpass(this, frequency, bandwidth);
 }

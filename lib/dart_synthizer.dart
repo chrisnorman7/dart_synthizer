@@ -21,6 +21,7 @@
 /// For more help, see the API docs.
 import 'synthizer.dart';
 
+export 'biquad.dart';
 export 'buffer.dart';
 export 'context.dart';
 export 'enumerations.dart';

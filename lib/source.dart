@@ -9,6 +9,8 @@ import 'enumerations.dart';
 import 'generator.dart';
 
 /// The base class for all sources.
+///
+/// Synthizer docs: [https://synthizer.github.io/object_reference/source.html]
 class Source extends Pausable {
   Source(Context context) : super(context.synthizer, calloc<Uint64>());
 
@@ -22,7 +24,7 @@ class Source extends Pausable {
           .syz_sourceRemoveGenerator(handle.value, generator.handle.value));
 }
 
-/// A direct source.
+/// A source with no panning.
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/direct_source.html]
 ///
@@ -34,7 +36,7 @@ class DirectSource extends Source {
   }
 }
 
-/// A source with some kind of panning applied.
+/// Properties common to [PannedSource] and [Source3D].
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/spatialized_source.html]
 class SpatializedSource extends Source {
@@ -49,4 +51,44 @@ class SpatializedSource extends Source {
   /// Set the panner strategy for this source.
   set pannerStrategy(PannerStrategies value) =>
       synthizer.setPannerStrategy(handle, value);
+}
+
+/// A source with azimuth and elevation panning done by hand.
+///
+/// Synthizer docs: [https://synthizer.github.io/object_reference/panned_source.html]
+///
+/// Panned sources can be created with [Context.createPannedSource].
+class PannedSource extends SpatializedSource {
+  PannedSource(Context context) : super(context);
+
+  /// Get the azimuth for this source.
+  double get azimuth => synthizer.getDouble(handle, Properties.azimuth);
+
+  /// Set the azimuth for this source.
+  set azimuth(double value) =>
+      synthizer.setDouble(handle, Properties.azimuth, value);
+
+  /// Get the elevation for this source.
+  double get elevation => synthizer.getDouble(handle, Properties.elevation);
+
+  /// Set the elevation for this source.
+  set elevation(double value) =>
+      synthizer.setDouble(handle, Properties.elevation, value);
+
+  /// Get the panning scalar for this source.
+  double get panningScalar =>
+      synthizer.getDouble(handle, Properties.panningScalar);
+
+  /// Set the panning scala for this source.
+  set panningScalar(double value) =>
+      synthizer.setDouble(handle, Properties.panningScalar, value);
+}
+
+/// A source with 3D parameters.
+///
+/// Synthizer docs: [https://synthizer.github.io/object_reference/source_3d.html]
+///
+/// Source 3ds can be created with [Context.createSource3D].
+class Source3D extends SpatializedSource with Properties3D {
+  Source3D(Context context) : super(context);
 }
