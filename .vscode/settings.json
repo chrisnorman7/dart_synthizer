@@ -21,6 +21,7 @@
     "ffi",
     "ffigen",
     "formals",
+    "hnd",
     "msg",
     "nullptr",
     "ptr",

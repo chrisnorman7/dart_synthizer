@@ -1,13 +1,17 @@
 /// Provides the [Context] class.
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
+
 import 'buffer.dart';
 import 'classes.dart';
+import 'dart_synthizer.dart';
 import 'enumerations.dart';
 import 'generator.dart';
 import 'properties.dart';
 import 'source.dart';
 import 'synthizer.dart';
+import 'synthizer_bindings.dart';
 
 /// A synthizer context.
 ///
@@ -16,7 +20,6 @@ import 'synthizer.dart';
 /// Contexts can be created with [Synthizer.createContext] function.
 class Context extends Pausable with Properties3D {
   /// Create a context.
-  @override
   Context(Synthizer synthizer, {bool events = false}) : super(synthizer) {
     synthizer.check(synthizer.synthizer.syz_createContext(handle));
     if (events) {
@@ -64,4 +67,31 @@ class Context extends Pausable with Properties3D {
 
   /// Create a 3d source.
   Source3D createSource3D() => Source3D(this);
+
+  /// Create a global echo.
+  GlobalEcho createGlobalEcho() => GlobalEcho(this);
+
+  /// Configure an fx send.
+  void ConfigRoute(SynthizerObject output, SynthizerObject input,
+      {double gain = 1.0, double fadeTime = 0.01, BiquadConfig? filter}) {
+    final cfg = calloc<syz_RouteConfig>();
+    synthizer.synthizer.syz_initRouteConfig(cfg);
+    if (filter != null) {
+      cfg.ref.filter = filter.config.ref;
+    } else {
+      synthizer.check(synthizer.synthizer.syz_initRouteConfig(cfg));
+    }
+    cfg.ref
+      ..gain = gain
+      ..fade_time = fadeTime;
+    synthizer.check(synthizer.synthizer.syz_routingConfigRoute(
+        handle.value, output.handle.value, input.handle.value, cfg));
+    calloc.free(cfg);
+  }
+
+  /// Remove an fx route.
+  void removeRoute(SynthizerObject output, SynthizerObject input,
+          {double fadeTime = 0.01}) =>
+      synthizer.check(synthizer.synthizer.syz_routingRemoveRoute(
+          handle.value, output.handle.value, input.handle.value, fadeTime));
 }

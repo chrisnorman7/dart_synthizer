@@ -259,7 +259,19 @@ class Synthizer {
   void initialize() => check(synthizer.syz_initialize());
 
   /// Shutdown the library.
-  void shutdown() => check(synthizer.syz_shutdown());
+  void shutdown() {
+    check(synthizer.syz_shutdown());
+    [
+      _intPointer,
+      _doublePointer,
+      _x1,
+      _y1,
+      _z1,
+      _x2,
+      _y2,
+      _z2,
+    ].forEach(calloc.free);
+  }
 
   /// Set the logging level.
   void setLogLevel(LogLevel level) {

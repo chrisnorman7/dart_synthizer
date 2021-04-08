@@ -13,7 +13,8 @@ import 'synthizer.dart';
 class SynthizerObject {
   /// Create an instance.
   SynthizerObject(this.synthizer, {Pointer<Uint64>? handle})
-      : handle = handle ?? calloc<Uint64>();
+      // ignore: unnecessary_this
+      : this.handle = handle ?? calloc<Uint64>();
 
   /// The synthizer instance.
   final Synthizer synthizer;
@@ -22,18 +23,14 @@ class SynthizerObject {
   final Pointer<Uint64> handle;
 
   /// Destroy this object.
-  void destroy() =>
-      synthizer.check(synthizer.synthizer.syz_handleFree(handle.value));
+  void destroy() {
+    synthizer.check(synthizer.synthizer.syz_handleFree(handle.value));
+    calloc.free(handle);
+  }
 }
 
 /// Provides a [gain] property.
-mixin GainMixin {
-  /// The object which is used to get properties.
-  late final Synthizer synthizer;
-
-  /// The C handle for this object.
-  late final Pointer<Uint64> handle;
-
+mixin GainMixin on SynthizerObject {
   /// Get the gain of this object.
   double get gain => synthizer.getDouble(handle, Properties.gain);
 
@@ -54,13 +51,7 @@ class Pausable extends SynthizerObject with GainMixin {
 }
 
 /// Adds common properties for [Source3D] and [Context].
-mixin Properties3D {
-  /// The instance to call methods on.
-  late final Synthizer synthizer;
-
-  /// The handle this object uses in C land.
-  late final Pointer<Uint64> handle;
-
+mixin Properties3D on SynthizerObject {
   /// Get the distance model for this object.
   DistanceModels get distanceModel => synthizer.getDistanceModel(handle);
 

@@ -12,7 +12,10 @@ import 'generator.dart';
 /// Synthizer docs: [https://synthizer.github.io/object_reference/source.html]
 class Source extends Pausable {
   /// Create a source.
-  Source(Context context) : super(context.synthizer);
+  Source(Context context) : super(context.synthizer) {
+    synthizer.check(
+        synthizer.synthizer.syz_createSource3D(handle, context.handle.value));
+  }
 
   /// Add a generator to this source.
   void addGenerator(Generator generator) => synthizer.check(synthizer.synthizer
@@ -40,13 +43,7 @@ class DirectSource extends Source {
 /// Properties common to [PannedSource] and [Source3D].
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/spatialized_source.html]
-mixin SpatializedSource {
-  /// The instance which is used to get and set properties.
-  late final Synthizer synthizer;
-
-  /// The C handle for this object.
-  late final Pointer<Uint64> handle;
-
+mixin SpatializedSource on Source {
   /// Get the panner strategy for this source.
   PannerStrategies get pannerStrategy => synthizer.getPannerStrategy(handle);
 

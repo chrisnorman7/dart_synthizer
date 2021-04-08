@@ -1,8 +1,11 @@
 /// Provides classes relating to effects.
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
+
 import 'classes.dart';
 import 'dart_synthizer.dart';
+import 'synthizer_bindings.dart';
 
 /// The base class for all global effects.
 ///
@@ -31,10 +34,10 @@ class EchoTapConfig {
   final double delay;
 
   /// The gain of the left channel.
-  final double gainL;
+  double gainL;
 
   /// The gain of the right channel.
-  final double gainR;
+  double gainR;
 }
 
 /// Global echo.
@@ -45,5 +48,27 @@ class GlobalEcho extends GlobalEffect {
   GlobalEcho(Context context) : super(context.synthizer) {
     synthizer.check(
         synthizer.synthizer.syz_createGlobalEcho(handle, context.handle.value));
+  }
+
+  /// Sets the taps of the echo.
+  void setTaps(List<EchoTapConfig>? taps) {
+    if (taps == null || taps.isEmpty) {
+      synthizer
+          .check(synthizer.synthizer.syz_echoSetTaps(handle.value, 0, nullptr));
+    } else {
+      final a = Array<Pointer<syz_EchoTapConfig>>(taps.length);
+      for (var i = 0; i < taps.length; i++) {
+        final t = taps[i];
+        final tc = calloc<syz_EchoTapConfig>();
+        tc.ref
+          ..delay = t.delay
+          ..gain_l = t.gainL
+          ..gain_r = t.gainR;
+        a[i] = tc;
+        print(a);
+      }
+      synthizer.check(
+          synthizer.synthizer.syz_echoSetTaps(handle.value, taps.length, a[0]));
+    }
   }
 }
