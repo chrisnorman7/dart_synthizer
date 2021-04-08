@@ -1,8 +1,6 @@
 /// Provides the [Context] class.
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
-
 import 'buffer.dart';
 import 'classes.dart';
 import 'enumerations.dart';
@@ -19,8 +17,7 @@ import 'synthizer.dart';
 class Context extends Pausable with Properties3D {
   /// Create a context.
   @override
-  Context(Synthizer synthizer, {bool events = false})
-      : super(synthizer, calloc<Uint64>()) {
+  Context(Synthizer synthizer, {bool events = false}) : super(synthizer) {
     synthizer.check(synthizer.synthizer.syz_createContext(handle));
     if (events) {
       enableEvents();

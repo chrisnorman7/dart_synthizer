@@ -1,8 +1,6 @@
 /// Provides classes relating to effects.
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
-
 import 'classes.dart';
 import 'dart_synthizer.dart';
 
@@ -11,7 +9,7 @@ import 'dart_synthizer.dart';
 /// Synthizer docs: [https://synthizer.github.io/concepts/effects.html]
 class GlobalEffect extends SynthizerObject with GainMixin {
   /// Create a global effect.
-  GlobalEffect(Synthizer synthizer) : super(synthizer, calloc<Uint64>());
+  GlobalEffect(Synthizer synthizer) : super(synthizer);
 
   /// Reset this effect.
   void reset() =>

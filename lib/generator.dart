@@ -12,7 +12,7 @@ import 'synthizer_bindings.dart';
 /// The base class for all generators.
 class Generator extends Pausable {
   /// Create a generator.
-  Generator(Context context) : super(context.synthizer, calloc<Uint64>());
+  Generator(Context context) : super(context.synthizer);
 
   /// Get the current pitch bend.
   double get pitchBend => synthizer.getDouble(handle, Properties.pitchBend);

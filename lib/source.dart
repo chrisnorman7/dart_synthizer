@@ -1,8 +1,6 @@
 /// Provides source classes.
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
-
 import 'classes.dart';
 import 'context.dart';
 import 'dart_synthizer.dart';
@@ -14,7 +12,7 @@ import 'generator.dart';
 /// Synthizer docs: [https://synthizer.github.io/object_reference/source.html]
 class Source extends Pausable {
   /// Create a source.
-  Source(Context context) : super(context.synthizer, calloc<Uint64>());
+  Source(Context context) : super(context.synthizer);
 
   /// Add a generator to this source.
   void addGenerator(Generator generator) => synthizer.check(synthizer.synthizer

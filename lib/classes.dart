@@ -1,6 +1,8 @@
 /// Provides various classes for use with Synthizer.
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
+
 import 'context.dart';
 import 'enumerations.dart';
 import 'properties.dart';
@@ -10,7 +12,8 @@ import 'synthizer.dart';
 /// The base class for all synthizer objects.
 class SynthizerObject {
   /// Create an instance.
-  SynthizerObject(this.synthizer, this.handle);
+  SynthizerObject(this.synthizer, {Pointer<Uint64>? handle})
+      : handle = handle ?? calloc<Uint64>();
 
   /// The synthizer instance.
   final Synthizer synthizer;
@@ -41,8 +44,7 @@ mixin GainMixin {
 /// An object which can be played and paused.
 class Pausable extends SynthizerObject with GainMixin {
   /// Default constructor.
-  Pausable(Synthizer synthizer, Pointer<Uint64> handle)
-      : super(synthizer, handle);
+  Pausable(Synthizer synthizer) : super(synthizer);
 
   /// Pause this object.
   void pause() => synthizer.check(synthizer.synthizer.syz_pause(handle.value));

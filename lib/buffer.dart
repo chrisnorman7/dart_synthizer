@@ -12,8 +12,8 @@ import 'synthizer.dart';
 /// Synthizer docs: [https://synthizer.github.io/object_reference/buffer.html]
 class Buffer extends SynthizerObject {
   /// Default constructor. Do not use.
-  Buffer(Synthizer synthizer, Pointer<Uint64> handle)
-      : super(synthizer, handle);
+  Buffer(Synthizer synthizer, {Pointer<Uint64>? handle})
+      : super(synthizer, handle: handle);
 
   /// Create a buffer from a stream.
   factory Buffer.fromStream(Synthizer synthizer, String protocol, String path,
@@ -24,7 +24,7 @@ class Buffer extends SynthizerObject {
         protocol.toNativeUtf8().cast<Int8>(),
         path.toNativeUtf8().cast<Int8>(),
         options.toNativeUtf8().cast<Int8>()));
-    return Buffer(synthizer, out);
+    return Buffer(synthizer, handle: out);
   }
 
   /// Create a buffer from a file object.
