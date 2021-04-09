@@ -56,19 +56,16 @@ class GlobalEcho extends GlobalEffect {
       synthizer
           .check(synthizer.synthizer.syz_echoSetTaps(handle.value, 0, nullptr));
     } else {
-      final a = Array<Pointer<syz_EchoTapConfig>>(taps.length);
+      final a = malloc<syz_EchoTapConfig>(taps.length);
       for (var i = 0; i < taps.length; i++) {
         final t = taps[i];
-        final tc = calloc<syz_EchoTapConfig>();
-        tc.ref
+        a[i]
           ..delay = t.delay
           ..gain_l = t.gainL
           ..gain_r = t.gainR;
-        a[i] = tc;
-        print(a);
       }
       synthizer.check(
-          synthizer.synthizer.syz_echoSetTaps(handle.value, taps.length, a[0]));
+          synthizer.synthizer.syz_echoSetTaps(handle.value, taps.length, a));
     }
   }
 }
