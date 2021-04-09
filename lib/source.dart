@@ -17,6 +17,10 @@ class Source extends Pausable {
         synthizer.synthizer.syz_createSource3D(handle, context.handle.value));
   }
 
+  /// Set filter property.
+  set filter(BiquadConfig config) =>
+      synthizer.setBiquad(handle, Properties.filter, config);
+
   /// Add a generator to this source.
   void addGenerator(Generator generator) => synthizer.check(synthizer.synthizer
       .syz_sourceAddGenerator(handle.value, generator.handle.value));
