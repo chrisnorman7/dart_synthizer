@@ -10,7 +10,7 @@ void main() {
   synthizer2.initialize();
   print('Initialise second instance.'); // You probably won't see this line.
   synthizer1.shutdown();
-  print('Shut down first instance.');
+  print('Shutdown first instance.');
   synthizer2.shutdown();
-  print('Shut down second instance.');
+  print('Shutdown second instance.');
 }
