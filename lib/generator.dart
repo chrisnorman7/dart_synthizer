@@ -40,6 +40,8 @@ class LoopableGenerator extends Generator {
 /// Synthizer docs: [https://synthizer.github.io/object_reference/streaming_generator.html]
 ///
 /// Streaming generators can be created with [Context.createStreamingGenerator].
+///
+/// The `options` argument is as yet undocumented.
 class StreamingGenerator extends LoopableGenerator {
   /// Create a generator.
   StreamingGenerator(Context context, String protocol, String path,
