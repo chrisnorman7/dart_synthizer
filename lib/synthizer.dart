@@ -304,6 +304,15 @@ class Synthizer {
     synthizer.syz_configureLoggingBackend(loggingBackend, nullptr);
   }
 
+  /// Set up full logging.
+  ///
+  /// This function sets the log level to [LogLevel.debug], and the logging
+  /// backend to [LoggingBackend.stderr].
+  void fullLogging() {
+    setLogLevel(LogLevel.debug);
+    configureLoggingBackend(LoggingBackend.stderr);
+  }
+
   /// Create a context.
   Context createContext({bool events = false}) => Context(this, events: events);
 

@@ -28,6 +28,9 @@ class SynthizerObject {
     calloc.free(handle);
     handle.value = 0;
   }
+
+  /// Returns `true` if this object is still valid.
+  bool get isValid => handle.value != 0;
 }
 
 /// Provides a [gain] property.

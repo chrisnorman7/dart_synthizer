@@ -28,5 +28,6 @@ export 'effects.dart';
 export 'enumerations.dart';
 export 'error.dart';
 export 'generator.dart';
+export 'properties.dart';
 export 'source.dart';
 export 'synthizer.dart';

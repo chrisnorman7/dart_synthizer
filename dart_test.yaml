@@ -1,0 +1,2 @@
+# We must restrict to one job, to prevent segfaults.
+concurrency: 1

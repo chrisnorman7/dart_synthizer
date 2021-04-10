@@ -1,3 +1,5 @@
+import 'package:quiver/core.dart';
+
 /// Provides property classes used by Synthizer.
 
 /// A double6 property.
@@ -7,6 +9,15 @@ class Double3 {
 
   /// The values of this property.
   final double x, y, z;
+
+  /// Compare two objects.
+  @override
+  bool operator ==(Object other) =>
+      other is Double3 && other.x == x && other.y == y && other.z == z;
+
+  /// Return a hash of this object.
+  @override
+  int get hashCode => hash3(x, y, z);
 }
 
 /// A double6 property.
@@ -16,4 +27,19 @@ class Double6 {
 
   /// The values for this property.
   final double x1, y1, z1, x2, y2, z2;
+
+  /// Compare two objects.
+  @override
+  bool operator ==(Object other) =>
+      other is Double6 &&
+      other.x1 == x1 &&
+      other.y1 == y1 &&
+      other.z1 == z1 &&
+      other.x2 == x2 &&
+      other.y2 == y2 &&
+      other.z2 == z2;
+
+  /// Return a hash of this object.
+  @override
+  int get hashCode => hashObjects([x1, y1, z1, x2, y2, z2]);
 }
