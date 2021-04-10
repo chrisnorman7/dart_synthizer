@@ -75,11 +75,9 @@ class Context extends Pausable with Properties3D {
   void ConfigRoute(SynthizerObject output, SynthizerObject input,
       {double gain = 1.0, double fadeTime = 0.01, BiquadConfig? filter}) {
     final cfg = calloc<syz_RouteConfig>();
-    synthizer.synthizer.syz_initRouteConfig(cfg);
+    synthizer.check(synthizer.synthizer.syz_initRouteConfig(cfg));
     if (filter != null) {
       cfg.ref.filter = filter.config.ref;
-    } else {
-      synthizer.check(synthizer.synthizer.syz_initRouteConfig(cfg));
     }
     cfg.ref
       ..gain = gain
