@@ -42,11 +42,8 @@ mixin GainMixin on SynthizerObject {
   set gain(double value) => synthizer.setDouble(handle, Properties.gain, value);
 }
 
-/// An object which can be played and paused.
-class Pausable extends SynthizerObject with GainMixin {
-  /// Default constructor.
-  Pausable(Synthizer synthizer) : super(synthizer);
-
+/// Base class for anything which can be paused. Adds pause and play methods.
+mixin PausableMixin on SynthizerObject {
   /// Pause this object.
   void pause() => synthizer.check(synthizer.synthizer.syz_pause(handle.value));
 
@@ -55,7 +52,7 @@ class Pausable extends SynthizerObject with GainMixin {
 }
 
 /// Adds common properties for [Source3D] and [Context].
-mixin Properties3D on SynthizerObject {
+mixin Properties3DMixin on SynthizerObject {
   /// Get the distance model for this object.
   DistanceModels get distanceModel => synthizer.getDistanceModel(handle);
 
@@ -106,4 +103,14 @@ mixin Properties3D on SynthizerObject {
   /// Set the position of this object.
   set position(Double3 value) =>
       synthizer.setDouble3(handle, Properties.position, value);
+}
+
+/// An object which can be looped.
+mixin LoopableMixin on SynthizerObject {
+  /// Get whether or not this generator is looping.
+  bool get looping => synthizer.getBool(handle, Properties.looping);
+
+  /// Set whether or not this generator should loop.
+  set looping(bool value) =>
+      synthizer.setBool(handle, Properties.looping, value);
 }

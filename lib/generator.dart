@@ -10,7 +10,7 @@ import 'enumerations.dart';
 import 'synthizer_bindings.dart';
 
 /// The base class for all generators.
-class Generator extends Pausable {
+class Generator extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a generator.
   Generator(Context context) : super(context.synthizer);
 
@@ -22,19 +22,6 @@ class Generator extends Pausable {
       synthizer.setDouble(handle, Properties.pitchBend, value);
 }
 
-/// A generator which can be looped.
-class LoopableGenerator extends Generator {
-  /// Create a generator.
-  LoopableGenerator(Context context) : super(context);
-
-  /// Get whether or not this generator is looping.
-  bool get looping => synthizer.getBool(handle, Properties.looping);
-
-  /// Set whether or not this generator should loop.
-  set looping(bool value) =>
-      synthizer.setBool(handle, Properties.looping, value);
-}
-
 /// A streaming generator.
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/streaming_generator.html]
@@ -42,7 +29,7 @@ class LoopableGenerator extends Generator {
 /// Streaming generators can be created with [Context.createStreamingGenerator].
 ///
 /// The `options` argument is as yet undocumented.
-class StreamingGenerator extends LoopableGenerator {
+class StreamingGenerator extends Generator with LoopableMixin {
   /// Create a generator.
   StreamingGenerator(Context context, String protocol, String path,
       {String options = ''})
@@ -61,7 +48,7 @@ class StreamingGenerator extends LoopableGenerator {
 /// Synthizer docs: [https://synthizer.github.io/object_reference/buffer_generator.html]
 ///
 /// Buffer generators can be created with [Context.createBufferGenerator].
-class BufferGenerator extends LoopableGenerator {
+class BufferGenerator extends Generator with LoopableMixin {
   /// Create a buffer generator.
   BufferGenerator(Context context, {Buffer? buffer}) : super(context) {
     synthizer.check(synthizer.synthizer

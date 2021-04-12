@@ -69,3 +69,14 @@ class GlobalEcho extends GlobalEffect {
     }
   }
 }
+
+/// FDN reverb.
+///
+/// Synthizer docs: [https://synthizer.github.io/object_reference/fdn_reverb.html]
+class GlobalFdnReverb extends GlobalEffect {
+  /// Create a reverb.
+  GlobalFdnReverb(Context context) : super(context.synthizer) {
+    synthizer.check(synthizer.synthizer
+        .syz_createGlobalFdnReverb(handle, context.handle.value));
+  }
+}

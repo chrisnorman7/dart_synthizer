@@ -10,7 +10,7 @@ import 'generator.dart';
 /// The base class for all sources.
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/source.html]
-class Source extends Pausable {
+class Source extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a source.
   Source(Context context) : super(context.synthizer) {
     synthizer.check(
@@ -93,7 +93,7 @@ class PannedSource extends Source with SpatializedSource {
 /// Synthizer docs: [https://synthizer.github.io/object_reference/source_3d.html]
 ///
 /// Source 3ds can be created with [Context.createSource3D].
-class Source3D extends Source with SpatializedSource, Properties3D {
+class Source3D extends Source with SpatializedSource, Properties3DMixin {
   /// Create a 3d source.
   Source3D(Context context) : super(context);
 }
