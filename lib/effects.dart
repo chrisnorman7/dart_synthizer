@@ -79,4 +79,82 @@ class GlobalFdnReverb extends GlobalEffect {
     synthizer.check(synthizer.synthizer
         .syz_createGlobalFdnReverb(handle, context.handle.value));
   }
+
+  /// Get mean free path.
+  double get meanFreePath =>
+      synthizer.getDouble(handle, Properties.meanFreePath);
+
+  /// Set mean free path.
+  set meanFreePath(double value) =>
+      synthizer.setDouble(handle, Properties.meanFreePath, value);
+
+  /// Get t60.
+  double get t60 => synthizer.getDouble(handle, Properties.t60);
+
+  /// Set t60.
+  set t60(double value) => synthizer.setDouble(handle, Properties.t60, value);
+
+  /// Get late reflections LF rolloff.
+  double get lateReflectionsLfRolloff =>
+      synthizer.getDouble(handle, Properties.lateReflectionsLFRolloff);
+
+  /// Set late reflections LF rolloff .
+  set lateReflectionsLfRolloff(double value) =>
+      synthizer.setDouble(handle, Properties.lateReflectionsLFRolloff, value);
+
+  /// Get late reflections LF reference.
+  double get lateReflectionsLfReference =>
+      synthizer.getDouble(handle, Properties.lateReflectionsLFReference);
+
+  /// Set late reflections LF reference
+  set lateReflectionsLfReference(double value) =>
+      synthizer.setDouble(handle, Properties.lateReflectionsLFReference, value);
+
+  /// Get late reflections HF rolloff.
+  double get lateReflectionsHfRolloff =>
+      synthizer.getDouble(handle, Properties.lateReflectionsHFRolloff);
+
+  /// Set late reflections HF Rolloff.
+  set lateReflectionsHfRolloff(double value) =>
+      synthizer.setDouble(handle, Properties.lateReflectionsHFRolloff, value);
+
+  /// Get late reflections HF reference.
+  double get lateReflectionsHfReference =>
+      synthizer.getDouble(handle, Properties.lateReflectionsHFReference);
+
+  /// Set late reflections HF reference.
+  set lateReflectionsHfReference(double value) =>
+      synthizer.setDouble(handle, Properties.lateReflectionsHFReference, value);
+
+  /// Get late reflections diffusion.
+  double get lateReflectionsDiffusion =>
+      synthizer.getDouble(handle, Properties.lateReflectionsDiffusion);
+
+  /// Set late reflections diffusion.
+  set lateReflectionsDiffusion(double value) =>
+      synthizer.setDouble(handle, Properties.lateReflectionsDiffusion, value);
+
+  /// Get late reflections modulation depth.
+  double get lateReflectionsModulationDepth =>
+      synthizer.getDouble(handle, Properties.lateReflectionsModulationDepth);
+
+  /// Set late reflections modulation depth.
+  set lateReflectionsModulationDepth(double value) => synthizer.setDouble(
+      handle, Properties.lateReflectionsModulationDepth, value);
+
+  /// Get late reflections modulation frequency.
+  double get lateReflectionsModulationFrequency => synthizer.getDouble(
+      handle, Properties.lateReflectionsModulationFrequency);
+
+  /// Set late reflections modulation frequency.
+  set lateReflectionsModulationFrequency(double value) => synthizer.setDouble(
+      handle, Properties.lateReflectionsModulationFrequency, value);
+
+  /// Get late reflections delay.
+  double get lateReflectionsDelay =>
+      synthizer.getDouble(handle, Properties.lateReflectionsDelay);
+
+  /// Set late reflections delay.
+  set lateReflectionsDelay(double value) =>
+      synthizer.setDouble(handle, Properties.lateReflectionsDelay, value);
 }

@@ -72,6 +72,9 @@ class Context extends SynthizerObject
   /// Create a global echo.
   GlobalEcho createGlobalEcho() => GlobalEcho(this);
 
+  /// Create a reverb.
+  GlobalFdnReverb createGlobalFdnReverb() => GlobalFdnReverb(this);
+
   /// Configure an fx send.
   void ConfigRoute(SynthizerObject output, SynthizerObject input,
       {double gain = 1.0, double fadeTime = 0.01, BiquadConfig? filter}) {
