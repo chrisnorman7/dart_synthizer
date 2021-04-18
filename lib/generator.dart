@@ -14,6 +14,13 @@ class Generator extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a generator.
   Generator(Context context) : super(context.synthizer);
 
+  /// Get whether or not this generator is looping.
+  bool get looping => synthizer.getBool(handle, Properties.looping);
+
+  /// Set whether or not this generator should loop.
+  set looping(bool value) =>
+      synthizer.setBool(handle, Properties.looping, value);
+
   /// Get the current pitch bend.
   double get pitchBend => synthizer.getDouble(handle, Properties.pitchBend);
 
@@ -29,7 +36,7 @@ class Generator extends SynthizerObject with PausableMixin, GainMixin {
 /// Streaming generators can be created with [Context.createStreamingGenerator].
 ///
 /// The `options` argument is as yet undocumented.
-class StreamingGenerator extends Generator with LoopableMixin {
+class StreamingGenerator extends Generator {
   /// Create a generator.
   StreamingGenerator(Context context, String protocol, String path,
       {String options = ''})
@@ -48,7 +55,7 @@ class StreamingGenerator extends Generator with LoopableMixin {
 /// Synthizer docs: [https://synthizer.github.io/object_reference/buffer_generator.html]
 ///
 /// Buffer generators can be created with [Context.createBufferGenerator].
-class BufferGenerator extends Generator with LoopableMixin {
+class BufferGenerator extends Generator {
   /// Create a buffer generator.
   BufferGenerator(Context context, {Buffer? buffer}) : super(context) {
     synthizer.check(synthizer.synthizer

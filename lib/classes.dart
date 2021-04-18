@@ -104,13 +104,3 @@ mixin Properties3DMixin on SynthizerObject {
   set position(Double3 value) =>
       synthizer.setDouble3(handle, Properties.position, value);
 }
-
-/// An object which can be looped.
-mixin LoopableMixin on SynthizerObject {
-  /// Get whether or not this generator is looping.
-  bool get looping => synthizer.getBool(handle, Properties.looping);
-
-  /// Set whether or not this generator should loop.
-  set looping(bool value) =>
-      synthizer.setBool(handle, Properties.looping, value);
-}
