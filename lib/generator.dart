@@ -10,7 +10,7 @@ import 'enumerations.dart';
 import 'synthizer_bindings.dart';
 
 /// The base class for all generators.
-class Generator extends SynthizerObject with PausableMixin, GainMixin {
+abstract class Generator extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a generator.
   Generator(Context context) : super(context.synthizer);
 

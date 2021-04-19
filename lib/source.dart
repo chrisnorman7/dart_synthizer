@@ -10,12 +10,9 @@ import 'generator.dart';
 /// The base class for all sources.
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/source.html]
-class Source extends SynthizerObject with PausableMixin, GainMixin {
+abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a source.
-  Source(Context context) : super(context.synthizer) {
-    synthizer.check(
-        synthizer.synthizer.syz_createSource3D(handle, context.handle.value));
-  }
+  Source(Context context) : super(context.synthizer);
 
   /// Set filter property.
   set filter(BiquadConfig config) =>
@@ -63,7 +60,10 @@ mixin SpatializedSource on Source {
 /// Panned sources can be created with [Context.createPannedSource].
 class PannedSource extends Source with SpatializedSource {
   /// Create a panned source.
-  PannedSource(Context context) : super(context);
+  PannedSource(Context context) : super(context) {
+    synthizer.check(synthizer.synthizer
+        .syz_createPannedSource(handle, context.handle.value));
+  }
 
   /// Get the azimuth for this source.
   double get azimuth => synthizer.getDouble(handle, Properties.azimuth);
@@ -95,5 +95,8 @@ class PannedSource extends Source with SpatializedSource {
 /// Source 3ds can be created with [Context.createSource3D].
 class Source3D extends Source with SpatializedSource, Properties3DMixin {
   /// Create a 3d source.
-  Source3D(Context context) : super(context);
+  Source3D(Context context) : super(context) {
+    synthizer.check(
+        synthizer.synthizer.syz_createSource3D(handle, context.handle.value));
+  }
 }
