@@ -24,6 +24,9 @@
     "hashcode",
     "hnd",
     "msg",
+    "myparam",
+    "mypath",
+    "myprotocol",
     "nullptr",
     "ptr",
     "segfaults",
@@ -32,7 +35,8 @@
     "spatialization",
     "spatialized",
     "synthizer",
-    "syz"
+    "syz",
+    "unseekable"
   ],
   "cSpell.enabled": true
 }
