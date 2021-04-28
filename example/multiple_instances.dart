@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 void main() {

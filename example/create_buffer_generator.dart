@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 /// create a buffer generator and exit.
 import 'dart:io';
 

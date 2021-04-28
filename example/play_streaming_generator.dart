@@ -1,5 +1,5 @@
+// ignore_for_file: avoid_print
 /// create a streaming generator and exit.
-
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
@@ -12,7 +12,7 @@ Future<void> main() async {
   final generator = StreamingGenerator(ctx, 'file', 'sound.wav');
   print('Created generator $generator.');
   source.addGenerator(generator);
-  await Future.delayed(Duration(seconds: 2));
+  await Future<void>.delayed(Duration(seconds: 2));
   synthizer.shutdown();
   print('Synthizer shutdown.');
 }

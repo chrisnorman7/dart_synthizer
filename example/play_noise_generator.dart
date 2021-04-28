@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 /// Play noise until killed.
 import 'dart:io';
 
@@ -19,7 +20,7 @@ Future<void> main() async {
   while (true) {
     for (final noiseType in NoiseTypes.values) {
       print('Noise type is ${noiseGenerator.noiseType}.');
-      await Future.delayed(Duration(seconds: 1));
+      await Future<void>.delayed(Duration(seconds: 1));
       noiseGenerator.noiseType = noiseType;
     }
   }

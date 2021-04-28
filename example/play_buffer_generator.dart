@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 /// Play a buffer generator and exit.
 import 'dart:io';
 
@@ -13,7 +14,7 @@ Future<void> main() async {
   print('Created generator $generator with gain ${generator.gain}.');
   generator.gain = 0.5;
   ctx.createDirectSource().addGenerator(generator);
-  await Future.delayed(Duration(seconds: 2));
+  await Future<void>.delayed(Duration(seconds: 2));
   synthizer.shutdown();
   print('Synthizer shutdown.');
 }

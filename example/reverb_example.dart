@@ -13,7 +13,7 @@ Future<void> main() async {
     ..t60 = 5
     ..meanFreePath = 0.5;
   ctx.ConfigRoute(source, reverb);
-  await Future.delayed(Duration(seconds: 5));
+  await Future<void>.delayed(Duration(seconds: 5));
   [source, ctx, generator, reverb].forEach((element) => element.destroy());
   synthizer.shutdown();
 }

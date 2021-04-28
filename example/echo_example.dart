@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 /// Demonstrates how to configure echo in a  relatively real-world scenario
 /// akin to what a reverb would do for early reflections.
 ///
@@ -60,14 +61,14 @@ Future<void> main() async {
   print('Taps set.');
 
   /// Sleep for a bit, to let the audio be heard
-  await Future.delayed(Duration(seconds: 10));
+  await Future<void>.delayed(Duration(seconds: 10));
 
   /// Set the source's gain to 0, which will let the tail of the echo be heard.
   src.gain = 0.0;
   print('Now muted.');
 
   /// Sleep for a bit for the tail.
-  await Future.delayed(Duration(seconds: 5));
+  await Future<void>.delayed(Duration(seconds: 5));
 
   /// Bring it back. This causes a little bit of clipping because of the abrupt
   /// change.
@@ -75,12 +76,12 @@ Future<void> main() async {
   print('Full volume.');
 
   /// Sleep for long enough to build up audio in the echo:
-  await Future.delayed(Duration(seconds: 5));
+  await Future<void>.delayed(Duration(seconds: 5));
 
   /// Fade the send out over the next 1 seconds:
   ctx.removeRoute(src, echo, fadeTime: 1.0);
   print('Fading.');
-  await Future.delayed(Duration(seconds: 2));
+  await Future<void>.delayed(Duration(seconds: 2));
   gen.destroy();
   src.destroy();
   ctx.destroy();
