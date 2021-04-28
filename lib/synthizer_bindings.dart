@@ -19,6 +19,20 @@ class DartSynthizer {
           lookup)
       : _lookup = lookup;
 
+  /// Free any resources associated with an event.
+  void syz_eventDeinit(
+    ffi.Pointer<syz_Event> event,
+  ) {
+    return _syz_eventDeinit(
+      event,
+    );
+  }
+
+  late final _syz_eventDeinit_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_eventDeinit>>('syz_eventDeinit');
+  late final _dart_syz_eventDeinit _syz_eventDeinit =
+      _syz_eventDeinit_ptr.asFunction<_dart_syz_eventDeinit>();
+
   /// The parameter is specific to the backend:
   ///
   /// - For STDERR, ignored.
@@ -90,19 +104,35 @@ class DartSynthizer {
   late final _dart_syz_shutdown _syz_shutdown =
       _syz_shutdown_ptr.asFunction<_dart_syz_shutdown>();
 
-  /// Free a C handle.
-  int syz_handleFree(
+  /// Increment and decrement the reference count on a C handle.
+  ///
+  /// Handles are no longer valid when the reference count reaches 0.  All handles returned from a create function
+  /// have a reference count of 1.
+  int syz_handleIncRef(
     int handle,
   ) {
-    return _syz_handleFree(
+    return _syz_handleIncRef(
       handle,
     );
   }
 
-  late final _syz_handleFree_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_handleFree>>('syz_handleFree');
-  late final _dart_syz_handleFree _syz_handleFree =
-      _syz_handleFree_ptr.asFunction<_dart_syz_handleFree>();
+  late final _syz_handleIncRef_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_handleIncRef>>('syz_handleIncRef');
+  late final _dart_syz_handleIncRef _syz_handleIncRef =
+      _syz_handleIncRef_ptr.asFunction<_dart_syz_handleIncRef>();
+
+  int syz_handleDecRef(
+    int handle,
+  ) {
+    return _syz_handleDecRef(
+      handle,
+    );
+  }
+
+  late final _syz_handleDecRef_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_handleDecRef>>('syz_handleDecRef');
+  late final _dart_syz_handleDecRef _syz_handleDecRef =
+      _syz_handleDecRef_ptr.asFunction<_dart_syz_handleDecRef>();
 
   /// Query the type of a handle. Returns one of the SYZ_OTYPE constants.
   int syz_handleGetObjectType(
@@ -539,13 +569,21 @@ class DartSynthizer {
 
   /// Get an event from the queue. If the queue is empty, the event type
   /// is SYZ_EVENT_TYPE_INVALID.
+  ///
+  /// Flags is one of the `SYZ_EVENT_FLAGS` constants.
+  ///
+  /// Handles returned in an event are guaranteed to be valid until `syz_eventDeinit` is called.
+  /// This is done by implicitly incrementing and decrementing references, so failure to call `syz_eventDeinit` will leak objects.  If the application wishes
+  /// to own the events (e.g. because a binding to Synthizer converted the event into a different object), it should set `SYZ_EVENT_FLAG_TAKE_OWNERSHIP`.
   int syz_contextGetNextEvent(
     ffi.Pointer<syz_Event> out,
     int context,
+    int flags,
   ) {
     return _syz_contextGetNextEvent(
       out,
       context,
+      flags,
     );
   }
 
@@ -555,49 +593,278 @@ class DartSynthizer {
   late final _dart_syz_contextGetNextEvent _syz_contextGetNextEvent =
       _syz_contextGetNextEvent_ptr.asFunction<_dart_syz_contextGetNextEvent>();
 
-  int syz_createStreamingGenerator(
+  /// Stream infrastructure. See the manual for details on these functions.
+  ///
+  /// Most objects provide a convenient shorthand helper for creating a stream handle and passing it into the object.
+  int syz_createStreamHandleFromStreamParams(
+    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<ffi.Int8> protocol,
+    ffi.Pointer<ffi.Int8> path,
+    ffi.Pointer<ffi.Void> param,
+  ) {
+    return _syz_createStreamHandleFromStreamParams(
+      out,
+      protocol,
+      path,
+      param,
+    );
+  }
+
+  late final _syz_createStreamHandleFromStreamParams_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_createStreamHandleFromStreamParams>>(
+          'syz_createStreamHandleFromStreamParams');
+  late final _dart_syz_createStreamHandleFromStreamParams
+      _syz_createStreamHandleFromStreamParams =
+      _syz_createStreamHandleFromStreamParams_ptr
+          .asFunction<_dart_syz_createStreamHandleFromStreamParams>();
+
+  int syz_createStreamHandleFromMemory(
+    ffi.Pointer<ffi.Uint64> out,
+    int data_len,
+    ffi.Pointer<ffi.Int8> data,
+  ) {
+    return _syz_createStreamHandleFromMemory(
+      out,
+      data_len,
+      data,
+    );
+  }
+
+  late final _syz_createStreamHandleFromMemory_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_createStreamHandleFromMemory>>(
+          'syz_createStreamHandleFromMemory');
+  late final _dart_syz_createStreamHandleFromMemory
+      _syz_createStreamHandleFromMemory = _syz_createStreamHandleFromMemory_ptr
+          .asFunction<_dart_syz_createStreamHandleFromMemory>();
+
+  int syz_createStreamHandleFromFile(
+    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<ffi.Int8> path,
+  ) {
+    return _syz_createStreamHandleFromFile(
+      out,
+      path,
+    );
+  }
+
+  late final _syz_createStreamHandleFromFile_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_createStreamHandleFromFile>>(
+          'syz_createStreamHandleFromFile');
+  late final _dart_syz_createStreamHandleFromFile
+      _syz_createStreamHandleFromFile = _syz_createStreamHandleFromFile_ptr
+          .asFunction<_dart_syz_createStreamHandleFromFile>();
+
+  /// Get a stream handle from CustomStreamDef.
+  int syz_streamHandleFromCustomStream(
+    ffi.Pointer<ffi.Uint64> out,
+    syz_CustomStreamDef callbacks,
+  ) {
+    return _syz_streamHandleFromCustomStream(
+      out,
+      callbacks,
+    );
+  }
+
+  late final _syz_streamHandleFromCustomStream_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_streamHandleFromCustomStream>>(
+          'syz_streamHandleFromCustomStream');
+  late final _dart_syz_streamHandleFromCustomStream
+      _syz_streamHandleFromCustomStream = _syz_streamHandleFromCustomStream_ptr
+          .asFunction<_dart_syz_streamHandleFromCustomStream>();
+
+  /// Register a protocol with the stream handler.
+  ///
+  /// afterword, this can be used as `syz_streamHandleFromStreamParams(&handle, "myprotocol", "mypath", myparam)`.
+  ///
+  /// It is not possible to unregister protocols.
+  int syz_registerStreamProtocol(
+    ffi.Pointer<ffi.Int8> protocol,
+    ffi.Pointer<ffi.NativeFunction<syz_StreamOpenCallback>> callback,
+    ffi.Pointer<ffi.Void> userdata,
+  ) {
+    return _syz_registerStreamProtocol(
+      protocol,
+      callback,
+      userdata,
+    );
+  }
+
+  late final _syz_registerStreamProtocol_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_registerStreamProtocol>>(
+          'syz_registerStreamProtocol');
+  late final _dart_syz_registerStreamProtocol _syz_registerStreamProtocol =
+      _syz_registerStreamProtocol_ptr
+          .asFunction<_dart_syz_registerStreamProtocol>();
+
+  int syz_createStreamingGeneratorFromStreamParams(
     ffi.Pointer<ffi.Uint64> out,
     int context,
     ffi.Pointer<ffi.Int8> protocol,
     ffi.Pointer<ffi.Int8> path,
-    ffi.Pointer<ffi.Int8> options,
+    ffi.Pointer<ffi.Void> param,
   ) {
-    return _syz_createStreamingGenerator(
+    return _syz_createStreamingGeneratorFromStreamParams(
       out,
       context,
       protocol,
       path,
-      options,
+      param,
     );
   }
 
-  late final _syz_createStreamingGenerator_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createStreamingGenerator>>(
-          'syz_createStreamingGenerator');
-  late final _dart_syz_createStreamingGenerator _syz_createStreamingGenerator =
-      _syz_createStreamingGenerator_ptr
-          .asFunction<_dart_syz_createStreamingGenerator>();
+  late final _syz_createStreamingGeneratorFromStreamParams_ptr = _lookup<
+          ffi.NativeFunction<_c_syz_createStreamingGeneratorFromStreamParams>>(
+      'syz_createStreamingGeneratorFromStreamParams');
+  late final _dart_syz_createStreamingGeneratorFromStreamParams
+      _syz_createStreamingGeneratorFromStreamParams =
+      _syz_createStreamingGeneratorFromStreamParams_ptr
+          .asFunction<_dart_syz_createStreamingGeneratorFromStreamParams>();
 
-  int syz_createBufferFromStream(
+  int syz_createStreamingGeneratorFromFile(
+    ffi.Pointer<ffi.Uint64> out,
+    int context,
+    ffi.Pointer<ffi.Int8> path,
+  ) {
+    return _syz_createStreamingGeneratorFromFile(
+      out,
+      context,
+      path,
+    );
+  }
+
+  late final _syz_createStreamingGeneratorFromFile_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_createStreamingGeneratorFromFile>>(
+          'syz_createStreamingGeneratorFromFile');
+  late final _dart_syz_createStreamingGeneratorFromFile
+      _syz_createStreamingGeneratorFromFile =
+      _syz_createStreamingGeneratorFromFile_ptr
+          .asFunction<_dart_syz_createStreamingGeneratorFromFile>();
+
+  /// Create a StreamingGenerator from a stream handle.
+  int syz_createStreamingGeneratorFromStreamHandle(
+    ffi.Pointer<ffi.Uint64> out,
+    int context,
+    int stream,
+  ) {
+    return _syz_createStreamingGeneratorFromStreamHandle(
+      out,
+      context,
+      stream,
+    );
+  }
+
+  late final _syz_createStreamingGeneratorFromStreamHandle_ptr = _lookup<
+          ffi.NativeFunction<_c_syz_createStreamingGeneratorFromStreamHandle>>(
+      'syz_createStreamingGeneratorFromStreamHandle');
+  late final _dart_syz_createStreamingGeneratorFromStreamHandle
+      _syz_createStreamingGeneratorFromStreamHandle =
+      _syz_createStreamingGeneratorFromStreamHandle_ptr
+          .asFunction<_dart_syz_createStreamingGeneratorFromStreamHandle>();
+
+  int syz_createBufferFromStreamParams(
     ffi.Pointer<ffi.Uint64> out,
     ffi.Pointer<ffi.Int8> protocol,
     ffi.Pointer<ffi.Int8> path,
-    ffi.Pointer<ffi.Int8> options,
+    ffi.Pointer<ffi.Void> param,
   ) {
-    return _syz_createBufferFromStream(
+    return _syz_createBufferFromStreamParams(
       out,
       protocol,
       path,
-      options,
+      param,
     );
   }
 
-  late final _syz_createBufferFromStream_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createBufferFromStream>>(
-          'syz_createBufferFromStream');
-  late final _dart_syz_createBufferFromStream _syz_createBufferFromStream =
-      _syz_createBufferFromStream_ptr
-          .asFunction<_dart_syz_createBufferFromStream>();
+  late final _syz_createBufferFromStreamParams_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_createBufferFromStreamParams>>(
+          'syz_createBufferFromStreamParams');
+  late final _dart_syz_createBufferFromStreamParams
+      _syz_createBufferFromStreamParams = _syz_createBufferFromStreamParams_ptr
+          .asFunction<_dart_syz_createBufferFromStreamParams>();
+
+  /// Create a buffer from encoded audio data that's already
+  /// in memory.
+  int syz_createBufferFromEncodedData(
+    ffi.Pointer<ffi.Uint64> out,
+    int data_len,
+    ffi.Pointer<ffi.Int8> data,
+  ) {
+    return _syz_createBufferFromEncodedData(
+      out,
+      data_len,
+      data,
+    );
+  }
+
+  late final _syz_createBufferFromEncodedData_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_createBufferFromEncodedData>>(
+          'syz_createBufferFromEncodedData');
+  late final _dart_syz_createBufferFromEncodedData
+      _syz_createBufferFromEncodedData = _syz_createBufferFromEncodedData_ptr
+          .asFunction<_dart_syz_createBufferFromEncodedData>();
+
+  /// Create a buffer from a float array in memory.
+  int syz_createBufferFromFloatArray(
+    ffi.Pointer<ffi.Uint64> out,
+    int sr,
+    int channels,
+    int frames,
+    ffi.Pointer<ffi.Float> data,
+  ) {
+    return _syz_createBufferFromFloatArray(
+      out,
+      sr,
+      channels,
+      frames,
+      data,
+    );
+  }
+
+  late final _syz_createBufferFromFloatArray_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_createBufferFromFloatArray>>(
+          'syz_createBufferFromFloatArray');
+  late final _dart_syz_createBufferFromFloatArray
+      _syz_createBufferFromFloatArray = _syz_createBufferFromFloatArray_ptr
+          .asFunction<_dart_syz_createBufferFromFloatArray>();
+
+  /// Create a buffer from a file. Currently equivalent to:
+  /// syz_createBufferFromStreamParams(&out, "file", "the_path", NULL);
+  ///
+  /// Exists to future-proof the API.
+  int syz_createBufferFromFile(
+    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<ffi.Int8> path,
+  ) {
+    return _syz_createBufferFromFile(
+      out,
+      path,
+    );
+  }
+
+  late final _syz_createBufferFromFile_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_createBufferFromFile>>(
+          'syz_createBufferFromFile');
+  late final _dart_syz_createBufferFromFile _syz_createBufferFromFile =
+      _syz_createBufferFromFile_ptr
+          .asFunction<_dart_syz_createBufferFromFile>();
+
+  /// create a buffer from a stream handle.
+  int syz_createBufferFromStreamHandle(
+    ffi.Pointer<ffi.Uint64> out,
+    int stream,
+  ) {
+    return _syz_createBufferFromStreamHandle(
+      out,
+      stream,
+    );
+  }
+
+  late final _syz_createBufferFromStreamHandle_ptr =
+      _lookup<ffi.NativeFunction<_c_syz_createBufferFromStreamHandle>>(
+          'syz_createBufferFromStreamHandle');
+  late final _dart_syz_createBufferFromStreamHandle
+      _syz_createBufferFromStreamHandle = _syz_createBufferFromStreamHandle_ptr
+          .asFunction<_dart_syz_createBufferFromStreamHandle>();
 
   int syz_bufferGetChannels(
     ffi.Pointer<ffi.Uint32> out,
@@ -893,6 +1160,12 @@ class syz_EventLooped extends ffi.Struct {
   external int loop_counter;
 }
 
+/// These fields are internal to Synthizer, and should not be touched.
+class unnamedStruct_1 extends ffi.Struct {
+  @ffi.Uint64()
+  external int flags;
+}
+
 class syz_Event extends ffi.Opaque {}
 
 abstract class SYZ_LOGGING_BACKEND {
@@ -929,6 +1202,22 @@ class syz_BiquadConfig extends ffi.Struct {
   external int is_wire;
 }
 
+/// Represents a custom stream.  If the length of the stream is unknown, set it to -1.  Note that internally Synthizer
+/// treats streams of unknown length as unseekable even if the seek callback is set.
+class syz_CustomStreamDef extends ffi.Struct {
+  external ffi.Pointer<ffi.NativeFunction<syz_StreamReadCallback>> read_cb;
+
+  /// Optional. If unset, this stream doesn't support seeking.
+  external ffi.Pointer<ffi.NativeFunction<syz_StreamSeekCallback>> seek_cb;
+
+  external ffi.Pointer<ffi.NativeFunction<syz_StreamCloseCallback>> close_cb;
+
+  @ffi.Int64()
+  external int length;
+
+  external ffi.Pointer<ffi.Void> userdata;
+}
+
 class syz_RouteConfig extends ffi.Struct {
   @ffi.Float()
   external double gain;
@@ -961,6 +1250,7 @@ abstract class SYZ_OBJECT_TYPE {
   static const int SYZ_OTYPE_SOURCE_3D = 7;
   static const int SYZ_OTYPE_GLOBAL_ECHO = 8;
   static const int SYZ_OTYPE_GLOBAL_FDN_REVERB = 9;
+  static const int SYZ_OTYPE_STREAM_HANDLE = 10;
 }
 
 abstract class SYZ_PANNER_STRATEGY {
@@ -1026,6 +1316,21 @@ abstract class SYZ_EVENT_TYPES {
   static const int SYZ_EVENT_TYPE_FINISHED = 2;
 }
 
+/// Flags for `syz_contextGetNextEvent`.  For the most part these are hidden from non-C consumers.
+abstract class SYZ_EVENT_FLAGS {
+  /// The consumer of this event wishes to own any handles the event might return.  This signals to the event machinery that any returned handles
+  /// should not have their reference counts decremented when `syz_eventDeinit` is called.
+  static const int SYZ_EVENT_FLAG_TAKE_OWNERSHIP = 1;
+}
+
+typedef _c_syz_eventDeinit = ffi.Void Function(
+  ffi.Pointer<syz_Event> event,
+);
+
+typedef _dart_syz_eventDeinit = void Function(
+  ffi.Pointer<syz_Event> event,
+);
+
 typedef _c_syz_configureLoggingBackend = ffi.Int32 Function(
   ffi.Int32 backend,
   ffi.Pointer<ffi.Void> param,
@@ -1060,11 +1365,19 @@ typedef _c_syz_shutdown = ffi.Int32 Function();
 
 typedef _dart_syz_shutdown = int Function();
 
-typedef _c_syz_handleFree = ffi.Int32 Function(
+typedef _c_syz_handleIncRef = ffi.Int32 Function(
   ffi.Uint64 handle,
 );
 
-typedef _dart_syz_handleFree = int Function(
+typedef _dart_syz_handleIncRef = int Function(
+  int handle,
+);
+
+typedef _c_syz_handleDecRef = ffi.Int32 Function(
+  ffi.Uint64 handle,
+);
+
+typedef _dart_syz_handleDecRef = int Function(
   int handle,
 );
 
@@ -1361,41 +1674,182 @@ typedef _dart_syz_contextEnableEvents = int Function(
 typedef _c_syz_contextGetNextEvent = ffi.Int32 Function(
   ffi.Pointer<syz_Event> out,
   ffi.Uint64 context,
+  ffi.Uint64 flags,
 );
 
 typedef _dart_syz_contextGetNextEvent = int Function(
   ffi.Pointer<syz_Event> out,
   int context,
+  int flags,
 );
 
-typedef _c_syz_createStreamingGenerator = ffi.Int32 Function(
+typedef _c_syz_createStreamHandleFromStreamParams = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Pointer<ffi.Int8> protocol,
+  ffi.Pointer<ffi.Int8> path,
+  ffi.Pointer<ffi.Void> param,
+);
+
+typedef _dart_syz_createStreamHandleFromStreamParams = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Pointer<ffi.Int8> protocol,
+  ffi.Pointer<ffi.Int8> path,
+  ffi.Pointer<ffi.Void> param,
+);
+
+typedef _c_syz_createStreamHandleFromMemory = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Uint64 data_len,
+  ffi.Pointer<ffi.Int8> data,
+);
+
+typedef _dart_syz_createStreamHandleFromMemory = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  int data_len,
+  ffi.Pointer<ffi.Int8> data,
+);
+
+typedef _c_syz_createStreamHandleFromFile = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Pointer<ffi.Int8> path,
+);
+
+typedef _dart_syz_createStreamHandleFromFile = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Pointer<ffi.Int8> path,
+);
+
+typedef _c_syz_streamHandleFromCustomStream = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  syz_CustomStreamDef callbacks,
+);
+
+typedef _dart_syz_streamHandleFromCustomStream = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  syz_CustomStreamDef callbacks,
+);
+
+typedef syz_StreamOpenCallback = ffi.Int32 Function(
+  ffi.Pointer<syz_CustomStreamDef>,
+  ffi.Pointer<ffi.Int8>,
+  ffi.Pointer<ffi.Int8>,
+  ffi.Pointer<ffi.Void>,
+  ffi.Pointer<ffi.Void>,
+  ffi.Pointer<ffi.Pointer<ffi.Int8>>,
+);
+
+typedef _c_syz_registerStreamProtocol = ffi.Int32 Function(
+  ffi.Pointer<ffi.Int8> protocol,
+  ffi.Pointer<ffi.NativeFunction<syz_StreamOpenCallback>> callback,
+  ffi.Pointer<ffi.Void> userdata,
+);
+
+typedef _dart_syz_registerStreamProtocol = int Function(
+  ffi.Pointer<ffi.Int8> protocol,
+  ffi.Pointer<ffi.NativeFunction<syz_StreamOpenCallback>> callback,
+  ffi.Pointer<ffi.Void> userdata,
+);
+
+typedef _c_syz_createStreamingGeneratorFromStreamParams = ffi.Int32 Function(
   ffi.Pointer<ffi.Uint64> out,
   ffi.Uint64 context,
   ffi.Pointer<ffi.Int8> protocol,
   ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Int8> options,
+  ffi.Pointer<ffi.Void> param,
 );
 
-typedef _dart_syz_createStreamingGenerator = int Function(
+typedef _dart_syz_createStreamingGeneratorFromStreamParams = int Function(
   ffi.Pointer<ffi.Uint64> out,
   int context,
   ffi.Pointer<ffi.Int8> protocol,
   ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Int8> options,
+  ffi.Pointer<ffi.Void> param,
 );
 
-typedef _c_syz_createBufferFromStream = ffi.Int32 Function(
+typedef _c_syz_createStreamingGeneratorFromFile = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Uint64 context,
+  ffi.Pointer<ffi.Int8> path,
+);
+
+typedef _dart_syz_createStreamingGeneratorFromFile = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  int context,
+  ffi.Pointer<ffi.Int8> path,
+);
+
+typedef _c_syz_createStreamingGeneratorFromStreamHandle = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Uint64 context,
+  ffi.Uint64 stream,
+);
+
+typedef _dart_syz_createStreamingGeneratorFromStreamHandle = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  int context,
+  int stream,
+);
+
+typedef _c_syz_createBufferFromStreamParams = ffi.Int32 Function(
   ffi.Pointer<ffi.Uint64> out,
   ffi.Pointer<ffi.Int8> protocol,
   ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Int8> options,
+  ffi.Pointer<ffi.Void> param,
 );
 
-typedef _dart_syz_createBufferFromStream = int Function(
+typedef _dart_syz_createBufferFromStreamParams = int Function(
   ffi.Pointer<ffi.Uint64> out,
   ffi.Pointer<ffi.Int8> protocol,
   ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Int8> options,
+  ffi.Pointer<ffi.Void> param,
+);
+
+typedef _c_syz_createBufferFromEncodedData = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Uint64 data_len,
+  ffi.Pointer<ffi.Int8> data,
+);
+
+typedef _dart_syz_createBufferFromEncodedData = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  int data_len,
+  ffi.Pointer<ffi.Int8> data,
+);
+
+typedef _c_syz_createBufferFromFloatArray = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Uint32 sr,
+  ffi.Uint32 channels,
+  ffi.Uint64 frames,
+  ffi.Pointer<ffi.Float> data,
+);
+
+typedef _dart_syz_createBufferFromFloatArray = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  int sr,
+  int channels,
+  int frames,
+  ffi.Pointer<ffi.Float> data,
+);
+
+typedef _c_syz_createBufferFromFile = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Pointer<ffi.Int8> path,
+);
+
+typedef _dart_syz_createBufferFromFile = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Pointer<ffi.Int8> path,
+);
+
+typedef _c_syz_createBufferFromStreamHandle = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64> out,
+  ffi.Uint64 stream,
+);
+
+typedef _dart_syz_createBufferFromStreamHandle = int Function(
+  ffi.Pointer<ffi.Uint64> out,
+  int stream,
 );
 
 typedef _c_syz_bufferGetChannels = ffi.Int32 Function(
@@ -1574,4 +2028,23 @@ typedef _c_syz_createGlobalFdnReverb = ffi.Int32 Function(
 typedef _dart_syz_createGlobalFdnReverb = int Function(
   ffi.Pointer<ffi.Uint64> out,
   int context,
+);
+
+typedef syz_StreamReadCallback = ffi.Int32 Function(
+  ffi.Pointer<ffi.Uint64>,
+  ffi.Uint64,
+  ffi.Pointer<ffi.Int8>,
+  ffi.Pointer<ffi.Void>,
+  ffi.Pointer<ffi.Pointer<ffi.Int8>>,
+);
+
+typedef syz_StreamSeekCallback = ffi.Int32 Function(
+  ffi.Uint64,
+  ffi.Pointer<ffi.Void>,
+  ffi.Pointer<ffi.Pointer<ffi.Int8>>,
+);
+
+typedef syz_StreamCloseCallback = ffi.Int32 Function(
+  ffi.Pointer<ffi.Void>,
+  ffi.Pointer<ffi.Pointer<ffi.Int8>>,
 );
