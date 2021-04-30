@@ -19,17 +19,49 @@ class Buffer extends SynthizerObject {
   factory Buffer.fromStream(Synthizer synthizer, String protocol, String path,
       {String options = ''}) {
     final out = calloc<Uint64>();
-    synthizer.check(synthizer.synthizer.syz_createBufferFromStream(
+    synthizer.check(synthizer.synthizer.syz_createBufferFromStreamParams(
         out,
         protocol.toNativeUtf8().cast<Int8>(),
         path.toNativeUtf8().cast<Int8>(),
-        options.toNativeUtf8().cast<Int8>()));
+        options.toNativeUtf8().cast<Void>()));
     return Buffer(synthizer, handle: out);
   }
 
   /// Create a buffer from a file object.
   factory Buffer.fromFile(Synthizer synthizer, File file) =>
       Buffer.fromStream(synthizer, 'file', file.absolute.path);
+
+  /// Create a buffer from a string.
+  factory Buffer.fromString(Synthizer synthizer, String data) =>
+      Buffer.fromBytes(synthizer, data.codeUnits);
+
+  /// Create a buffer from a list of integers.
+  ///
+  /// You can use this with a list returned by [File.readAsBytesSync] for
+  /// example.
+  factory Buffer.fromBytes(Synthizer synthizer, List<int> bytes) {
+    final out = calloc<Uint64>();
+    final a = calloc<Int8>(bytes.length);
+    for (var i = 0; i < bytes.length; i++) {
+      a[i] = bytes[i];
+    }
+    synthizer.check(synthizer.synthizer
+        .syz_createBufferFromEncodedData(out, bytes.length, a));
+    return Buffer(synthizer, handle: out);
+  }
+
+  /// Create a buffer from a list of floats.
+  factory Buffer.fromDoubles(Synthizer synthizer, int sampleRate, int channels,
+      int frames, List<double> data) {
+    final out = calloc<Uint64>();
+    final a = malloc<Float>(data.length);
+    for (var i = 0; i < data.length; i++) {
+      a[i] = data[i];
+    }
+    synthizer.check(synthizer.synthizer
+        .syz_createBufferFromFloatArray(out, sampleRate, channels, frames, a));
+    return Buffer(synthizer, handle: out);
+  }
 
   /// Get the number of channels for this buffer.
   int get channels {

@@ -41,5 +41,5 @@ class Double6 {
 
   /// Return a hash of this object.
   @override
-  int get hashCode => hashObjects([x1, y1, z1, x2, y2, z2]);
+  int get hashCode => hashObjects(<double>[x1, y1, z1, x2, y2, z2]);
 }

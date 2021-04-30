@@ -2,6 +2,7 @@
   "cSpell.words": [
     "Biquad",
     "CUTOFF",
+    "Deinit",
     "Fdn",
     "HRTF",
     "Highpass",
@@ -36,6 +37,7 @@
     "spatialized",
     "synthizer",
     "syz",
+    "unregister",
     "unseekable"
   ],
   "cSpell.enabled": true

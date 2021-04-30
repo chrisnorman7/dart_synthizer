@@ -24,7 +24,7 @@ class SynthizerObject {
 
   /// Destroy this object.
   void destroy() {
-    synthizer.check(synthizer.synthizer.syz_handleFree(handle.value));
+    synthizer.check(synthizer.synthizer.syz_handleDecRef(handle.value));
     calloc.free(handle);
     handle.value = 0;
   }
