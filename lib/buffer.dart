@@ -13,17 +13,18 @@ import 'synthizer.dart';
 class Buffer extends SynthizerObject {
   /// Default constructor. Do not use.
   Buffer(Synthizer synthizer, {Pointer<Uint64>? handle})
-      : super(synthizer, handle: handle);
+      : super(synthizer, pointer: handle);
 
   /// Create a buffer from a stream.
   factory Buffer.fromStream(Synthizer synthizer, String protocol, String path,
       {String options = ''}) {
     final out = calloc<Uint64>();
+    final protocolPointer = protocol.toNativeUtf8().cast<Int8>();
+    final pathPointer = path.toNativeUtf8().cast<Int8>();
+    final optionsPointer = options.toNativeUtf8().cast<Void>();
     synthizer.check(synthizer.synthizer.syz_createBufferFromStreamParams(
-        out,
-        protocol.toNativeUtf8().cast<Int8>(),
-        path.toNativeUtf8().cast<Int8>(),
-        options.toNativeUtf8().cast<Void>()));
+        out, protocolPointer, pathPointer, optionsPointer));
+    [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
     return Buffer(synthizer, handle: out);
   }
 
@@ -31,24 +32,27 @@ class Buffer extends SynthizerObject {
   factory Buffer.fromFile(Synthizer synthizer, File file) =>
       Buffer.fromStream(synthizer, 'file', file.absolute.path);
 
-  /// Create a buffer from a string.
-  factory Buffer.fromString(Synthizer synthizer, String data) =>
-      Buffer.fromBytes(synthizer, data.codeUnits);
-
   /// Create a buffer from a list of integers.
   ///
   /// You can use this with a list returned by [File.readAsBytesSync] for
   /// example.
   factory Buffer.fromBytes(Synthizer synthizer, List<int> bytes) {
     final out = calloc<Uint64>();
-    final a = calloc<Int8>(bytes.length);
+    final a = malloc<Int8>(bytes.length);
     for (var i = 0; i < bytes.length; i++) {
       a[i] = bytes[i];
     }
     synthizer.check(synthizer.synthizer
         .syz_createBufferFromEncodedData(out, bytes.length, a));
+    malloc.free(a);
     return Buffer(synthizer, handle: out);
   }
+
+  /// Create a buffer from a string.
+  ///
+  /// This method is used by [Buffer.fromString].
+  factory Buffer.fromString(Synthizer synthizer, String data) =>
+      Buffer.fromBytes(synthizer, data.codeUnits);
 
   /// Create a buffer from a list of floats.
   factory Buffer.fromDoubles(Synthizer synthizer, int sampleRate, int channels,
@@ -60,6 +64,7 @@ class Buffer extends SynthizerObject {
     }
     synthizer.check(synthizer.synthizer
         .syz_createBufferFromFloatArray(out, sampleRate, channels, frames, a));
+    malloc.free(a);
     return Buffer(synthizer, handle: out);
   }
 
@@ -68,7 +73,9 @@ class Buffer extends SynthizerObject {
     final out = calloc<Uint32>();
     synthizer
         .check(synthizer.synthizer.syz_bufferGetChannels(out, handle.value));
-    return out.value;
+    final v = out.value;
+    calloc.free(out);
+    return v;
   }
 
   /// Get the length of this buffer in samples.
@@ -76,7 +83,9 @@ class Buffer extends SynthizerObject {
     final out = calloc<Uint32>();
     synthizer.check(
         synthizer.synthizer.syz_bufferGetLengthInSamples(out, handle.value));
-    return out.value;
+    final v = out.value;
+    calloc.free(out);
+    return v;
   }
 
   /// Get the length of this buffer in seconds.
@@ -84,6 +93,8 @@ class Buffer extends SynthizerObject {
     final out = calloc<Double>();
     synthizer.check(
         synthizer.synthizer.syz_bufferGetLengthInSeconds(out, handle.value));
-    return out.value;
+    final v = out.value;
+    calloc.free(out);
+    return v;
   }
 }

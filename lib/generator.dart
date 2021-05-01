@@ -41,13 +41,17 @@ class StreamingGenerator extends Generator {
   StreamingGenerator(Context context, String protocol, String path,
       {String options = ''})
       : super(context) {
+    final protocolPointer = protocol.toNativeUtf8().cast<Int8>();
+    final pathPointer = path.toNativeUtf8().cast<Int8>();
+    final optionsPointer = options.toNativeUtf8().cast<Void>();
     synthizer.check(synthizer.synthizer
         .syz_createStreamingGeneratorFromStreamParams(
             handle,
             context.handle.value,
-            protocol.toNativeUtf8().cast<Int8>(),
-            path.toNativeUtf8().cast<Int8>(),
-            options.toNativeUtf8().cast<Void>()));
+            protocolPointer,
+            pathPointer,
+            optionsPointer));
+    [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
   }
 }
 

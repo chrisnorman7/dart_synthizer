@@ -12,9 +12,8 @@ import 'synthizer.dart';
 /// The base class for all synthizer objects.
 class SynthizerObject {
   /// Create an instance.
-  SynthizerObject(this.synthizer, {Pointer<Uint64>? handle})
-      // ignore: unnecessary_this
-      : this.handle = handle ?? calloc<Uint64>();
+  SynthizerObject(this.synthizer, {Pointer<Uint64>? pointer})
+      : handle = pointer ?? calloc<Uint64>();
 
   /// The synthizer instance.
   final Synthizer synthizer;

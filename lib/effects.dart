@@ -66,6 +66,7 @@ class GlobalEcho extends GlobalEffect {
       }
       synthizer.check(
           synthizer.synthizer.syz_echoSetTaps(handle.value, taps.length, a));
+      malloc.free(a);
     }
   }
 }

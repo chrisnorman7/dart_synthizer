@@ -49,4 +49,9 @@ class BiquadConfig {
 
   /// A pointer to a C struct.
   final Pointer<syz_BiquadConfig> config;
+
+  /// Destroy this object.
+  ///
+  /// This method frees [config].
+  void destroy() => calloc.free(config);
 }
