@@ -27,6 +27,10 @@ class Synthizer {
   Synthizer.fromPath(String path)
       : synthizer = DartSynthizer(DynamicLibrary.open(path));
 
+  /// Create an instance with the default windows DLL.
+  Synthizer.windows()
+      : synthizer = DartSynthizer(DynamicLibrary.open('synthizer.dll'));
+
   /// The C portion of the library.
   ///
   /// This member should not be accessed outside of this library. Instead,
@@ -142,7 +146,7 @@ class Synthizer {
 
   /// Get a boolean property.
   bool getBool(Pointer<Uint64> handle, Properties property) =>
-      getInt(handle, property) == 1 ? true : false;
+      getInt(handle, property) == 1;
 
   /// Set a boolean property.
   void setBool(Pointer<Uint64> handle, Properties property, bool value) =>
