@@ -97,4 +97,7 @@ class Buffer extends SynthizerObject {
     calloc.free(out);
     return v;
   }
+
+  /// Get the amount of memory (in bytes) this buffer is taking up.
+  int get size => lengthInSamples * channels * 2;
 }
