@@ -9,6 +9,8 @@ import 'synthizer.dart';
 
 /// A synthizer buffer.
 ///
+/// Instead of using the default constructor directly, use one of the named constructors.
+///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/buffer.html]
 class Buffer extends SynthizerObject {
   /// Default constructor. Do not use.

@@ -41,5 +41,9 @@
     "unregister",
     "unseekable"
   ],
-  "cSpell.enabled": true
+  "cSpell.enabled": true,
+  "accessibleCodeRuler.languageMaximumLineLength": {
+    "html": 14,
+    "dart": 10
+  }
 }
