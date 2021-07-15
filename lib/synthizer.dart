@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:ffi/ffi.dart';
 
 import 'biquad.dart';
-import 'config.dart';
 import 'context.dart';
 import 'enumerations.dart';
 import 'error.dart';
@@ -257,12 +256,46 @@ class Synthizer {
           handle.value, _propertyToInt(property), config.config));
 
   /// Initialise the library.
-  void initialize({SynthizerConfig? config}) {
-    if (config == null) {
-      check(synthizer.syz_initialize());
-    } else {
-      check(synthizer.syz_initializeWithConfig(config.pointer));
+  void initialize(
+      {LogLevel? logLevel,
+      LoggingBackend? loggingBackend,
+      String? libsndfilePath}) {
+    final config = calloc<syz_LibraryConfig>();
+    synthizer.syz_libraryConfigSetDefaults(config);
+    if (logLevel != null) {
+      final int level;
+      switch (logLevel) {
+        case LogLevel.error:
+          level = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_ERROR;
+          break;
+        case LogLevel.warn:
+          level = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_WARN;
+          break;
+        case LogLevel.info:
+          level = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_INFO;
+          break;
+        case LogLevel.debug:
+          level = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_DEBUG;
+          break;
+      }
+      config.ref.log_level = level;
     }
+    if (loggingBackend != null) {
+      final int backend;
+      switch (loggingBackend) {
+        case LoggingBackend.none:
+          backend = SYZ_LOGGING_BACKEND.SYZ_LOGGING_BACKEND_NONE;
+          break;
+        case LoggingBackend.stderr:
+          backend = SYZ_LOGGING_BACKEND.SYZ_LOGGING_BACKEND_STDERR;
+          break;
+      }
+      config.ref.logging_backend = backend;
+    }
+    if (libsndfilePath != null) {
+      config.ref.libsndfile_path = libsndfilePath.toNativeUtf8().cast<Int8>();
+    }
+    check(synthizer.syz_initializeWithConfig(config));
   }
 
   /// Shutdown the library.
@@ -299,4 +332,7 @@ class Synthizer {
   /// Shorthand for [BiquadConfig.designBandpass].
   BiquadConfig designBandpass(double frequency, double bandwidth) =>
       BiquadConfig.designBandpass(this, frequency, bandwidth);
+
+  /// The default method which is called when user data is no longer needed.
+  void onFreeUserdata(Pointer<Void> ptr) {}
 }
