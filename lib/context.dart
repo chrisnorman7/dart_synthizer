@@ -17,9 +17,8 @@ import 'synthizer_bindings.dart';
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/context.html]
 ///
-/// Contexts can be created with [Synthizer.createContext] function.
-class Context extends SynthizerObject
-    with PausableMixin, Properties3DMixin, GainMixin {
+/// Contexts can be created with the [Synthizer.createContext] function.
+class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a context.
   Context(Synthizer synthizer, {bool events = false}) : super(synthizer) {
     synthizer.check(synthizer.synthizer.syz_createContext(
@@ -41,12 +40,68 @@ class Context extends SynthizerObject
   set orientation(Double6 value) =>
       synthizer.setDouble6(handle, Properties.orientation, value);
 
-  /// Get the panner strategy for this context.
-  PannerStrategies get pannerStrategy => synthizer.getPannerStrategy(handle);
+  /// Get the default panner strategy for this context.
+  PannerStrategies get defaultPannerStrategy =>
+      synthizer.getDefaultPannerStrategy(handle);
 
-  /// Set the panner strategy for this context.
-  set pannerStrategy(PannerStrategies value) =>
-      synthizer.setPannerStrategy(handle, value);
+  /// Set the default panner strategy for this context.
+  set defaultPannerStrategy(PannerStrategies value) =>
+      synthizer.setDefaultPannerStrategy(handle, value);
+
+  /// Get the default closeness boost for this object.
+  double get defaultClosenessBoost =>
+      synthizer.getDouble(handle, Properties.defaultClosenessBoost);
+
+  /// Set the default closeness boost for this object.
+  set defaultClosenessBoost(double value) =>
+      synthizer.setDouble(handle, Properties.defaultClosenessBoost, value);
+
+  /// Get the default closeness boost distance for this object.
+  double get defaultClosenessBoostDistance =>
+      synthizer.getDouble(handle, Properties.defaultClosenessBoostDistance);
+
+  /// Set the default closeness boost distance for this object.
+  set defaultClosenessBoostDistance(double value) => synthizer.setDouble(
+      handle, Properties.defaultClosenessBoostDistance, value);
+
+  /// Get the default distance max for this object.
+  double get defaultDistanceMax =>
+      synthizer.getDouble(handle, Properties.defaultDistanceMax);
+
+  /// Set the default distance max for this object.
+  set defaultDistanceMax(double value) =>
+      synthizer.setDouble(handle, Properties.defaultDistanceMax, value);
+
+  /// Get the default rolloff for this object.
+  double get defaultRolloff =>
+      synthizer.getDouble(handle, Properties.defaultRolloff);
+
+  /// Set the default rolloff for this object.
+  set defaultRolloff(double value) =>
+      synthizer.setDouble(handle, Properties.defaultRolloff, value);
+
+  /// Get the default distance model for this object.
+  DistanceModels get defaultDistanceModel =>
+      synthizer.getDefaultDistanceModel(handle);
+
+  /// Set the default distance model for this object.
+  set defaultDistanceModel(DistanceModels value) =>
+      synthizer.setDefaultDistanceModel(handle, value);
+
+  /// Get the default distance ref for this object.
+  double get defaultDistanceRef =>
+      synthizer.getDouble(handle, Properties.defaultDistanceRef);
+
+  /// Set the default distance ref for this object.
+  set defaultDistanceRef(double value) =>
+      synthizer.setDouble(handle, Properties.defaultDistanceRef, value);
+
+  /// Get the position of this object.
+  Double3 get position => synthizer.getDouble3(handle, Properties.position);
+
+  /// Set the position of this object.
+  set position(Double3 value) =>
+      synthizer.setDouble3(handle, Properties.position, value);
 
   /// Create a buffer generator.
   BufferGenerator createBufferGenerator({Buffer? buffer}) =>

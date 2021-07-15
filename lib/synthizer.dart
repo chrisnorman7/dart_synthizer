@@ -132,6 +132,22 @@ class Synthizer {
         return SYZ_PROPERTIES.SYZ_P_FILTER_EFFECTS;
       case Properties.filterInput:
         return SYZ_PROPERTIES.SYZ_P_FILTER_INPUT;
+      case Properties.defaultPannerStrategy:
+        return SYZ_PROPERTIES.SYZ_P_DEFAULT_PANNER_STRATEGY;
+      case Properties.playbackPosition:
+        return SYZ_PROPERTIES.SYZ_P_PLAYBACK_POSITION;
+      case Properties.defaultClosenessBoost:
+        return SYZ_PROPERTIES.SYZ_P_DEFAULT_CLOSENESS_BOOST;
+      case Properties.defaultClosenessBoostDistance:
+        return SYZ_PROPERTIES.SYZ_P_DEFAULT_CLOSENESS_BOOST_DISTANCE;
+      case Properties.defaultDistanceMax:
+        return SYZ_PROPERTIES.SYZ_P_DEFAULT_DISTANCE_MAX;
+      case Properties.defaultDistanceModel:
+        return SYZ_PROPERTIES.SYZ_P_DEFAULT_DISTANCE_MODEL;
+      case Properties.defaultDistanceRef:
+        return SYZ_PROPERTIES.SYZ_P_DEFAULT_DISTANCE_REF;
+      case Properties.defaultRolloff:
+        return SYZ_PROPERTIES.SYZ_P_DEFAULT_ROLLOFF;
     }
   }
 
@@ -191,36 +207,48 @@ class Synthizer {
       check(synthizer.syz_setD6(handle.value, _propertyToInt(property),
           value.x1, value.y1, value.z1, value.x2, value.y2, value.z2));
 
-  /// Get a panner strategy property.
-  PannerStrategies getPannerStrategy(Pointer<Uint64> handle) {
-    final i = getInt(handle, Properties.pannerStrategy);
+  /// Convert an integer to a panner strategy.
+  PannerStrategies _intToPannerStrategy(int i) {
     switch (i) {
       case SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF:
         return PannerStrategies.hrtf;
       case SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_STEREO:
         return PannerStrategies.stereo;
       default:
-        throw Exception('Invalid panner strategy: $i.');
+        throw SynthizerError('Unrecognised panner strategy.', i);
     }
   }
+
+  /// Convert a panner strategy to an integer.
+  int _pannerStrategyToInt(PannerStrategies strategy) {
+    switch (strategy) {
+      case PannerStrategies.hrtf:
+        return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF;
+      case PannerStrategies.stereo:
+        return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_STEREO;
+    }
+  }
+
+  /// Get a panner strategy property.
+  PannerStrategies getPannerStrategy(Pointer<Uint64> handle) =>
+      _intToPannerStrategy(getInt(handle, Properties.pannerStrategy));
 
   /// Set a panner strategy.
-  void setPannerStrategy(Pointer<Uint64> handle, PannerStrategies value) {
-    final int i;
-    switch (value) {
-      case PannerStrategies.hrtf:
-        i = SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF;
-        break;
-      case PannerStrategies.stereo:
-        i = SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_STEREO;
-        break;
-    }
-    setInt(handle, Properties.pannerStrategy, i);
-  }
+  void setPannerStrategy(Pointer<Uint64> handle, PannerStrategies value) =>
+      setInt(handle, Properties.pannerStrategy, _pannerStrategyToInt(value));
 
-  /// Get a distance model property.
-  DistanceModels getDistanceModel(Pointer<Uint64> handle) {
-    final i = getInt(handle, Properties.distanceModel);
+  /// Get a default panner strategy property.
+  PannerStrategies getDefaultPannerStrategy(Pointer<Uint64> handle) =>
+      _intToPannerStrategy(getInt(handle, Properties.defaultPannerStrategy));
+
+  /// Set a default panner strategy.
+  void setDefaultPannerStrategy(
+          Pointer<Uint64> handle, PannerStrategies value) =>
+      setInt(handle, Properties.defaultPannerStrategy,
+          _pannerStrategyToInt(value));
+
+  /// Convert an integer to a distance model.
+  DistanceModels _intToDistanceModel(int i) {
     switch (i) {
       case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL:
         return DistanceModels.exponential;
@@ -231,29 +259,40 @@ class Synthizer {
       case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE:
         return DistanceModels.none;
       default:
-        throw Exception('Invalid distance model: $i.');
+        throw SynthizerError('Unrecognised distance model.', i);
     }
   }
 
-  /// Set a distance model property.
-  void setDistanceModel(Pointer<Uint64> handle, DistanceModels value) {
-    final int i;
-    switch (value) {
+  /// Convert a distance model to an integer.
+  int _distanceModelToInt(DistanceModels model) {
+    switch (model) {
       case DistanceModels.exponential:
-        i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL;
-        break;
+        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL;
       case DistanceModels.none:
-        i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE;
-        break;
+        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE;
       case DistanceModels.linear:
-        i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_LINEAR;
-        break;
+        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_LINEAR;
       case DistanceModels.inverse:
-        i = SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_INVERSE;
-        break;
+        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_INVERSE;
     }
-    setInt(handle, Properties.distanceModel, i);
   }
+
+  /// Get a distance model property.
+  DistanceModels getDistanceModel(Pointer<Uint64> handle) =>
+      _intToDistanceModel(getInt(handle, Properties.distanceModel));
+
+  /// Set a distance model property.
+  void setDistanceModel(Pointer<Uint64> handle, DistanceModels value) =>
+      setInt(handle, Properties.distanceModel, _distanceModelToInt(value));
+
+  /// Get a default distance model property.
+  DistanceModels getDefaultDistanceModel(Pointer<Uint64> handle) =>
+      _intToDistanceModel(getInt(handle, Properties.defaultDistanceModel));
+
+  /// Set a default distance model property.
+  void setDefaultDistanceModel(Pointer<Uint64> handle, DistanceModels value) =>
+      setInt(
+          handle, Properties.defaultDistanceModel, _distanceModelToInt(value));
 
   /// Set a biquad property.
   void setBiquad(

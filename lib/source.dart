@@ -93,10 +93,61 @@ class PannedSource extends Source with SpatializedSource {
 /// Synthizer docs: [https://synthizer.github.io/object_reference/source_3d.html]
 ///
 /// Source 3ds can be created with [Context.createSource3D].
-class Source3D extends Source with SpatializedSource, Properties3DMixin {
+class Source3D extends Source with SpatializedSource {
   /// Create a 3d source.
   Source3D(Context context) : super(context) {
     synthizer.check(synthizer.synthizer.syz_createSource3D(handle,
         context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
+
+  /// Get the distance model for this object.
+  DistanceModels get distanceModel => synthizer.getDistanceModel(handle);
+
+  /// Set the distance model for this object.
+  set distanceModel(DistanceModels value) =>
+      synthizer.setDistanceModel(handle, value);
+
+  /// Get the distance ref for this object.
+  double get distanceRef => synthizer.getDouble(handle, Properties.distanceRef);
+
+  /// Set the distance ref for this object.
+  set distanceRef(double value) =>
+      synthizer.setDouble(handle, Properties.distanceRef, value);
+
+  /// Get the distance max for this object.
+  double get distanceMax => synthizer.getDouble(handle, Properties.distanceMax);
+
+  /// Set the distance max for this object.
+  set distanceMax(double value) =>
+      synthizer.setDouble(handle, Properties.distanceMax, value);
+
+  /// Get the rolloff for this object.
+  double get rolloff => synthizer.getDouble(handle, Properties.rolloff);
+
+  /// Set the rolloff for this object.
+  set rolloff(double value) =>
+      synthizer.setDouble(handle, Properties.rolloff, value);
+
+  /// Get the closeness boost for this object.
+  double get closenessBoost =>
+      synthizer.getDouble(handle, Properties.closenessBoost);
+
+  /// Set the closeness boost for this object.
+  set closenessBoost(double value) =>
+      synthizer.setDouble(handle, Properties.closenessBoost, value);
+
+  /// Get the closeness boost distance for this object.
+  double get closenessBoostDistance =>
+      synthizer.getDouble(handle, Properties.closenessBoostDistance);
+
+  /// Set the closeness boost distance for this object.
+  set closenessBoostDistance(double value) =>
+      synthizer.setDouble(handle, Properties.closenessBoostDistance, value);
+
+  /// Get the position of this object.
+  Double3 get position => synthizer.getDouble3(handle, Properties.position);
+
+  /// Set the position of this object.
+  set position(Double3 value) =>
+      synthizer.setDouble3(handle, Properties.position, value);
 }
