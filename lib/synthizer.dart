@@ -17,7 +17,8 @@ import 'synthizer_bindings.dart';
 class Synthizer {
   /// Create an instance.
   Synthizer({String? filename}) {
-    userdataFreeCallbackPointer = Pointer.fromFunction(onFreeUserdata);
+    userdataFreeCallbackPointer =
+        nullptr.cast<NativeFunction<syz_UserdataFreeCallback>>();
     if (filename == null) {
       if (Platform.isWindows) {
         filename = 'synthizer.dll';
@@ -337,7 +338,4 @@ class Synthizer {
   /// Shorthand for [BiquadConfig.designBandpass].
   BiquadConfig designBandpass(double frequency, double bandwidth) =>
       BiquadConfig.designBandpass(this, frequency, bandwidth);
-
-  /// The default method which is called when user data is no longer needed.
-  void onFreeUserdata(Pointer<Void> ptr) {}
 }
