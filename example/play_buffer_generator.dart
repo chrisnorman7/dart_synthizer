@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
-  final synthizer = Synthizer.fromPath('synthizer.dll')..initialize();
+  final synthizer = Synthizer()..initialize();
   print('Synthizer initialized.');
   final ctx = synthizer.createContext();
   print('Created context $ctx with gain ${ctx.gain}.');

@@ -1,9 +1,11 @@
 /// Provides the [Synthizer] class.
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 
 import 'biquad.dart';
+import 'config.dart';
 import 'context.dart';
 import 'enumerations.dart';
 import 'error.dart';
@@ -15,27 +17,22 @@ import 'synthizer_bindings.dart';
 /// You must create an instance of this class in order to use the library.
 class Synthizer {
   /// Create an instance.
-  ///
-  /// If you would rather create an instance from a filename, use the
-  /// [Synthizer.fromPath] constructor.
-  Synthizer(DynamicLibrary lib) : synthizer = DartSynthizer(lib);
-
-  /// Create an instance from a filename.
-  ///
-  /// If you would rather create a [DynamicLibrary] manually, use the default
-  /// constructor.
-  Synthizer.fromPath(String path)
-      : synthizer = DartSynthizer(DynamicLibrary.open(path));
-
-  /// Create an instance with the default windows DLL.
-  Synthizer.windows()
-      : synthizer = DartSynthizer(DynamicLibrary.open('synthizer.dll'));
+  Synthizer({String? filename}) {
+    if (filename == null) {
+      if (Platform.isWindows) {
+        filename = 'synthizer.dll';
+      } else {
+        throw SynthizerError('Unhandled platform.', -1);
+      }
+    }
+    synthizer = DartSynthizer(DynamicLibrary.open(filename));
+  }
 
   /// The C portion of the library.
   ///
   /// This member should not be accessed outside of this library. Instead,
   /// utility methods provided by this package should be used.
-  final DartSynthizer synthizer;
+  late final DartSynthizer synthizer;
 
   /// The handle used by all calls to [getInt], [setInt], [getBool], and
   /// [setBool].
@@ -260,7 +257,13 @@ class Synthizer {
           handle.value, _propertyToInt(property), config.config));
 
   /// Initialise the library.
-  void initialize() => check(synthizer.syz_initialize());
+  void initialize({SynthizerConfig? config}) {
+    if (config == null) {
+      check(synthizer.syz_initialize());
+    } else {
+      check(synthizer.syz_initializeWithConfig(config.pointer));
+    }
+  }
 
   /// Shutdown the library.
   void shutdown() {
@@ -275,46 +278,6 @@ class Synthizer {
       _y2,
       _z2,
     ].forEach(calloc.free);
-  }
-
-  /// Set the logging level.
-  void setLogLevel(LogLevel level) {
-    final int logLevel;
-    switch (level) {
-      case LogLevel.error:
-        logLevel = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_ERROR;
-        break;
-      case LogLevel.warn:
-        logLevel = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_WARN;
-        break;
-      case LogLevel.info:
-        logLevel = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_INFO;
-        break;
-      case LogLevel.debug:
-        logLevel = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_DEBUG;
-        break;
-    }
-    synthizer.syz_setLogLevel(logLevel);
-  }
-
-  /// Configure the logging backend to use.
-  void configureLoggingBackend(LoggingBackend backend) {
-    final int loggingBackend;
-    switch (backend) {
-      case LoggingBackend.stderr:
-        loggingBackend = SYZ_LOGGING_BACKEND.SYZ_LOGGING_BACKEND_STDERR;
-        break;
-    }
-    synthizer.syz_configureLoggingBackend(loggingBackend, nullptr);
-  }
-
-  /// Set up full logging.
-  ///
-  /// This function sets the log level to [LogLevel.debug], and the logging
-  /// backend to [LoggingBackend.stderr].
-  void fullLogging() {
-    setLogLevel(LogLevel.debug);
-    configureLoggingBackend(LoggingBackend.stderr);
   }
 
   /// Create a context.

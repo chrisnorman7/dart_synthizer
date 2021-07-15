@@ -25,6 +25,7 @@
     "formals",
     "hashcode",
     "hnd",
+    "libsndfile",
     "msg",
     "myparam",
     "mypath",

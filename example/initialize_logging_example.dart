@@ -3,9 +3,7 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 void main() {
-  Synthizer.fromPath('synthizer.dll')
-    ..setLogLevel(LogLevel.debug)
-    ..configureLoggingBackend(LoggingBackend.stderr)
+  Synthizer()
     ..initialize()
     ..shutdown();
   print('Synthizer shutdown.');

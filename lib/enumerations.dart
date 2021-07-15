@@ -17,6 +17,9 @@ enum LogLevel {
 
 /// The logging backends enum.
 enum LoggingBackend {
+  /// static const int SYZ_LOGGING_BACKEND_NONE = 0;
+  none,
+
   /// SYZ_LOGGING_BACKEND_STDERR = 0
   stderr
 }

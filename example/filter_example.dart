@@ -1,10 +1,7 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
-  final synthizer = Synthizer.fromPath('synthizer.dll')
-    ..setLogLevel(LogLevel.debug)
-    ..configureLoggingBackend(LoggingBackend.stderr)
-    ..initialize();
+  final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext();
   final s = ctx.createDirectSource();
   final g = ctx.createStreamingGenerator('file', 'sound.wav')..looping = true;

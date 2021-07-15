@@ -2,9 +2,9 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 void main() {
-  final synthizer1 = Synthizer.fromPath('synthizer.dll');
+  final synthizer1 = Synthizer();
   print('Created first instance.');
-  final synthizer2 = Synthizer.fromPath('synthizer.dll');
+  final synthizer2 = Synthizer();
   print('Created second instance.');
   synthizer1.initialize();
   print('Initialised first instance.');

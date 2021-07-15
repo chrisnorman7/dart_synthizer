@@ -4,7 +4,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final synthizer = Synthizer.fromPath('synthizer.dll')..initialize();
+  final synthizer = Synthizer()..initialize();
 
   tearDownAll(synthizer.shutdown);
 

@@ -6,9 +6,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
   final f = File('sound.wav');
-  final synthizer = Synthizer.fromPath('synthizer.dll')
-    ..fullLogging()
-    ..initialize();
+  final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext();
   final generator = ctx.createBufferGenerator();
   final source = ctx.createDirectSource()..addGenerator(generator);

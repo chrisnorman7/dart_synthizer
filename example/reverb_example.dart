@@ -3,7 +3,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 /// Create reverb and exit.
 
 Future<void> main() async {
-  final synthizer = Synthizer.fromPath('synthizer.dll')..initialize();
+  final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext();
   final source = ctx.createDirectSource();
   final generator = ctx.createStreamingGenerator('file', 'sound.wav')

@@ -1,6 +1,7 @@
 /// Provides the [SynthizerStream] class.
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
 import 'classes.dart';
 import 'synthizer.dart';
 
@@ -13,6 +14,16 @@ class SynthizerStream extends SynthizerObject {
   ///
   /// Don't use this constructor directly, but instead use one of the named
   /// constructors.
-  SynthizerStream(Synthizer synthizer, Pointer<Uint64> handle)
-      : super(synthizer, pointer: handle);
+  SynthizerStream(Synthizer synthizer) : super(synthizer);
+
+  /// Create a stream from a file.
+  factory SynthizerStream.fromFile(Synthizer synthizer, String path) {
+    final s = SynthizerStream(synthizer);
+    synthizer.check(
+      synthizer.synthizer.syz_createStreamHandleFromFile(s.handle,
+      path.toNativeUtf8().cast<Int8>(),
+      calloc<Void>(), calloc<Void>());
+    )
+    return s;
+  }
 }

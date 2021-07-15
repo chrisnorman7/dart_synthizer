@@ -12,10 +12,7 @@ import 'dart:math';
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
-  final synthizer = Synthizer.fromPath('synthizer.dll')
-    ..setLogLevel(LogLevel.debug)
-    ..configureLoggingBackend(LoggingBackend.stderr)
-    ..initialize();
+  final synthizer = Synthizer()..initialize();
   // Normal source setup from a CLI arg.
   final ctx = synthizer.createContext();
   final buffer = Buffer.fromStream(synthizer, 'file', 'sound.wav');

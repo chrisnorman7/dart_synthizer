@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
-  final synthizer = Synthizer.fromPath('synthizer.dll')..initialize();
+  final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext();
   final source = ctx.createDirectSource();
   final noiseGenerator = ctx.createNoiseGenerator(channels: 2)..gain = 0.1;
