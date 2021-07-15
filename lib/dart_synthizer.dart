@@ -31,4 +31,5 @@ export 'error.dart';
 export 'generator.dart';
 export 'properties.dart';
 export 'source.dart';
+export 'stream.dart';
 export 'synthizer.dart';
