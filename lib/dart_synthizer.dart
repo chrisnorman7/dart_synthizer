@@ -9,7 +9,12 @@
 /// To begin, create a [Synthizer] instance:
 ///
 /// ```
-/// final synthizer = Synthizer.fromPath('synthizer.dll');
+/// final synthizer = Synthizer();
+/// ```
+///
+/// Then initialise the library:
+/// ```
+/// synthizer.initialize();
 /// ```
 ///
 /// Then create a [Context]:
