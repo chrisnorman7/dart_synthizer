@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   ffi: ^1.1.2
+  quiver: ^3.0.1
 
 dev_dependencies:
   ffigen: ^3.0.0
