@@ -26,7 +26,12 @@ class Buffer extends SynthizerObject {
     final pathPointer = path.toNativeUtf8().cast<Int8>();
     final optionsPointer = options.toNativeUtf8().cast<Void>();
     synthizer.check(synthizer.synthizer.syz_createBufferFromStreamParams(
-        out, protocolPointer, pathPointer, optionsPointer));
+        out,
+        protocolPointer,
+        pathPointer,
+        optionsPointer,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
     [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
     return Buffer(synthizer, handle: out);
   }
@@ -45,8 +50,8 @@ class Buffer extends SynthizerObject {
     for (var i = 0; i < bytes.length; i++) {
       a[i] = bytes[i];
     }
-    synthizer.check(synthizer.synthizer
-        .syz_createBufferFromEncodedData(out, bytes.length, a));
+    synthizer.check(synthizer.synthizer.syz_createBufferFromEncodedData(
+        out, bytes.length, a, nullptr, synthizer.userdataFreeCallbackPointer));
     malloc.free(a);
     return Buffer(synthizer, handle: out);
   }
@@ -65,8 +70,14 @@ class Buffer extends SynthizerObject {
     for (var i = 0; i < data.length; i++) {
       a[i] = data[i];
     }
-    synthizer.check(synthizer.synthizer
-        .syz_createBufferFromFloatArray(out, sampleRate, channels, frames, a));
+    synthizer.check(synthizer.synthizer.syz_createBufferFromFloatArray(
+        out,
+        sampleRate,
+        channels,
+        frames,
+        a,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
     malloc.free(a);
     return Buffer(synthizer, handle: out);
   }

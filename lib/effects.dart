@@ -46,15 +46,15 @@ class EchoTapConfig {
 class GlobalEcho extends GlobalEffect {
   /// Create an echo.
   GlobalEcho(Context context) : super(context.synthizer) {
-    synthizer.check(
-        synthizer.synthizer.syz_createGlobalEcho(handle, context.handle.value));
+    synthizer.check(synthizer.synthizer.syz_createGlobalEcho(handle,
+        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
 
   /// Sets the taps of the echo.
   void setTaps(List<EchoTapConfig>? taps) {
     if (taps == null || taps.isEmpty) {
-      synthizer
-          .check(synthizer.synthizer.syz_echoSetTaps(handle.value, 0, nullptr));
+      synthizer.check(
+          synthizer.synthizer.syz_globalEchoSetTaps(handle.value, 0, nullptr));
     } else {
       final a = malloc<syz_EchoTapConfig>(taps.length);
       for (var i = 0; i < taps.length; i++) {
@@ -64,8 +64,8 @@ class GlobalEcho extends GlobalEffect {
           ..gain_l = t.gainL
           ..gain_r = t.gainR;
       }
-      synthizer.check(
-          synthizer.synthizer.syz_echoSetTaps(handle.value, taps.length, a));
+      synthizer.check(synthizer.synthizer
+          .syz_globalEchoSetTaps(handle.value, taps.length, a));
       malloc.free(a);
     }
   }
@@ -77,8 +77,8 @@ class GlobalEcho extends GlobalEffect {
 class GlobalFdnReverb extends GlobalEffect {
   /// Create a reverb.
   GlobalFdnReverb(Context context) : super(context.synthizer) {
-    synthizer.check(synthizer.synthizer
-        .syz_createGlobalFdnReverb(handle, context.handle.value));
+    synthizer.check(synthizer.synthizer.syz_createGlobalFdnReverb(handle,
+        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
 
   /// Get mean free path.

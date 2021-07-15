@@ -36,8 +36,8 @@ abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
 class DirectSource extends Source {
   /// Create a direct source.
   DirectSource(Context context) : super(context) {
-    synthizer.check(synthizer.synthizer
-        .syz_createDirectSource(handle, context.handle.value));
+    synthizer.check(synthizer.synthizer.syz_createDirectSource(handle,
+        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
 }
 
@@ -61,8 +61,8 @@ mixin SpatializedSource on Source {
 class PannedSource extends Source with SpatializedSource {
   /// Create a panned source.
   PannedSource(Context context) : super(context) {
-    synthizer.check(synthizer.synthizer
-        .syz_createPannedSource(handle, context.handle.value));
+    synthizer.check(synthizer.synthizer.syz_createPannedSource(handle,
+        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
 
   /// Get the azimuth for this source.
@@ -96,7 +96,7 @@ class PannedSource extends Source with SpatializedSource {
 class Source3D extends Source with SpatializedSource, Properties3DMixin {
   /// Create a 3d source.
   Source3D(Context context) : super(context) {
-    synthizer.check(
-        synthizer.synthizer.syz_createSource3D(handle, context.handle.value));
+    synthizer.check(synthizer.synthizer.syz_createSource3D(handle,
+        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
 }

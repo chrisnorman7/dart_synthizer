@@ -17,6 +17,7 @@ import 'synthizer_bindings.dart';
 class Synthizer {
   /// Create an instance.
   Synthizer({String? filename}) {
+    userdataFreeCallbackPointer = Pointer.fromFunction(onFreeUserdata);
     if (filename == null) {
       if (Platform.isWindows) {
         filename = 'synthizer.dll';
@@ -49,6 +50,10 @@ class Synthizer {
   final Pointer<Double> _x2 = calloc<Double>();
   final Pointer<Double> _y2 = calloc<Double>();
   final Pointer<Double> _z2 = calloc<Double>();
+
+  /// The default pointer for freeing user data.
+  late final Pointer<NativeFunction<syz_UserdataFreeCallback>>
+      userdataFreeCallbackPointer;
 
   /// Check if a returned value is an error.
   void check(int value) {

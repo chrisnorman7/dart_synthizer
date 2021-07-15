@@ -2,6 +2,7 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
+
 import 'classes.dart';
 import 'synthizer.dart';
 
@@ -19,11 +20,11 @@ class SynthizerStream extends SynthizerObject {
   /// Create a stream from a file.
   factory SynthizerStream.fromFile(Synthizer synthizer, String path) {
     final s = SynthizerStream(synthizer);
-    synthizer.check(
-      synthizer.synthizer.syz_createStreamHandleFromFile(s.handle,
-      path.toNativeUtf8().cast<Int8>(),
-      calloc<Void>(), calloc<Void>());
-    )
+    synthizer.check(synthizer.synthizer.syz_createStreamHandleFromFile(
+        s.handle,
+        path.toNativeUtf8().cast<Int8>(),
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
     return s;
   }
 }

@@ -50,7 +50,9 @@ class StreamingGenerator extends Generator {
             context.handle.value,
             protocolPointer,
             pathPointer,
-            optionsPointer));
+            optionsPointer,
+            nullptr,
+            synthizer.userdataFreeCallbackPointer));
     [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
   }
 }
@@ -63,8 +65,8 @@ class StreamingGenerator extends Generator {
 class BufferGenerator extends Generator {
   /// Create a buffer generator.
   BufferGenerator(Context context, {Buffer? buffer}) : super(context) {
-    synthizer.check(synthizer.synthizer
-        .syz_createBufferGenerator(handle, context.handle.value));
+    synthizer.check(synthizer.synthizer.syz_createBufferGenerator(handle,
+        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
     if (buffer != null) {
       setBuffer(buffer);
     }
@@ -84,8 +86,12 @@ class BufferGenerator extends Generator {
 class NoiseGenerator extends Generator {
   /// Create a noise generator.
   NoiseGenerator(Context context, {int channels = 1}) : super(context) {
-    synthizer.check(synthizer.synthizer
-        .syz_createNoiseGenerator(handle, context.handle.value, channels));
+    synthizer.check(synthizer.synthizer.syz_createNoiseGenerator(
+        handle,
+        context.handle.value,
+        channels,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
   }
 
   /// Get the noise type for this generator.

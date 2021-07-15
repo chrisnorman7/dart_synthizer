@@ -22,7 +22,8 @@ class Context extends SynthizerObject
     with PausableMixin, Properties3DMixin, GainMixin {
   /// Create a context.
   Context(Synthizer synthizer, {bool events = false}) : super(synthizer) {
-    synthizer.check(synthizer.synthizer.syz_createContext(handle));
+    synthizer.check(synthizer.synthizer.syz_createContext(
+        handle, nullptr, synthizer.userdataFreeCallbackPointer));
     if (events) {
       enableEvents();
     }
