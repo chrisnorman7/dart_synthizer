@@ -42,8 +42,5 @@
     "unseekable"
   ],
   "cSpell.enabled": true,
-  "accessibleCodeRuler.languageMaximumLineLength": {
-    "html": 14,
-    "dart": 10
-  }
+  "accessibleCodeRuler.languageMaximumLineLength": {}
 }
