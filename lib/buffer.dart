@@ -19,7 +19,8 @@ class Buffer extends SynthizerObject {
       : super(synthizer, pointer: handle);
 
   /// Create a buffer from a stream.
-  factory Buffer.fromStream(Synthizer synthizer, String protocol, String path,
+  factory Buffer.fromStreamParams(
+      Synthizer synthizer, String protocol, String path,
       {String options = ''}) {
     final out = calloc<Uint64>();
     final protocolPointer = protocol.toNativeUtf8().cast<Int8>();
