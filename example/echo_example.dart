@@ -15,7 +15,7 @@ Future<void> main() async {
   final synthizer = Synthizer()..initialize();
   // Normal source setup from a CLI arg.
   final ctx = synthizer.createContext();
-  final buffer = Buffer.fromStream(synthizer, 'file', 'sound.wav');
+  final buffer = Buffer.fromStreamParams(synthizer, 'file', 'sound.wav');
   final gen = ctx.createBufferGenerator(buffer: buffer);
   final src = ctx.createSource3D()..addGenerator(gen);
 

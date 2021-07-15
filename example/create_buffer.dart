@@ -4,7 +4,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 
 void main() {
   final synthizer = Synthizer()..initialize();
-  final buff = Buffer.fromStream(synthizer, 'file', 'sound.wav');
+  final buff = Buffer.fromStreamParams(synthizer, 'file', 'sound.wav');
   print('Created buffer $buff.');
   synthizer.shutdown();
   print('Synthizer shutdown.');

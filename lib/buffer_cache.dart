@@ -30,6 +30,7 @@ class BufferCache {
   /// The most recently-accessed buffers.
   final List<File> _files;
 
+  /// The size of this cache so far.
   int _size = 0;
 
   /// The current size of the cache.

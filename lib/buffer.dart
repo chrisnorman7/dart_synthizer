@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:ffi/ffi.dart';
 
 import 'classes.dart';
+import 'stream.dart';
 import 'synthizer.dart';
 
 /// A synthizer buffer.
@@ -18,7 +19,7 @@ class Buffer extends SynthizerObject {
   Buffer(Synthizer synthizer, {Pointer<Uint64>? handle})
       : super(synthizer, pointer: handle);
 
-  /// Create a buffer from a stream.
+  /// Create a buffer from stream parameters.
   factory Buffer.fromStreamParams(
       Synthizer synthizer, String protocol, String path,
       {String options = ''}) {
@@ -37,9 +38,17 @@ class Buffer extends SynthizerObject {
     return Buffer(synthizer, handle: out);
   }
 
+  /// Create a buffer from a stream.
+  factory Buffer.fromStreamHandle(Synthizer synthizer, SynthizerStream stream) {
+    final out = calloc<Uint64>();
+    synthizer.check(synthizer.synthizer.syz_createBufferFromStreamHandle(out,
+        stream.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
+    return Buffer(synthizer, handle: out);
+  }
+
   /// Create a buffer from a file object.
   factory Buffer.fromFile(Synthizer synthizer, File file) =>
-      Buffer.fromStream(synthizer, 'file', file.absolute.path);
+      Buffer.fromStreamParams(synthizer, 'file', file.absolute.path);
 
   /// Create a buffer from a list of integers.
   ///
