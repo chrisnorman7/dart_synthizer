@@ -59,4 +59,11 @@ void main() {
       expect(buffer.lengthInSeconds.toStringAsFixed(4), equals('0.2612'));
     });
   });
+  group('Linger Behaviour Tests', () {
+    final ctx = synthizer.createContext();
+    final s = ctx.createDirectSource();
+    test('See if linger crashes', () {
+      s.configDeleteBehavior(linger: true);
+    });
+  });
 }

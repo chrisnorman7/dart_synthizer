@@ -27,6 +27,20 @@ class SynthizerObject {
 
   /// Returns `true` if this object is still valid.
   bool get isValid => handle.value != 0;
+
+  /// Configure delete behaviour for this object.
+  void configDeleteBehavior({bool? linger, double? timeout}) {
+    synthizer.synthizer
+        .syz_initDeleteBehaviorConfig(synthizer.deleteBehaviorConfigPointer);
+    if (linger != null) {
+      synthizer.deleteBehaviorConfigPointer.ref.linger = linger == true ? 1 : 0;
+    }
+    if (timeout != null) {
+      synthizer.deleteBehaviorConfigPointer.ref.linger_timeout = timeout;
+    }
+    synthizer.check(synthizer.synthizer.syz_configDeleteBehavior(
+        handle.value, synthizer.deleteBehaviorConfigPointer));
+  }
 }
 
 /// Provides a [gain] property.

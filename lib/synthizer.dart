@@ -19,6 +19,7 @@ class Synthizer {
   Synthizer({String? filename}) {
     userdataFreeCallbackPointer =
         nullptr.cast<NativeFunction<syz_UserdataFreeCallback>>();
+    deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>();
     if (filename == null) {
       if (Platform.isWindows) {
         filename = 'synthizer.dll';
@@ -55,6 +56,9 @@ class Synthizer {
   /// The default pointer for freeing user data.
   late final Pointer<NativeFunction<syz_UserdataFreeCallback>>
       userdataFreeCallbackPointer;
+
+  /// The delete configuration.
+  late final Pointer<syz_DeleteBehaviorConfig> deleteBehaviorConfigPointer;
 
   /// Check if a returned value is an error.
   void check(int value) {
