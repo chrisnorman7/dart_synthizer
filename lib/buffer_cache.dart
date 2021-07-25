@@ -25,10 +25,10 @@ class BufferCache {
   final int maxSize;
 
   /// The map which holds buffers.
-  final Map<File, Buffer> buffers;
+  final Map<String, Buffer> buffers;
 
   /// The most recently-accessed buffers.
-  final List<File> _files;
+  final List<String> _files;
 
   /// The size of this cache so far.
   int _size = 0;
@@ -38,7 +38,7 @@ class BufferCache {
 
   /// Get a buffer.
   Buffer getBuffer(File file) {
-    var buffer = buffers[file];
+    var buffer = buffers[file.path];
     if (buffer == null) {
       buffer = Buffer.fromFile(synthizer, file);
       _size += buffer.size;
@@ -51,8 +51,8 @@ class BufferCache {
         _size -= b.size;
         b.destroy();
       }
-      _files.add(file);
-      buffers[file] = buffer;
+      _files.add(file.path);
+      buffers[file.path] = buffer;
     }
     return buffer;
   }
