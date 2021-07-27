@@ -56,4 +56,12 @@ class BufferCache {
     }
     return buffer;
   }
+
+  /// Destroy all [buffers].
+  void destroy() {
+    buffers.values.forEach((element) {
+      element.destroy();
+    });
+    buffers.clear();
+  }
 }
