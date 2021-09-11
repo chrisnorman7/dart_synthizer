@@ -2,6 +2,7 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 
 import 'enumerations.dart';
 import 'synthizer.dart';
@@ -15,10 +16,11 @@ class SynthizerObject {
   /// The synthizer instance.
   final Synthizer synthizer;
 
-  /// The handle for this context.
+  /// The handle for this object.
   final Pointer<Uint64> handle;
 
   /// Destroy this object.
+  @mustCallSuper
   void destroy() {
     synthizer.check(synthizer.synthizer.syz_handleDecRef(handle.value));
     calloc.free(handle);

@@ -185,3 +185,51 @@ enum DistanceModels {
   /// SYZ_DISTANCE_MODEL_INVERSE
   inverse,
 }
+
+/// Synthizer interpolation types.
+enum InterpolationTypes {
+  /// SYZ_INTERPOLATION_TYPE_NONE
+  none,
+
+  /// SYZ_INTERPOLATION_TYPE_LINEAR
+  linear,
+}
+
+/// Synthizer object types.
+enum ObjectType {
+  /// SYZ_OTYPE_CONTEXT
+  context,
+
+  /// SYZ_OTYPE_BUFFER
+  buffer,
+
+  /// SYZ_OTYPE_BUFFER_GENERATOR
+  bufferGenerator,
+
+  /// SYZ_OTYPE_STREAMING_GENERATOR
+  streamingGenerator,
+
+  /// SYZ_OTYPE_NOISE_GENERATOR
+  noiseGenerator,
+
+  /// SYZ_OTYPE_DIRECT_SOURCE
+  directSource,
+
+  /// SYZ_OTYPE_PANNED_SOURCE
+  pannedSource,
+
+  /// SYZ_OTYPE_SOURCE_3D
+  source3D,
+
+  /// SYZ_OTYPE_GLOBAL_ECHO
+  globalEcho,
+
+  /// SYZ_OTYPE_GLOBAL_FDN_REVERB
+  globalFdnReverb,
+
+  /// SYZ_OTYPE_STREAM_HANDLE
+  streamHandle,
+
+  /// SYZ_OTYPE_AUTOMATION_TIMELINE
+  automationTimeline,
+}

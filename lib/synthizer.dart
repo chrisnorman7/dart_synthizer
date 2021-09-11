@@ -17,8 +17,7 @@ import 'synthizer_bindings.dart';
 class Synthizer {
   /// Create an instance.
   Synthizer({String? filename}) {
-    userdataFreeCallbackPointer =
-        nullptr.cast<NativeFunction<syz_UserdataFreeCallback>>();
+    userdataFreeCallbackPointer = nullptr.cast<syz_UserdataFreeCallback>();
     deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>();
     if (filename == null) {
       if (Platform.isWindows) {
@@ -54,8 +53,7 @@ class Synthizer {
   final Pointer<Double> _z2 = calloc<Double>();
 
   /// The default pointer for freeing user data.
-  late final Pointer<NativeFunction<syz_UserdataFreeCallback>>
-      userdataFreeCallbackPointer;
+  late final Pointer<syz_UserdataFreeCallback> userdataFreeCallbackPointer;
 
   /// The delete configuration.
   late final Pointer<syz_DeleteBehaviorConfig> deleteBehaviorConfigPointer;
@@ -381,4 +379,37 @@ class Synthizer {
   /// Shorthand for [BiquadConfig.designBandpass].
   BiquadConfig designBandpass(double frequency, double bandwidth) =>
       BiquadConfig.designBandpass(this, frequency, bandwidth);
+
+  /// Get the type of a handle.
+  ObjectType getObjectType(int handle) {
+    check(synthizer.syz_handleGetObjectType(_intPointer, handle));
+    switch (_intPointer.value) {
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_TIMELINE:
+        return ObjectType.automationTimeline;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_BUFFER:
+        return ObjectType.buffer;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_BUFFER_GENERATOR:
+        return ObjectType.bufferGenerator;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_CONTEXT:
+        return ObjectType.context;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_DIRECT_SOURCE:
+        return ObjectType.directSource;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_GLOBAL_ECHO:
+        return ObjectType.globalEcho;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_GLOBAL_FDN_REVERB:
+        return ObjectType.globalFdnReverb;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_NOISE_GENERATOR:
+        return ObjectType.noiseGenerator;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_PANNED_SOURCE:
+        return ObjectType.pannedSource;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_SOURCE_3D:
+        return ObjectType.source3D;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAMING_GENERATOR:
+        return ObjectType.streamingGenerator;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAM_HANDLE:
+        return ObjectType.streamHandle;
+      default:
+        throw SynthizerError('Unrecognised object type.', _intPointer.value);
+    }
+  }
 }

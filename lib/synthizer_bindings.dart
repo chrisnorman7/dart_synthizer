@@ -27,10 +27,11 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_eventDeinit_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_eventDeinit>>('syz_eventDeinit');
-  late final _dart_syz_eventDeinit _syz_eventDeinit =
-      _syz_eventDeinit_ptr.asFunction<_dart_syz_eventDeinit>();
+  late final _syz_eventDeinitPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<syz_Event>)>>(
+          'syz_eventDeinit');
+  late final _syz_eventDeinit =
+      _syz_eventDeinitPtr.asFunction<void Function(ffi.Pointer<syz_Event>)>();
 
   void syz_libraryConfigSetDefaults(
     ffi.Pointer<syz_LibraryConfig> config,
@@ -40,21 +41,20 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_libraryConfigSetDefaults_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_libraryConfigSetDefaults>>(
-          'syz_libraryConfigSetDefaults');
-  late final _dart_syz_libraryConfigSetDefaults _syz_libraryConfigSetDefaults =
-      _syz_libraryConfigSetDefaults_ptr
-          .asFunction<_dart_syz_libraryConfigSetDefaults>();
+  late final _syz_libraryConfigSetDefaultsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<syz_LibraryConfig>)>>('syz_libraryConfigSetDefaults');
+  late final _syz_libraryConfigSetDefaults = _syz_libraryConfigSetDefaultsPtr
+      .asFunction<void Function(ffi.Pointer<syz_LibraryConfig>)>();
 
   int syz_initialize() {
     return _syz_initialize();
   }
 
-  late final _syz_initialize_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_initialize>>('syz_initialize');
-  late final _dart_syz_initialize _syz_initialize =
-      _syz_initialize_ptr.asFunction<_dart_syz_initialize>();
+  late final _syz_initializePtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function()>>('syz_initialize');
+  late final _syz_initialize = _syz_initializePtr.asFunction<int Function()>();
 
   int syz_initializeWithConfig(
     ffi.Pointer<syz_LibraryConfig> config,
@@ -64,41 +64,40 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_initializeWithConfig_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_initializeWithConfig>>(
-          'syz_initializeWithConfig');
-  late final _dart_syz_initializeWithConfig _syz_initializeWithConfig =
-      _syz_initializeWithConfig_ptr
-          .asFunction<_dart_syz_initializeWithConfig>();
+  late final _syz_initializeWithConfigPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<syz_LibraryConfig>)>>('syz_initializeWithConfig');
+  late final _syz_initializeWithConfig = _syz_initializeWithConfigPtr
+      .asFunction<int Function(ffi.Pointer<syz_LibraryConfig>)>();
 
   int syz_shutdown() {
     return _syz_shutdown();
   }
 
-  late final _syz_shutdown_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_shutdown>>('syz_shutdown');
-  late final _dart_syz_shutdown _syz_shutdown =
-      _syz_shutdown_ptr.asFunction<_dart_syz_shutdown>();
+  late final _syz_shutdownPtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function()>>('syz_shutdown');
+  late final _syz_shutdown = _syz_shutdownPtr.asFunction<int Function()>();
 
   int syz_getLastErrorCode() {
     return _syz_getLastErrorCode();
   }
 
-  late final _syz_getLastErrorCode_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_getLastErrorCode>>(
+  late final _syz_getLastErrorCodePtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function()>>(
           'syz_getLastErrorCode');
-  late final _dart_syz_getLastErrorCode _syz_getLastErrorCode =
-      _syz_getLastErrorCode_ptr.asFunction<_dart_syz_getLastErrorCode>();
+  late final _syz_getLastErrorCode =
+      _syz_getLastErrorCodePtr.asFunction<int Function()>();
 
   ffi.Pointer<ffi.Int8> syz_getLastErrorMessage() {
     return _syz_getLastErrorMessage();
   }
 
-  late final _syz_getLastErrorMessage_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_getLastErrorMessage>>(
+  late final _syz_getLastErrorMessagePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int8> Function()>>(
           'syz_getLastErrorMessage');
-  late final _dart_syz_getLastErrorMessage _syz_getLastErrorMessage =
-      _syz_getLastErrorMessage_ptr.asFunction<_dart_syz_getLastErrorMessage>();
+  late final _syz_getLastErrorMessage = _syz_getLastErrorMessagePtr
+      .asFunction<ffi.Pointer<ffi.Int8> Function()>();
 
   int syz_handleIncRef(
     int handle,
@@ -108,10 +107,11 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_handleIncRef_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_handleIncRef>>('syz_handleIncRef');
-  late final _dart_syz_handleIncRef _syz_handleIncRef =
-      _syz_handleIncRef_ptr.asFunction<_dart_syz_handleIncRef>();
+  late final _syz_handleIncRefPtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function(syz_Handle)>>(
+          'syz_handleIncRef');
+  late final _syz_handleIncRef =
+      _syz_handleIncRefPtr.asFunction<int Function(int)>();
 
   int syz_handleDecRef(
     int handle,
@@ -121,10 +121,11 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_handleDecRef_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_handleDecRef>>('syz_handleDecRef');
-  late final _dart_syz_handleDecRef _syz_handleDecRef =
-      _syz_handleDecRef_ptr.asFunction<_dart_syz_handleDecRef>();
+  late final _syz_handleDecRefPtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function(syz_Handle)>>(
+          'syz_handleDecRef');
+  late final _syz_handleDecRef =
+      _syz_handleDecRefPtr.asFunction<int Function(int)>();
 
   void syz_initDeleteBehaviorConfig(
     ffi.Pointer<syz_DeleteBehaviorConfig> cfg,
@@ -134,12 +135,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_initDeleteBehaviorConfig_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_initDeleteBehaviorConfig>>(
-          'syz_initDeleteBehaviorConfig');
-  late final _dart_syz_initDeleteBehaviorConfig _syz_initDeleteBehaviorConfig =
-      _syz_initDeleteBehaviorConfig_ptr
-          .asFunction<_dart_syz_initDeleteBehaviorConfig>();
+  late final _syz_initDeleteBehaviorConfigPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<syz_DeleteBehaviorConfig>)>>(
+      'syz_initDeleteBehaviorConfig');
+  late final _syz_initDeleteBehaviorConfig = _syz_initDeleteBehaviorConfigPtr
+      .asFunction<void Function(ffi.Pointer<syz_DeleteBehaviorConfig>)>();
 
   int syz_configDeleteBehavior(
     int object,
@@ -151,12 +152,13 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_configDeleteBehavior_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_configDeleteBehavior>>(
-          'syz_configDeleteBehavior');
-  late final _dart_syz_configDeleteBehavior _syz_configDeleteBehavior =
-      _syz_configDeleteBehavior_ptr
-          .asFunction<_dart_syz_configDeleteBehavior>();
+  late final _syz_configDeleteBehaviorPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  syz_Handle, ffi.Pointer<syz_DeleteBehaviorConfig>)>>(
+      'syz_configDeleteBehavior');
+  late final _syz_configDeleteBehavior = _syz_configDeleteBehaviorPtr
+      .asFunction<int Function(int, ffi.Pointer<syz_DeleteBehaviorConfig>)>();
 
   int syz_handleGetObjectType(
     ffi.Pointer<ffi.Int32> out,
@@ -168,11 +170,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_handleGetObjectType_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_handleGetObjectType>>(
-          'syz_handleGetObjectType');
-  late final _dart_syz_handleGetObjectType _syz_handleGetObjectType =
-      _syz_handleGetObjectType_ptr.asFunction<_dart_syz_handleGetObjectType>();
+  late final _syz_handleGetObjectTypePtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<ffi.Int32>, syz_Handle)>>('syz_handleGetObjectType');
+  late final _syz_handleGetObjectType = _syz_handleGetObjectTypePtr
+      .asFunction<int Function(ffi.Pointer<ffi.Int32>, int)>();
 
   int syz_handleGetUserdata(
     ffi.Pointer<ffi.Pointer<ffi.Void>> out,
@@ -184,16 +187,17 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_handleGetUserdata_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_handleGetUserdata>>(
-          'syz_handleGetUserdata');
-  late final _dart_syz_handleGetUserdata _syz_handleGetUserdata =
-      _syz_handleGetUserdata_ptr.asFunction<_dart_syz_handleGetUserdata>();
+  late final _syz_handleGetUserdataPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<ffi.Pointer<ffi.Void>>,
+              syz_Handle)>>('syz_handleGetUserdata');
+  late final _syz_handleGetUserdata = _syz_handleGetUserdataPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Pointer<ffi.Void>>, int)>();
 
   int syz_handleSetUserdata(
     int handle,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>> free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> free_callback,
   ) {
     return _syz_handleSetUserdata(
       handle,
@@ -202,11 +206,13 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_handleSetUserdata_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_handleSetUserdata>>(
-          'syz_handleSetUserdata');
-  late final _dart_syz_handleSetUserdata _syz_handleSetUserdata =
-      _syz_handleSetUserdata_ptr.asFunction<_dart_syz_handleSetUserdata>();
+  late final _syz_handleSetUserdataPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(syz_Handle, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>>('syz_handleSetUserdata');
+  late final _syz_handleSetUserdata = _syz_handleSetUserdataPtr.asFunction<
+      int Function(
+          int, ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_pause(
     int object,
@@ -216,10 +222,10 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_pause_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_pause>>('syz_pause');
-  late final _dart_syz_pause _syz_pause =
-      _syz_pause_ptr.asFunction<_dart_syz_pause>();
+  late final _syz_pausePtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function(syz_Handle)>>(
+          'syz_pause');
+  late final _syz_pause = _syz_pausePtr.asFunction<int Function(int)>();
 
   int syz_play(
     int object,
@@ -229,10 +235,10 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_play_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_play>>('syz_play');
-  late final _dart_syz_play _syz_play =
-      _syz_play_ptr.asFunction<_dart_syz_play>();
+  late final _syz_playPtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function(syz_Handle)>>(
+          'syz_play');
+  late final _syz_play = _syz_playPtr.asFunction<int Function(int)>();
 
   int syz_getI(
     ffi.Pointer<ffi.Int32> out,
@@ -246,10 +252,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_getI_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_getI>>('syz_getI');
-  late final _dart_syz_getI _syz_getI =
-      _syz_getI_ptr.asFunction<_dart_syz_getI>();
+  late final _syz_getIPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<ffi.Int32>, syz_Handle, ffi.Int32)>>('syz_getI');
+  late final _syz_getI =
+      _syz_getIPtr.asFunction<int Function(ffi.Pointer<ffi.Int32>, int, int)>();
 
   int syz_setI(
     int target,
@@ -263,10 +271,11 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_setI_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_setI>>('syz_setI');
-  late final _dart_syz_setI _syz_setI =
-      _syz_setI_ptr.asFunction<_dart_syz_setI>();
+  late final _syz_setIPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              syz_Handle, ffi.Int32, ffi.Int32)>>('syz_setI');
+  late final _syz_setI = _syz_setIPtr.asFunction<int Function(int, int, int)>();
 
   int syz_getD(
     ffi.Pointer<ffi.Double> out,
@@ -280,10 +289,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_getD_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_getD>>('syz_getD');
-  late final _dart_syz_getD _syz_getD =
-      _syz_getD_ptr.asFunction<_dart_syz_getD>();
+  late final _syz_getDPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<ffi.Double>, syz_Handle, ffi.Int32)>>('syz_getD');
+  late final _syz_getD = _syz_getDPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Double>, int, int)>();
 
   int syz_setD(
     int target,
@@ -297,10 +308,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_setD_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_setD>>('syz_setD');
-  late final _dart_syz_setD _syz_setD =
-      _syz_setD_ptr.asFunction<_dart_syz_setD>();
+  late final _syz_setDPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              syz_Handle, ffi.Int32, ffi.Double)>>('syz_setD');
+  late final _syz_setD =
+      _syz_setDPtr.asFunction<int Function(int, int, double)>();
 
   int syz_setO(
     int target,
@@ -314,10 +327,11 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_setO_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_setO>>('syz_setO');
-  late final _dart_syz_setO _syz_setO =
-      _syz_setO_ptr.asFunction<_dart_syz_setO>();
+  late final _syz_setOPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              syz_Handle, ffi.Int32, syz_Handle)>>('syz_setO');
+  late final _syz_setO = _syz_setOPtr.asFunction<int Function(int, int, int)>();
 
   int syz_getD3(
     ffi.Pointer<ffi.Double> x,
@@ -335,10 +349,17 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_getD3_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_getD3>>('syz_getD3');
-  late final _dart_syz_getD3 _syz_getD3 =
-      _syz_getD3_ptr.asFunction<_dart_syz_getD3>();
+  late final _syz_getD3Ptr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<ffi.Double>,
+              ffi.Pointer<ffi.Double>,
+              ffi.Pointer<ffi.Double>,
+              syz_Handle,
+              ffi.Int32)>>('syz_getD3');
+  late final _syz_getD3 = _syz_getD3Ptr.asFunction<
+      int Function(ffi.Pointer<ffi.Double>, ffi.Pointer<ffi.Double>,
+          ffi.Pointer<ffi.Double>, int, int)>();
 
   int syz_setD3(
     int target,
@@ -356,10 +377,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_setD3_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_setD3>>('syz_setD3');
-  late final _dart_syz_setD3 _syz_setD3 =
-      _syz_setD3_ptr.asFunction<_dart_syz_setD3>();
+  late final _syz_setD3Ptr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(syz_Handle, ffi.Int32, ffi.Double, ffi.Double,
+              ffi.Double)>>('syz_setD3');
+  late final _syz_setD3 = _syz_setD3Ptr
+      .asFunction<int Function(int, int, double, double, double)>();
 
   int syz_getD6(
     ffi.Pointer<ffi.Double> x1,
@@ -383,10 +406,27 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_getD6_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_getD6>>('syz_getD6');
-  late final _dart_syz_getD6 _syz_getD6 =
-      _syz_getD6_ptr.asFunction<_dart_syz_getD6>();
+  late final _syz_getD6Ptr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<ffi.Double>,
+              ffi.Pointer<ffi.Double>,
+              ffi.Pointer<ffi.Double>,
+              ffi.Pointer<ffi.Double>,
+              ffi.Pointer<ffi.Double>,
+              ffi.Pointer<ffi.Double>,
+              syz_Handle,
+              ffi.Int32)>>('syz_getD6');
+  late final _syz_getD6 = _syz_getD6Ptr.asFunction<
+      int Function(
+          ffi.Pointer<ffi.Double>,
+          ffi.Pointer<ffi.Double>,
+          ffi.Pointer<ffi.Double>,
+          ffi.Pointer<ffi.Double>,
+          ffi.Pointer<ffi.Double>,
+          ffi.Pointer<ffi.Double>,
+          int,
+          int)>();
 
   int syz_setD6(
     int handle,
@@ -410,10 +450,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_setD6_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_setD6>>('syz_setD6');
-  late final _dart_syz_setD6 _syz_setD6 =
-      _syz_setD6_ptr.asFunction<_dart_syz_setD6>();
+  late final _syz_setD6Ptr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(syz_Handle, ffi.Int32, ffi.Double, ffi.Double,
+              ffi.Double, ffi.Double, ffi.Double, ffi.Double)>>('syz_setD6');
+  late final _syz_setD6 = _syz_setD6Ptr.asFunction<
+      int Function(int, int, double, double, double, double, double, double)>();
 
   int syz_getBiquad(
     ffi.Pointer<syz_BiquadConfig> filter,
@@ -427,10 +469,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_getBiquad_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_getBiquad>>('syz_getBiquad');
-  late final _dart_syz_getBiquad _syz_getBiquad =
-      _syz_getBiquad_ptr.asFunction<_dart_syz_getBiquad>();
+  late final _syz_getBiquadPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<syz_BiquadConfig>, syz_Handle,
+              ffi.Int32)>>('syz_getBiquad');
+  late final _syz_getBiquad = _syz_getBiquadPtr
+      .asFunction<int Function(ffi.Pointer<syz_BiquadConfig>, int, int)>();
 
   int syz_setBiquad(
     int target,
@@ -444,10 +488,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_setBiquad_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_setBiquad>>('syz_setBiquad');
-  late final _dart_syz_setBiquad _syz_setBiquad =
-      _syz_setBiquad_ptr.asFunction<_dart_syz_setBiquad>();
+  late final _syz_setBiquadPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(syz_Handle, ffi.Int32,
+              ffi.Pointer<syz_BiquadConfig>)>>('syz_setBiquad');
+  late final _syz_setBiquad = _syz_setBiquadPtr
+      .asFunction<int Function(int, int, ffi.Pointer<syz_BiquadConfig>)>();
 
   int syz_biquadDesignIdentity(
     ffi.Pointer<syz_BiquadConfig> filter,
@@ -457,12 +503,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_biquadDesignIdentity_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_biquadDesignIdentity>>(
-          'syz_biquadDesignIdentity');
-  late final _dart_syz_biquadDesignIdentity _syz_biquadDesignIdentity =
-      _syz_biquadDesignIdentity_ptr
-          .asFunction<_dart_syz_biquadDesignIdentity>();
+  late final _syz_biquadDesignIdentityPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<syz_BiquadConfig>)>>('syz_biquadDesignIdentity');
+  late final _syz_biquadDesignIdentity = _syz_biquadDesignIdentityPtr
+      .asFunction<int Function(ffi.Pointer<syz_BiquadConfig>)>();
 
   int syz_biquadDesignLowpass(
     ffi.Pointer<syz_BiquadConfig> filter,
@@ -476,11 +522,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_biquadDesignLowpass_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_biquadDesignLowpass>>(
-          'syz_biquadDesignLowpass');
-  late final _dart_syz_biquadDesignLowpass _syz_biquadDesignLowpass =
-      _syz_biquadDesignLowpass_ptr.asFunction<_dart_syz_biquadDesignLowpass>();
+  late final _syz_biquadDesignLowpassPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<syz_BiquadConfig>, ffi.Double,
+              ffi.Double)>>('syz_biquadDesignLowpass');
+  late final _syz_biquadDesignLowpass = _syz_biquadDesignLowpassPtr.asFunction<
+      int Function(ffi.Pointer<syz_BiquadConfig>, double, double)>();
 
   int syz_biquadDesignHighpass(
     ffi.Pointer<syz_BiquadConfig> filter,
@@ -494,12 +541,13 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_biquadDesignHighpass_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_biquadDesignHighpass>>(
-          'syz_biquadDesignHighpass');
-  late final _dart_syz_biquadDesignHighpass _syz_biquadDesignHighpass =
-      _syz_biquadDesignHighpass_ptr
-          .asFunction<_dart_syz_biquadDesignHighpass>();
+  late final _syz_biquadDesignHighpassPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<syz_BiquadConfig>, ffi.Double,
+              ffi.Double)>>('syz_biquadDesignHighpass');
+  late final _syz_biquadDesignHighpass =
+      _syz_biquadDesignHighpassPtr.asFunction<
+          int Function(ffi.Pointer<syz_BiquadConfig>, double, double)>();
 
   int syz_biquadDesignBandpass(
     ffi.Pointer<syz_BiquadConfig> filter,
@@ -513,18 +561,91 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_biquadDesignBandpass_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_biquadDesignBandpass>>(
-          'syz_biquadDesignBandpass');
-  late final _dart_syz_biquadDesignBandpass _syz_biquadDesignBandpass =
-      _syz_biquadDesignBandpass_ptr
-          .asFunction<_dart_syz_biquadDesignBandpass>();
+  late final _syz_biquadDesignBandpassPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<syz_BiquadConfig>, ffi.Double,
+              ffi.Double)>>('syz_biquadDesignBandpass');
+  late final _syz_biquadDesignBandpass =
+      _syz_biquadDesignBandpassPtr.asFunction<
+          int Function(ffi.Pointer<syz_BiquadConfig>, double, double)>();
+
+  int syz_createAutomationTimeline(
+    ffi.Pointer<syz_Handle> out,
+    int point_count,
+    ffi.Pointer<syz_AutomationPoint> points,
+    int flags,
+    ffi.Pointer<ffi.Void> userdata,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
+  ) {
+    return _syz_createAutomationTimeline(
+      out,
+      point_count,
+      points,
+      flags,
+      userdata,
+      userdata_free_callback,
+    );
+  }
+
+  late final _syz_createAutomationTimelinePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Uint32,
+                  ffi.Pointer<syz_AutomationPoint>,
+                  ffi.Uint64,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createAutomationTimeline');
+  late final _syz_createAutomationTimeline =
+      _syz_createAutomationTimelinePtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              ffi.Pointer<syz_AutomationPoint>,
+              int,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
+
+  int syz_automationSetTimeline(
+    int object,
+    int property,
+    int timeline,
+  ) {
+    return _syz_automationSetTimeline(
+      object,
+      property,
+      timeline,
+    );
+  }
+
+  late final _syz_automationSetTimelinePtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              syz_Handle, ffi.Int32, syz_Handle)>>('syz_automationSetTimeline');
+  late final _syz_automationSetTimeline =
+      _syz_automationSetTimelinePtr.asFunction<int Function(int, int, int)>();
+
+  int syz_automationClear(
+    int objeect,
+    int property,
+  ) {
+    return _syz_automationClear(
+      objeect,
+      property,
+    );
+  }
+
+  late final _syz_automationClearPtr = _lookup<
+          ffi.NativeFunction<syz_ErrorCode Function(syz_Handle, ffi.Int32)>>(
+      'syz_automationClear');
+  late final _syz_automationClear =
+      _syz_automationClearPtr.asFunction<int Function(int, int)>();
 
   int syz_createContext(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createContext(
       out,
@@ -533,16 +654,18 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createContext_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createContext>>('syz_createContext');
-  late final _dart_syz_createContext _syz_createContext =
-      _syz_createContext_ptr.asFunction<_dart_syz_createContext>();
+  late final _syz_createContextPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<syz_Handle>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>>('syz_createContext');
+  late final _syz_createContext = _syz_createContextPtr.asFunction<
+      int Function(ffi.Pointer<syz_Handle>, ffi.Pointer<ffi.Void>,
+          ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createContextHeadless(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createContextHeadless(
       out,
@@ -551,12 +674,17 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createContextHeadless_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createContextHeadless>>(
-          'syz_createContextHeadless');
-  late final _dart_syz_createContextHeadless _syz_createContextHeadless =
-      _syz_createContextHeadless_ptr
-          .asFunction<_dart_syz_createContextHeadless>();
+  late final _syz_createContextHeadlessPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createContextHeadless');
+  late final _syz_createContextHeadless =
+      _syz_createContextHeadlessPtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_contextGetBlock(
     int context,
@@ -568,11 +696,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_contextGetBlock_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_contextGetBlock>>(
-          'syz_contextGetBlock');
-  late final _dart_syz_contextGetBlock _syz_contextGetBlock =
-      _syz_contextGetBlock_ptr.asFunction<_dart_syz_contextGetBlock>();
+  late final _syz_contextGetBlockPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              syz_Handle, ffi.Pointer<ffi.Float>)>>('syz_contextGetBlock');
+  late final _syz_contextGetBlock = _syz_contextGetBlockPtr
+      .asFunction<int Function(int, ffi.Pointer<ffi.Float>)>();
 
   int syz_contextEnableEvents(
     int context,
@@ -582,11 +711,11 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_contextEnableEvents_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_contextEnableEvents>>(
+  late final _syz_contextEnableEventsPtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function(syz_Handle)>>(
           'syz_contextEnableEvents');
-  late final _dart_syz_contextEnableEvents _syz_contextEnableEvents =
-      _syz_contextEnableEvents_ptr.asFunction<_dart_syz_contextEnableEvents>();
+  late final _syz_contextEnableEvents =
+      _syz_contextEnableEventsPtr.asFunction<int Function(int)>();
 
   int syz_contextGetNextEvent(
     ffi.Pointer<syz_Event> out,
@@ -600,15 +729,16 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_contextGetNextEvent_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_contextGetNextEvent>>(
-          'syz_contextGetNextEvent');
-  late final _dart_syz_contextGetNextEvent _syz_contextGetNextEvent =
-      _syz_contextGetNextEvent_ptr.asFunction<_dart_syz_contextGetNextEvent>();
+  late final _syz_contextGetNextEventPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<syz_Event>, syz_Handle,
+              ffi.Uint64)>>('syz_contextGetNextEvent');
+  late final _syz_contextGetNextEvent = _syz_contextGetNextEventPtr
+      .asFunction<int Function(ffi.Pointer<syz_Event>, int, int)>();
 
   int syz_registerStreamProtocol(
     ffi.Pointer<ffi.Int8> protocol,
-    ffi.Pointer<ffi.NativeFunction<syz_StreamOpenCallback>> callback,
+    ffi.Pointer<syz_StreamOpenCallback> callback,
     ffi.Pointer<ffi.Void> userdata,
   ) {
     return _syz_registerStreamProtocol(
@@ -618,21 +748,24 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_registerStreamProtocol_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_registerStreamProtocol>>(
-          'syz_registerStreamProtocol');
-  late final _dart_syz_registerStreamProtocol _syz_registerStreamProtocol =
-      _syz_registerStreamProtocol_ptr
-          .asFunction<_dart_syz_registerStreamProtocol>();
+  late final _syz_registerStreamProtocolPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<syz_StreamOpenCallback>,
+              ffi.Pointer<ffi.Void>)>>('syz_registerStreamProtocol');
+  late final _syz_registerStreamProtocol =
+      _syz_registerStreamProtocolPtr.asFunction<
+          int Function(ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<syz_StreamOpenCallback>, ffi.Pointer<ffi.Void>)>();
 
   int syz_createStreamHandleFromStreamParams(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     ffi.Pointer<ffi.Int8> protocol,
     ffi.Pointer<ffi.Int8> path,
     ffi.Pointer<ffi.Void> param,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createStreamHandleFromStreamParams(
       out,
@@ -644,21 +777,32 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createStreamHandleFromStreamParams_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createStreamHandleFromStreamParams>>(
-          'syz_createStreamHandleFromStreamParams');
-  late final _dart_syz_createStreamHandleFromStreamParams
-      _syz_createStreamHandleFromStreamParams =
-      _syz_createStreamHandleFromStreamParams_ptr
-          .asFunction<_dart_syz_createStreamHandleFromStreamParams>();
+  late final _syz_createStreamHandleFromStreamParamsPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createStreamHandleFromStreamParams');
+  late final _syz_createStreamHandleFromStreamParams =
+      _syz_createStreamHandleFromStreamParamsPtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createStreamHandleFromMemory(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int data_len,
     ffi.Pointer<ffi.Int8> data,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createStreamHandleFromMemory(
       out,
@@ -669,19 +813,25 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createStreamHandleFromMemory_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createStreamHandleFromMemory>>(
-          'syz_createStreamHandleFromMemory');
-  late final _dart_syz_createStreamHandleFromMemory
-      _syz_createStreamHandleFromMemory = _syz_createStreamHandleFromMemory_ptr
-          .asFunction<_dart_syz_createStreamHandleFromMemory>();
+  late final _syz_createStreamHandleFromMemoryPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Uint64,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createStreamHandleFromMemory');
+  late final _syz_createStreamHandleFromMemory =
+      _syz_createStreamHandleFromMemoryPtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createStreamHandleFromFile(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     ffi.Pointer<ffi.Int8> path,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createStreamHandleFromFile(
       out,
@@ -691,19 +841,24 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createStreamHandleFromFile_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createStreamHandleFromFile>>(
-          'syz_createStreamHandleFromFile');
-  late final _dart_syz_createStreamHandleFromFile
-      _syz_createStreamHandleFromFile = _syz_createStreamHandleFromFile_ptr
-          .asFunction<_dart_syz_createStreamHandleFromFile>();
+  late final _syz_createStreamHandleFromFilePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createStreamHandleFromFile');
+  late final _syz_createStreamHandleFromFile =
+      _syz_createStreamHandleFromFilePtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createStreamHandleFromCustomStream(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     ffi.Pointer<syz_CustomStreamDef> callbacks,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createStreamHandleFromCustomStream(
       out,
@@ -713,23 +868,30 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createStreamHandleFromCustomStream_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createStreamHandleFromCustomStream>>(
-          'syz_createStreamHandleFromCustomStream');
-  late final _dart_syz_createStreamHandleFromCustomStream
-      _syz_createStreamHandleFromCustomStream =
-      _syz_createStreamHandleFromCustomStream_ptr
-          .asFunction<_dart_syz_createStreamHandleFromCustomStream>();
+  late final _syz_createStreamHandleFromCustomStreamPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Pointer<syz_CustomStreamDef>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createStreamHandleFromCustomStream');
+  late final _syz_createStreamHandleFromCustomStream =
+      _syz_createStreamHandleFromCustomStreamPtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              ffi.Pointer<syz_CustomStreamDef>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createStreamingGeneratorFromStreamParams(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     ffi.Pointer<ffi.Int8> protocol,
     ffi.Pointer<ffi.Int8> path,
     ffi.Pointer<ffi.Void> param,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createStreamingGeneratorFromStreamParams(
       out,
@@ -742,21 +904,34 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createStreamingGeneratorFromStreamParams_ptr = _lookup<
-          ffi.NativeFunction<_c_syz_createStreamingGeneratorFromStreamParams>>(
+  late final _syz_createStreamingGeneratorFromStreamParamsPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createStreamingGeneratorFromStreamParams');
-  late final _dart_syz_createStreamingGeneratorFromStreamParams
-      _syz_createStreamingGeneratorFromStreamParams =
-      _syz_createStreamingGeneratorFromStreamParams_ptr
-          .asFunction<_dart_syz_createStreamingGeneratorFromStreamParams>();
+  late final _syz_createStreamingGeneratorFromStreamParams =
+      _syz_createStreamingGeneratorFromStreamParamsPtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createStreamingGeneratorFromFile(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     ffi.Pointer<ffi.Int8> path,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createStreamingGeneratorFromFile(
       out,
@@ -767,21 +942,26 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createStreamingGeneratorFromFile_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createStreamingGeneratorFromFile>>(
-          'syz_createStreamingGeneratorFromFile');
-  late final _dart_syz_createStreamingGeneratorFromFile
-      _syz_createStreamingGeneratorFromFile =
-      _syz_createStreamingGeneratorFromFile_ptr
-          .asFunction<_dart_syz_createStreamingGeneratorFromFile>();
+  late final _syz_createStreamingGeneratorFromFilePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createStreamingGeneratorFromFile');
+  late final _syz_createStreamingGeneratorFromFile =
+      _syz_createStreamingGeneratorFromFilePtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createStreamingGeneratorFromStreamHandle(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     int stream,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createStreamingGeneratorFromStreamHandle(
       out,
@@ -792,22 +972,27 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createStreamingGeneratorFromStreamHandle_ptr = _lookup<
-          ffi.NativeFunction<_c_syz_createStreamingGeneratorFromStreamHandle>>(
+  late final _syz_createStreamingGeneratorFromStreamHandlePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  syz_Handle,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createStreamingGeneratorFromStreamHandle');
-  late final _dart_syz_createStreamingGeneratorFromStreamHandle
-      _syz_createStreamingGeneratorFromStreamHandle =
-      _syz_createStreamingGeneratorFromStreamHandle_ptr
-          .asFunction<_dart_syz_createStreamingGeneratorFromStreamHandle>();
+  late final _syz_createStreamingGeneratorFromStreamHandle =
+      _syz_createStreamingGeneratorFromStreamHandlePtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, int, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createBufferFromStreamParams(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     ffi.Pointer<ffi.Int8> protocol,
     ffi.Pointer<ffi.Int8> path,
     ffi.Pointer<ffi.Void> param,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createBufferFromStreamParams(
       out,
@@ -819,20 +1004,32 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createBufferFromStreamParams_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createBufferFromStreamParams>>(
-          'syz_createBufferFromStreamParams');
-  late final _dart_syz_createBufferFromStreamParams
-      _syz_createBufferFromStreamParams = _syz_createBufferFromStreamParams_ptr
-          .asFunction<_dart_syz_createBufferFromStreamParams>();
+  late final _syz_createBufferFromStreamParamsPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createBufferFromStreamParams');
+  late final _syz_createBufferFromStreamParams =
+      _syz_createBufferFromStreamParamsPtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createBufferFromEncodedData(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int data_len,
     ffi.Pointer<ffi.Int8> data,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createBufferFromEncodedData(
       out,
@@ -843,22 +1040,28 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createBufferFromEncodedData_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createBufferFromEncodedData>>(
-          'syz_createBufferFromEncodedData');
-  late final _dart_syz_createBufferFromEncodedData
-      _syz_createBufferFromEncodedData = _syz_createBufferFromEncodedData_ptr
-          .asFunction<_dart_syz_createBufferFromEncodedData>();
+  late final _syz_createBufferFromEncodedDataPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Uint64,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createBufferFromEncodedData');
+  late final _syz_createBufferFromEncodedData =
+      _syz_createBufferFromEncodedDataPtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createBufferFromFloatArray(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int sr,
     int channels,
     int frames,
     ffi.Pointer<ffi.Float> data,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createBufferFromFloatArray(
       out,
@@ -871,19 +1074,33 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createBufferFromFloatArray_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createBufferFromFloatArray>>(
-          'syz_createBufferFromFloatArray');
-  late final _dart_syz_createBufferFromFloatArray
-      _syz_createBufferFromFloatArray = _syz_createBufferFromFloatArray_ptr
-          .asFunction<_dart_syz_createBufferFromFloatArray>();
+  late final _syz_createBufferFromFloatArrayPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Uint32,
+                  ffi.Uint32,
+                  ffi.Uint64,
+                  ffi.Pointer<ffi.Float>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createBufferFromFloatArray');
+  late final _syz_createBufferFromFloatArray =
+      _syz_createBufferFromFloatArrayPtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              int,
+              int,
+              ffi.Pointer<ffi.Float>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createBufferFromFile(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     ffi.Pointer<ffi.Int8> path,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createBufferFromFile(
       out,
@@ -893,19 +1110,24 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createBufferFromFile_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createBufferFromFile>>(
-          'syz_createBufferFromFile');
-  late final _dart_syz_createBufferFromFile _syz_createBufferFromFile =
-      _syz_createBufferFromFile_ptr
-          .asFunction<_dart_syz_createBufferFromFile>();
+  late final _syz_createBufferFromFilePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  ffi.Pointer<ffi.Int8>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createBufferFromFile');
+  late final _syz_createBufferFromFile =
+      _syz_createBufferFromFilePtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createBufferFromStreamHandle(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int stream,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createBufferFromStreamHandle(
       out,
@@ -915,12 +1137,18 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createBufferFromStreamHandle_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createBufferFromStreamHandle>>(
-          'syz_createBufferFromStreamHandle');
-  late final _dart_syz_createBufferFromStreamHandle
-      _syz_createBufferFromStreamHandle = _syz_createBufferFromStreamHandle_ptr
-          .asFunction<_dart_syz_createBufferFromStreamHandle>();
+  late final _syz_createBufferFromStreamHandlePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createBufferFromStreamHandle');
+  late final _syz_createBufferFromStreamHandle =
+      _syz_createBufferFromStreamHandlePtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_bufferGetChannels(
     ffi.Pointer<ffi.Uint32> out,
@@ -932,11 +1160,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_bufferGetChannels_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_bufferGetChannels>>(
-          'syz_bufferGetChannels');
-  late final _dart_syz_bufferGetChannels _syz_bufferGetChannels =
-      _syz_bufferGetChannels_ptr.asFunction<_dart_syz_bufferGetChannels>();
+  late final _syz_bufferGetChannelsPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<ffi.Uint32>, syz_Handle)>>('syz_bufferGetChannels');
+  late final _syz_bufferGetChannels = _syz_bufferGetChannelsPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Uint32>, int)>();
 
   int syz_bufferGetLengthInSamples(
     ffi.Pointer<ffi.Uint32> out,
@@ -948,12 +1177,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_bufferGetLengthInSamples_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_bufferGetLengthInSamples>>(
-          'syz_bufferGetLengthInSamples');
-  late final _dart_syz_bufferGetLengthInSamples _syz_bufferGetLengthInSamples =
-      _syz_bufferGetLengthInSamples_ptr
-          .asFunction<_dart_syz_bufferGetLengthInSamples>();
+  late final _syz_bufferGetLengthInSamplesPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<ffi.Uint32>,
+              syz_Handle)>>('syz_bufferGetLengthInSamples');
+  late final _syz_bufferGetLengthInSamples = _syz_bufferGetLengthInSamplesPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Uint32>, int)>();
 
   int syz_bufferGetLengthInSeconds(
     ffi.Pointer<ffi.Double> out,
@@ -965,19 +1194,18 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_bufferGetLengthInSeconds_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_bufferGetLengthInSeconds>>(
-          'syz_bufferGetLengthInSeconds');
-  late final _dart_syz_bufferGetLengthInSeconds _syz_bufferGetLengthInSeconds =
-      _syz_bufferGetLengthInSeconds_ptr
-          .asFunction<_dart_syz_bufferGetLengthInSeconds>();
+  late final _syz_bufferGetLengthInSecondsPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<ffi.Double>,
+              syz_Handle)>>('syz_bufferGetLengthInSeconds');
+  late final _syz_bufferGetLengthInSeconds = _syz_bufferGetLengthInSecondsPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Double>, int)>();
 
   int syz_createBufferGenerator(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createBufferGenerator(
       out,
@@ -987,12 +1215,18 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createBufferGenerator_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createBufferGenerator>>(
-          'syz_createBufferGenerator');
-  late final _dart_syz_createBufferGenerator _syz_createBufferGenerator =
-      _syz_createBufferGenerator_ptr
-          .asFunction<_dart_syz_createBufferGenerator>();
+  late final _syz_createBufferGeneratorPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createBufferGenerator');
+  late final _syz_createBufferGenerator =
+      _syz_createBufferGeneratorPtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_sourceAddGenerator(
     int source,
@@ -1004,11 +1238,11 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_sourceAddGenerator_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_sourceAddGenerator>>(
-          'syz_sourceAddGenerator');
-  late final _dart_syz_sourceAddGenerator _syz_sourceAddGenerator =
-      _syz_sourceAddGenerator_ptr.asFunction<_dart_syz_sourceAddGenerator>();
+  late final _syz_sourceAddGeneratorPtr = _lookup<
+          ffi.NativeFunction<syz_ErrorCode Function(syz_Handle, syz_Handle)>>(
+      'syz_sourceAddGenerator');
+  late final _syz_sourceAddGenerator =
+      _syz_sourceAddGeneratorPtr.asFunction<int Function(int, int)>();
 
   int syz_sourceRemoveGenerator(
     int source,
@@ -1020,19 +1254,17 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_sourceRemoveGenerator_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_sourceRemoveGenerator>>(
-          'syz_sourceRemoveGenerator');
-  late final _dart_syz_sourceRemoveGenerator _syz_sourceRemoveGenerator =
-      _syz_sourceRemoveGenerator_ptr
-          .asFunction<_dart_syz_sourceRemoveGenerator>();
+  late final _syz_sourceRemoveGeneratorPtr = _lookup<
+          ffi.NativeFunction<syz_ErrorCode Function(syz_Handle, syz_Handle)>>(
+      'syz_sourceRemoveGenerator');
+  late final _syz_sourceRemoveGenerator =
+      _syz_sourceRemoveGeneratorPtr.asFunction<int Function(int, int)>();
 
   int syz_createDirectSource(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createDirectSource(
       out,
@@ -1042,18 +1274,23 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createDirectSource_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createDirectSource>>(
-          'syz_createDirectSource');
-  late final _dart_syz_createDirectSource _syz_createDirectSource =
-      _syz_createDirectSource_ptr.asFunction<_dart_syz_createDirectSource>();
+  late final _syz_createDirectSourcePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createDirectSource');
+  late final _syz_createDirectSource = _syz_createDirectSourcePtr.asFunction<
+      int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
+          ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createPannedSource(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createPannedSource(
       out,
@@ -1063,18 +1300,23 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createPannedSource_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createPannedSource>>(
-          'syz_createPannedSource');
-  late final _dart_syz_createPannedSource _syz_createPannedSource =
-      _syz_createPannedSource_ptr.asFunction<_dart_syz_createPannedSource>();
+  late final _syz_createPannedSourcePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createPannedSource');
+  late final _syz_createPannedSource = _syz_createPannedSourcePtr.asFunction<
+      int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
+          ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createSource3D(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createSource3D(
       out,
@@ -1084,18 +1326,23 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createSource3D_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createSource3D>>('syz_createSource3D');
-  late final _dart_syz_createSource3D _syz_createSource3D =
-      _syz_createSource3D_ptr.asFunction<_dart_syz_createSource3D>();
+  late final _syz_createSource3DPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<syz_Handle>,
+              syz_Handle,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>>('syz_createSource3D');
+  late final _syz_createSource3D = _syz_createSource3DPtr.asFunction<
+      int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
+          ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createNoiseGenerator(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     int channels,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createNoiseGenerator(
       out,
@@ -1106,12 +1353,19 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createNoiseGenerator_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createNoiseGenerator>>(
-          'syz_createNoiseGenerator');
-  late final _dart_syz_createNoiseGenerator _syz_createNoiseGenerator =
-      _syz_createNoiseGenerator_ptr
-          .asFunction<_dart_syz_createNoiseGenerator>();
+  late final _syz_createNoiseGeneratorPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Uint32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createNoiseGenerator');
+  late final _syz_createNoiseGenerator =
+      _syz_createNoiseGeneratorPtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, int, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_initRouteConfig(
     ffi.Pointer<syz_RouteConfig> cfg,
@@ -1121,11 +1375,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_initRouteConfig_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_initRouteConfig>>(
-          'syz_initRouteConfig');
-  late final _dart_syz_initRouteConfig _syz_initRouteConfig =
-      _syz_initRouteConfig_ptr.asFunction<_dart_syz_initRouteConfig>();
+  late final _syz_initRouteConfigPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<syz_RouteConfig>)>>('syz_initRouteConfig');
+  late final _syz_initRouteConfig = _syz_initRouteConfigPtr
+      .asFunction<int Function(ffi.Pointer<syz_RouteConfig>)>();
 
   int syz_routingConfigRoute(
     int context,
@@ -1141,11 +1396,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_routingConfigRoute_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_routingConfigRoute>>(
-          'syz_routingConfigRoute');
-  late final _dart_syz_routingConfigRoute _syz_routingConfigRoute =
-      _syz_routingConfigRoute_ptr.asFunction<_dart_syz_routingConfigRoute>();
+  late final _syz_routingConfigRoutePtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(syz_Handle, syz_Handle, syz_Handle,
+              ffi.Pointer<syz_RouteConfig>)>>('syz_routingConfigRoute');
+  late final _syz_routingConfigRoute = _syz_routingConfigRoutePtr
+      .asFunction<int Function(int, int, int, ffi.Pointer<syz_RouteConfig>)>();
 
   int syz_routingRemoveRoute(
     int context,
@@ -1161,11 +1417,12 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_routingRemoveRoute_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_routingRemoveRoute>>(
-          'syz_routingRemoveRoute');
-  late final _dart_syz_routingRemoveRoute _syz_routingRemoveRoute =
-      _syz_routingRemoveRoute_ptr.asFunction<_dart_syz_routingRemoveRoute>();
+  late final _syz_routingRemoveRoutePtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(syz_Handle, syz_Handle, syz_Handle,
+              ffi.Double)>>('syz_routingRemoveRoute');
+  late final _syz_routingRemoveRoute = _syz_routingRemoveRoutePtr
+      .asFunction<int Function(int, int, int, double)>();
 
   int syz_effectReset(
     int effect,
@@ -1175,17 +1432,17 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_effectReset_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_effectReset>>('syz_effectReset');
-  late final _dart_syz_effectReset _syz_effectReset =
-      _syz_effectReset_ptr.asFunction<_dart_syz_effectReset>();
+  late final _syz_effectResetPtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function(syz_Handle)>>(
+          'syz_effectReset');
+  late final _syz_effectReset =
+      _syz_effectResetPtr.asFunction<int Function(int)>();
 
   int syz_createGlobalEcho(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createGlobalEcho(
       out,
@@ -1195,11 +1452,16 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createGlobalEcho_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createGlobalEcho>>(
-          'syz_createGlobalEcho');
-  late final _dart_syz_createGlobalEcho _syz_createGlobalEcho =
-      _syz_createGlobalEcho_ptr.asFunction<_dart_syz_createGlobalEcho>();
+  late final _syz_createGlobalEchoPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(
+              ffi.Pointer<syz_Handle>,
+              syz_Handle,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>>('syz_createGlobalEcho');
+  late final _syz_createGlobalEcho = _syz_createGlobalEchoPtr.asFunction<
+      int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
+          ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_globalEchoSetTaps(
     int handle,
@@ -1213,18 +1475,18 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_globalEchoSetTaps_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_globalEchoSetTaps>>(
-          'syz_globalEchoSetTaps');
-  late final _dart_syz_globalEchoSetTaps _syz_globalEchoSetTaps =
-      _syz_globalEchoSetTaps_ptr.asFunction<_dart_syz_globalEchoSetTaps>();
+  late final _syz_globalEchoSetTapsPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(syz_Handle, ffi.Uint32,
+              ffi.Pointer<syz_EchoTapConfig>)>>('syz_globalEchoSetTaps');
+  late final _syz_globalEchoSetTaps = _syz_globalEchoSetTapsPtr
+      .asFunction<int Function(int, int, ffi.Pointer<syz_EchoTapConfig>)>();
 
   int syz_createGlobalFdnReverb(
-    ffi.Pointer<ffi.Uint64> out,
+    ffi.Pointer<syz_Handle> out,
     int context,
     ffi.Pointer<ffi.Void> userdata,
-    ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-        userdata_free_callback,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createGlobalFdnReverb(
       out,
@@ -1234,24 +1496,32 @@ class DartSynthizer {
     );
   }
 
-  late final _syz_createGlobalFdnReverb_ptr =
-      _lookup<ffi.NativeFunction<_c_syz_createGlobalFdnReverb>>(
-          'syz_createGlobalFdnReverb');
-  late final _dart_syz_createGlobalFdnReverb _syz_createGlobalFdnReverb =
-      _syz_createGlobalFdnReverb_ptr
-          .asFunction<_dart_syz_createGlobalFdnReverb>();
+  late final _syz_createGlobalFdnReverbPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createGlobalFdnReverb');
+  late final _syz_createGlobalFdnReverb =
+      _syz_createGlobalFdnReverbPtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 }
 
 class syz_Event extends ffi.Struct {
   @ffi.Int32()
   external int type;
 
-  @ffi.Uint64()
+  @syz_Handle()
   external int source;
 
-  @ffi.Uint64()
+  @syz_Handle()
   external int context;
 }
+
+typedef syz_Handle = ffi.Uint64;
 
 abstract class SYZ_LOGGING_BACKEND {
   static const int SYZ_LOGGING_BACKEND_NONE = 0;
@@ -1275,6 +1545,8 @@ class syz_LibraryConfig extends ffi.Struct {
   external ffi.Pointer<ffi.Int8> libsndfile_path;
 }
 
+typedef syz_ErrorCode = ffi.Int32;
+
 class syz_DeleteBehaviorConfig extends ffi.Struct {
   @ffi.Int32()
   external int linger;
@@ -1282,6 +1554,9 @@ class syz_DeleteBehaviorConfig extends ffi.Struct {
   @ffi.Double()
   external double linger_timeout;
 }
+
+typedef syz_UserdataFreeCallback
+    = ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>;
 
 class syz_BiquadConfig extends ffi.Struct {
   @ffi.Double()
@@ -1306,21 +1581,58 @@ class syz_BiquadConfig extends ffi.Struct {
   external int _is_wire;
 }
 
+class syz_AutomationPoint extends ffi.Struct {
+  @ffi.Uint32()
+  external int interpolation_type;
+
+  @ffi.Double()
+  external double automation_time;
+
+  @ffi.Array.multi([6])
+  external ffi.Array<ffi.Double> values;
+
+  @ffi.Uint64()
+  external int flags;
+}
+
 class syz_CustomStreamDef extends ffi.Struct {
-  external ffi.Pointer<ffi.NativeFunction<syz_StreamReadCallback>> read_cb;
+  external ffi.Pointer<syz_StreamReadCallback> read_cb;
 
-  external ffi.Pointer<ffi.NativeFunction<syz_StreamSeekCallback>> seek_cb;
+  external ffi.Pointer<syz_StreamSeekCallback> seek_cb;
 
-  external ffi.Pointer<ffi.NativeFunction<syz_StreamCloseCallback>> close_cb;
+  external ffi.Pointer<syz_StreamCloseCallback> close_cb;
 
-  external ffi.Pointer<ffi.NativeFunction<syz_StreamDestroyCallback>>
-      destroy_cb;
+  external ffi.Pointer<syz_StreamDestroyCallback> destroy_cb;
 
   @ffi.Int64()
   external int length;
 
   external ffi.Pointer<ffi.Void> userdata;
 }
+
+typedef syz_StreamReadCallback = ffi.NativeFunction<
+    ffi.Int32 Function(
+        ffi.Pointer<ffi.Uint64>,
+        ffi.Uint64,
+        ffi.Pointer<ffi.Int8>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<ffi.Pointer<ffi.Int8>>)>;
+typedef syz_StreamSeekCallback = ffi.NativeFunction<
+    ffi.Int32 Function(
+        ffi.Uint64, ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Pointer<ffi.Int8>>)>;
+typedef syz_StreamCloseCallback = ffi.NativeFunction<
+    ffi.Int32 Function(
+        ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Pointer<ffi.Int8>>)>;
+typedef syz_StreamDestroyCallback
+    = ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>;
+typedef syz_StreamOpenCallback = ffi.NativeFunction<
+    ffi.Int32 Function(
+        ffi.Pointer<syz_CustomStreamDef>,
+        ffi.Pointer<ffi.Int8>,
+        ffi.Pointer<ffi.Int8>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<ffi.Pointer<ffi.Int8>>)>;
 
 class syz_RouteConfig extends ffi.Struct {
   @ffi.Double()
@@ -1355,6 +1667,7 @@ abstract class SYZ_OBJECT_TYPE {
   static const int SYZ_OTYPE_GLOBAL_ECHO = 8;
   static const int SYZ_OTYPE_GLOBAL_FDN_REVERB = 9;
   static const int SYZ_OTYPE_STREAM_HANDLE = 10;
+  static const int SYZ_OTYPE_AUTOMATION_TIMELINE = 11;
 }
 
 abstract class SYZ_PANNER_STRATEGY {
@@ -1428,874 +1741,7 @@ abstract class SYZ_EVENT_TYPES {
   static const int SYZ_EVENT_TYPE_FINISHED = 2;
 }
 
-typedef _c_syz_eventDeinit = ffi.Void Function(
-  ffi.Pointer<syz_Event> event,
-);
-
-typedef _dart_syz_eventDeinit = void Function(
-  ffi.Pointer<syz_Event> event,
-);
-
-typedef _c_syz_libraryConfigSetDefaults = ffi.Void Function(
-  ffi.Pointer<syz_LibraryConfig> config,
-);
-
-typedef _dart_syz_libraryConfigSetDefaults = void Function(
-  ffi.Pointer<syz_LibraryConfig> config,
-);
-
-typedef _c_syz_initialize = ffi.Int32 Function();
-
-typedef _dart_syz_initialize = int Function();
-
-typedef _c_syz_initializeWithConfig = ffi.Int32 Function(
-  ffi.Pointer<syz_LibraryConfig> config,
-);
-
-typedef _dart_syz_initializeWithConfig = int Function(
-  ffi.Pointer<syz_LibraryConfig> config,
-);
-
-typedef _c_syz_shutdown = ffi.Int32 Function();
-
-typedef _dart_syz_shutdown = int Function();
-
-typedef _c_syz_getLastErrorCode = ffi.Int32 Function();
-
-typedef _dart_syz_getLastErrorCode = int Function();
-
-typedef _c_syz_getLastErrorMessage = ffi.Pointer<ffi.Int8> Function();
-
-typedef _dart_syz_getLastErrorMessage = ffi.Pointer<ffi.Int8> Function();
-
-typedef _c_syz_handleIncRef = ffi.Int32 Function(
-  ffi.Uint64 handle,
-);
-
-typedef _dart_syz_handleIncRef = int Function(
-  int handle,
-);
-
-typedef _c_syz_handleDecRef = ffi.Int32 Function(
-  ffi.Uint64 handle,
-);
-
-typedef _dart_syz_handleDecRef = int Function(
-  int handle,
-);
-
-typedef _c_syz_initDeleteBehaviorConfig = ffi.Void Function(
-  ffi.Pointer<syz_DeleteBehaviorConfig> cfg,
-);
-
-typedef _dart_syz_initDeleteBehaviorConfig = void Function(
-  ffi.Pointer<syz_DeleteBehaviorConfig> cfg,
-);
-
-typedef _c_syz_configDeleteBehavior = ffi.Int32 Function(
-  ffi.Uint64 object,
-  ffi.Pointer<syz_DeleteBehaviorConfig> cfg,
-);
-
-typedef _dart_syz_configDeleteBehavior = int Function(
-  int object,
-  ffi.Pointer<syz_DeleteBehaviorConfig> cfg,
-);
-
-typedef _c_syz_handleGetObjectType = ffi.Int32 Function(
-  ffi.Pointer<ffi.Int32> out,
-  ffi.Uint64 handle,
-);
-
-typedef _dart_syz_handleGetObjectType = int Function(
-  ffi.Pointer<ffi.Int32> out,
-  int handle,
-);
-
-typedef _c_syz_handleGetUserdata = ffi.Int32 Function(
-  ffi.Pointer<ffi.Pointer<ffi.Void>> out,
-  ffi.Uint64 handle,
-);
-
-typedef _dart_syz_handleGetUserdata = int Function(
-  ffi.Pointer<ffi.Pointer<ffi.Void>> out,
-  int handle,
-);
-
-typedef syz_UserdataFreeCallback = ffi.Void Function(
-  ffi.Pointer<ffi.Void>,
-);
-
-typedef _c_syz_handleSetUserdata = ffi.Int32 Function(
-  ffi.Uint64 handle,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>> free_callback,
-);
-
-typedef _dart_syz_handleSetUserdata = int Function(
-  int handle,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>> free_callback,
-);
-
-typedef _c_syz_pause = ffi.Int32 Function(
-  ffi.Uint64 object,
-);
-
-typedef _dart_syz_pause = int Function(
-  int object,
-);
-
-typedef _c_syz_play = ffi.Int32 Function(
-  ffi.Uint64 object,
-);
-
-typedef _dart_syz_play = int Function(
-  int object,
-);
-
-typedef _c_syz_getI = ffi.Int32 Function(
-  ffi.Pointer<ffi.Int32> out,
-  ffi.Uint64 target,
-  ffi.Int32 property,
-);
-
-typedef _dart_syz_getI = int Function(
-  ffi.Pointer<ffi.Int32> out,
-  int target,
-  int property,
-);
-
-typedef _c_syz_setI = ffi.Int32 Function(
-  ffi.Uint64 target,
-  ffi.Int32 property,
-  ffi.Int32 value,
-);
-
-typedef _dart_syz_setI = int Function(
-  int target,
-  int property,
-  int value,
-);
-
-typedef _c_syz_getD = ffi.Int32 Function(
-  ffi.Pointer<ffi.Double> out,
-  ffi.Uint64 target,
-  ffi.Int32 property,
-);
-
-typedef _dart_syz_getD = int Function(
-  ffi.Pointer<ffi.Double> out,
-  int target,
-  int property,
-);
-
-typedef _c_syz_setD = ffi.Int32 Function(
-  ffi.Uint64 target,
-  ffi.Int32 property,
-  ffi.Double value,
-);
-
-typedef _dart_syz_setD = int Function(
-  int target,
-  int property,
-  double value,
-);
-
-typedef _c_syz_setO = ffi.Int32 Function(
-  ffi.Uint64 target,
-  ffi.Int32 property,
-  ffi.Uint64 value,
-);
-
-typedef _dart_syz_setO = int Function(
-  int target,
-  int property,
-  int value,
-);
-
-typedef _c_syz_getD3 = ffi.Int32 Function(
-  ffi.Pointer<ffi.Double> x,
-  ffi.Pointer<ffi.Double> y,
-  ffi.Pointer<ffi.Double> z,
-  ffi.Uint64 target,
-  ffi.Int32 property,
-);
-
-typedef _dart_syz_getD3 = int Function(
-  ffi.Pointer<ffi.Double> x,
-  ffi.Pointer<ffi.Double> y,
-  ffi.Pointer<ffi.Double> z,
-  int target,
-  int property,
-);
-
-typedef _c_syz_setD3 = ffi.Int32 Function(
-  ffi.Uint64 target,
-  ffi.Int32 property,
-  ffi.Double x,
-  ffi.Double y,
-  ffi.Double z,
-);
-
-typedef _dart_syz_setD3 = int Function(
-  int target,
-  int property,
-  double x,
-  double y,
-  double z,
-);
-
-typedef _c_syz_getD6 = ffi.Int32 Function(
-  ffi.Pointer<ffi.Double> x1,
-  ffi.Pointer<ffi.Double> y1,
-  ffi.Pointer<ffi.Double> z1,
-  ffi.Pointer<ffi.Double> x2,
-  ffi.Pointer<ffi.Double> y2,
-  ffi.Pointer<ffi.Double> z2,
-  ffi.Uint64 target,
-  ffi.Int32 property,
-);
-
-typedef _dart_syz_getD6 = int Function(
-  ffi.Pointer<ffi.Double> x1,
-  ffi.Pointer<ffi.Double> y1,
-  ffi.Pointer<ffi.Double> z1,
-  ffi.Pointer<ffi.Double> x2,
-  ffi.Pointer<ffi.Double> y2,
-  ffi.Pointer<ffi.Double> z2,
-  int target,
-  int property,
-);
-
-typedef _c_syz_setD6 = ffi.Int32 Function(
-  ffi.Uint64 handle,
-  ffi.Int32 property,
-  ffi.Double x1,
-  ffi.Double y1,
-  ffi.Double z1,
-  ffi.Double x2,
-  ffi.Double y2,
-  ffi.Double z2,
-);
-
-typedef _dart_syz_setD6 = int Function(
-  int handle,
-  int property,
-  double x1,
-  double y1,
-  double z1,
-  double x2,
-  double y2,
-  double z2,
-);
-
-typedef _c_syz_getBiquad = ffi.Int32 Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-  ffi.Uint64 target,
-  ffi.Int32 property,
-);
-
-typedef _dart_syz_getBiquad = int Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-  int target,
-  int property,
-);
-
-typedef _c_syz_setBiquad = ffi.Int32 Function(
-  ffi.Uint64 target,
-  ffi.Int32 property,
-  ffi.Pointer<syz_BiquadConfig> filter,
-);
-
-typedef _dart_syz_setBiquad = int Function(
-  int target,
-  int property,
-  ffi.Pointer<syz_BiquadConfig> filter,
-);
-
-typedef _c_syz_biquadDesignIdentity = ffi.Int32 Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-);
-
-typedef _dart_syz_biquadDesignIdentity = int Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-);
-
-typedef _c_syz_biquadDesignLowpass = ffi.Int32 Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-  ffi.Double frequency,
-  ffi.Double q,
-);
-
-typedef _dart_syz_biquadDesignLowpass = int Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-  double frequency,
-  double q,
-);
-
-typedef _c_syz_biquadDesignHighpass = ffi.Int32 Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-  ffi.Double frequency,
-  ffi.Double q,
-);
-
-typedef _dart_syz_biquadDesignHighpass = int Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-  double frequency,
-  double q,
-);
-
-typedef _c_syz_biquadDesignBandpass = ffi.Int32 Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-  ffi.Double frequency,
-  ffi.Double bw,
-);
-
-typedef _dart_syz_biquadDesignBandpass = int Function(
-  ffi.Pointer<syz_BiquadConfig> filter,
-  double frequency,
-  double bw,
-);
-
-typedef _c_syz_createContext = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createContext = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createContextHeadless = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createContextHeadless = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_contextGetBlock = ffi.Int32 Function(
-  ffi.Uint64 context,
-  ffi.Pointer<ffi.Float> block,
-);
-
-typedef _dart_syz_contextGetBlock = int Function(
-  int context,
-  ffi.Pointer<ffi.Float> block,
-);
-
-typedef _c_syz_contextEnableEvents = ffi.Int32 Function(
-  ffi.Uint64 context,
-);
-
-typedef _dart_syz_contextEnableEvents = int Function(
-  int context,
-);
-
-typedef _c_syz_contextGetNextEvent = ffi.Int32 Function(
-  ffi.Pointer<syz_Event> out,
-  ffi.Uint64 context,
-  ffi.Uint64 flags,
-);
-
-typedef _dart_syz_contextGetNextEvent = int Function(
-  ffi.Pointer<syz_Event> out,
-  int context,
-  int flags,
-);
-
-typedef syz_StreamOpenCallback = ffi.Int32 Function(
-  ffi.Pointer<syz_CustomStreamDef>,
-  ffi.Pointer<ffi.Int8>,
-  ffi.Pointer<ffi.Int8>,
-  ffi.Pointer<ffi.Void>,
-  ffi.Pointer<ffi.Void>,
-  ffi.Pointer<ffi.Pointer<ffi.Int8>>,
-);
-
-typedef _c_syz_registerStreamProtocol = ffi.Int32 Function(
-  ffi.Pointer<ffi.Int8> protocol,
-  ffi.Pointer<ffi.NativeFunction<syz_StreamOpenCallback>> callback,
-  ffi.Pointer<ffi.Void> userdata,
-);
-
-typedef _dart_syz_registerStreamProtocol = int Function(
-  ffi.Pointer<ffi.Int8> protocol,
-  ffi.Pointer<ffi.NativeFunction<syz_StreamOpenCallback>> callback,
-  ffi.Pointer<ffi.Void> userdata,
-);
-
-typedef _c_syz_createStreamHandleFromStreamParams = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Int8> protocol,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> param,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createStreamHandleFromStreamParams = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Int8> protocol,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> param,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createStreamHandleFromMemory = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 data_len,
-  ffi.Pointer<ffi.Int8> data,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createStreamHandleFromMemory = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int data_len,
-  ffi.Pointer<ffi.Int8> data,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createStreamHandleFromFile = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createStreamHandleFromFile = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createStreamHandleFromCustomStream = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<syz_CustomStreamDef> callbacks,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createStreamHandleFromCustomStream = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<syz_CustomStreamDef> callbacks,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createStreamingGeneratorFromStreamParams = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Pointer<ffi.Int8> protocol,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> param,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createStreamingGeneratorFromStreamParams = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  ffi.Pointer<ffi.Int8> protocol,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> param,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createStreamingGeneratorFromFile = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createStreamingGeneratorFromFile = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createStreamingGeneratorFromStreamHandle = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Uint64 stream,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createStreamingGeneratorFromStreamHandle = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  int stream,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createBufferFromStreamParams = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Int8> protocol,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> param,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createBufferFromStreamParams = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Int8> protocol,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> param,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createBufferFromEncodedData = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 data_len,
-  ffi.Pointer<ffi.Int8> data,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createBufferFromEncodedData = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int data_len,
-  ffi.Pointer<ffi.Int8> data,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createBufferFromFloatArray = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint32 sr,
-  ffi.Uint32 channels,
-  ffi.Uint64 frames,
-  ffi.Pointer<ffi.Float> data,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createBufferFromFloatArray = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int sr,
-  int channels,
-  int frames,
-  ffi.Pointer<ffi.Float> data,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createBufferFromFile = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createBufferFromFile = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Pointer<ffi.Int8> path,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createBufferFromStreamHandle = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 stream,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createBufferFromStreamHandle = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int stream,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_bufferGetChannels = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint32> out,
-  ffi.Uint64 buffer,
-);
-
-typedef _dart_syz_bufferGetChannels = int Function(
-  ffi.Pointer<ffi.Uint32> out,
-  int buffer,
-);
-
-typedef _c_syz_bufferGetLengthInSamples = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint32> out,
-  ffi.Uint64 buffer,
-);
-
-typedef _dart_syz_bufferGetLengthInSamples = int Function(
-  ffi.Pointer<ffi.Uint32> out,
-  int buffer,
-);
-
-typedef _c_syz_bufferGetLengthInSeconds = ffi.Int32 Function(
-  ffi.Pointer<ffi.Double> out,
-  ffi.Uint64 buffer,
-);
-
-typedef _dart_syz_bufferGetLengthInSeconds = int Function(
-  ffi.Pointer<ffi.Double> out,
-  int buffer,
-);
-
-typedef _c_syz_createBufferGenerator = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createBufferGenerator = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_sourceAddGenerator = ffi.Int32 Function(
-  ffi.Uint64 source,
-  ffi.Uint64 generator,
-);
-
-typedef _dart_syz_sourceAddGenerator = int Function(
-  int source,
-  int generator,
-);
-
-typedef _c_syz_sourceRemoveGenerator = ffi.Int32 Function(
-  ffi.Uint64 source,
-  ffi.Uint64 generator,
-);
-
-typedef _dart_syz_sourceRemoveGenerator = int Function(
-  int source,
-  int generator,
-);
-
-typedef _c_syz_createDirectSource = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createDirectSource = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createPannedSource = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createPannedSource = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createSource3D = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createSource3D = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_createNoiseGenerator = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Uint32 channels,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createNoiseGenerator = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  int channels,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_initRouteConfig = ffi.Int32 Function(
-  ffi.Pointer<syz_RouteConfig> cfg,
-);
-
-typedef _dart_syz_initRouteConfig = int Function(
-  ffi.Pointer<syz_RouteConfig> cfg,
-);
-
-typedef _c_syz_routingConfigRoute = ffi.Int32 Function(
-  ffi.Uint64 context,
-  ffi.Uint64 output,
-  ffi.Uint64 input,
-  ffi.Pointer<syz_RouteConfig> config,
-);
-
-typedef _dart_syz_routingConfigRoute = int Function(
-  int context,
-  int output,
-  int input,
-  ffi.Pointer<syz_RouteConfig> config,
-);
-
-typedef _c_syz_routingRemoveRoute = ffi.Int32 Function(
-  ffi.Uint64 context,
-  ffi.Uint64 output,
-  ffi.Uint64 input,
-  ffi.Double fade_out,
-);
-
-typedef _dart_syz_routingRemoveRoute = int Function(
-  int context,
-  int output,
-  int input,
-  double fade_out,
-);
-
-typedef _c_syz_effectReset = ffi.Int32 Function(
-  ffi.Uint64 effect,
-);
-
-typedef _dart_syz_effectReset = int Function(
-  int effect,
-);
-
-typedef _c_syz_createGlobalEcho = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createGlobalEcho = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _c_syz_globalEchoSetTaps = ffi.Int32 Function(
-  ffi.Uint64 handle,
-  ffi.Uint32 n_taps,
-  ffi.Pointer<syz_EchoTapConfig> taps,
-);
-
-typedef _dart_syz_globalEchoSetTaps = int Function(
-  int handle,
-  int n_taps,
-  ffi.Pointer<syz_EchoTapConfig> taps,
-);
-
-typedef _c_syz_createGlobalFdnReverb = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64> out,
-  ffi.Uint64 context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef _dart_syz_createGlobalFdnReverb = int Function(
-  ffi.Pointer<ffi.Uint64> out,
-  int context,
-  ffi.Pointer<ffi.Void> userdata,
-  ffi.Pointer<ffi.NativeFunction<syz_UserdataFreeCallback>>
-      userdata_free_callback,
-);
-
-typedef syz_StreamReadCallback = ffi.Int32 Function(
-  ffi.Pointer<ffi.Uint64>,
-  ffi.Uint64,
-  ffi.Pointer<ffi.Int8>,
-  ffi.Pointer<ffi.Void>,
-  ffi.Pointer<ffi.Pointer<ffi.Int8>>,
-);
-
-typedef syz_StreamSeekCallback = ffi.Int32 Function(
-  ffi.Uint64,
-  ffi.Pointer<ffi.Void>,
-  ffi.Pointer<ffi.Pointer<ffi.Int8>>,
-);
-
-typedef syz_StreamCloseCallback = ffi.Int32 Function(
-  ffi.Pointer<ffi.Void>,
-  ffi.Pointer<ffi.Pointer<ffi.Int8>>,
-);
-
-typedef syz_StreamDestroyCallback = ffi.Void Function(
-  ffi.Pointer<ffi.Void>,
-);
+abstract class SYZ_INTERPOLATION_TYPES {
+  static const int SYZ_INTERPOLATION_TYPE_NONE = 0;
+  static const int SYZ_INTERPOLATION_TYPE_LINEAR = 1;
+}

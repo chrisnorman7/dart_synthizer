@@ -55,6 +55,11 @@ class StreamingGenerator extends Generator {
             synthizer.userdataFreeCallbackPointer));
     [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
   }
+
+  /// Create an instance from a handle value.
+  StreamingGenerator.fromHandle(Context context, int value) : super(context) {
+    handle.value = value;
+  }
 }
 
 /// A buffer generator.
@@ -92,6 +97,11 @@ class NoiseGenerator extends Generator {
         channels,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
+  }
+
+  /// Create an instance from a handle value.
+  NoiseGenerator.fromHandle(Context context, int value) : super(context) {
+    handle.value = value;
   }
 
   /// Get the noise type for this generator.
