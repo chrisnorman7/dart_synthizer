@@ -12,9 +12,9 @@ Future<void> main() async {
   final generator = ctx.createBufferGenerator()..setBuffer(buffer);
   final source = ctx.createDirectSource()..addGenerator(generator);
   var looping = true;
+  ctx.events.listen(print);
   for (var i = 0; i < 5; i++) {
     await Future<void>.delayed(Duration(seconds: 1));
-    print(ctx.getEvent());
     print(synthizer.getObjectType(generator.handle.value));
     generator.looping = looping;
     looping = !looping;

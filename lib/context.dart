@@ -163,6 +163,16 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
     calloc.free(_eventPointer);
   }
 
+  /// A stream of events.
+  Stream<SynthizerEvent> get events async* {
+    while (synthizer.wasInit) {
+      final event = getEvent();
+      if (event != null) {
+        yield event;
+      }
+    }
+  }
+
   /// Get the next Synthizer event.
   SynthizerEvent? getEvent() {
     SynthizerEvent? value;
