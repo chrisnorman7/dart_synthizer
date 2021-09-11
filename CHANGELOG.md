@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.3]
+
+### Changed
+
+* Changed the `website` field to a `repository` field, so that issues work as expected.
+
+## [0.0.2]
+
+### Added
+
+* Added an example to show on the package site.
+
 ## [0.0.1]
 
 Initial version.

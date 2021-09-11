@@ -1,0 +1,28 @@
+// ignore_for_file: avoid_print
+/// The basics of Synthizer.
+import 'dart:io';
+
+import 'package:dart_synthizer/dart_synthizer.dart';
+
+Future<void> main() async {
+  final synthizer = Synthizer()..initialize();
+  final ctx = synthizer.createContext();
+  print('Created context.');
+  final source = ctx.createDirectSource();
+  print('Created source.');
+  final generator = ctx.createBufferGenerator(
+      buffer: Buffer.fromFile(synthizer, File('sound.wav')))
+    ..looping = true
+    ..setAutomation(
+        Properties.gain, [AutomationPoint(0, 1), AutomationPoint(1, 0)]);
+  source.addGenerator(generator);
+  await Future<void>.delayed(Duration(seconds: 2));
+  generator.destroy();
+  print('Generator destroyed.');
+  source.destroy();
+  print('Source destroyed.');
+  ctx.destroy();
+  print('Context destroyed.');
+  synthizer.shutdown();
+  print('Done.');
+}

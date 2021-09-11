@@ -1,7 +1,7 @@
 name: dart_synthizer
 description: Dart bindings for the Synthizer sound library.
-version: 0.0.1
-homepage: https://www.github.com/chrisnorman7/dart_synthizer
+version: 0.0.3
+repository: https://www.github.com/chrisnorman7/dart_synthizer
 
 environment:
   sdk: ">=2.13.0 <3.0.0"
