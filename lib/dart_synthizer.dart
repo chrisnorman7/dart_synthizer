@@ -26,6 +26,7 @@
 /// For more help, see the API docs.
 import 'synthizer.dart';
 
+export 'automation_point.dart';
 export 'biquad.dart';
 export 'buffer.dart';
 export 'buffer_cache.dart';

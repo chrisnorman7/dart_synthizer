@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 
+import 'automation_point.dart';
 import 'biquad.dart';
 import 'context.dart';
 import 'enumerations.dart';
@@ -63,6 +64,9 @@ class Synthizer {
   /// The delete configuration.
   late final Pointer<syz_DeleteBehaviorConfig> deleteBehaviorConfigPointer;
 
+  /// The pointer to use for automation timelines.
+  final Pointer<syz_Handle> _automationTimelineHandle = calloc<syz_Handle>();
+
   /// Check if a returned value is an error.
   void check(int value) {
     if (value != 0) {
@@ -71,7 +75,7 @@ class Synthizer {
   }
 
   /// Get an integer from a property member.
-  int _propertyToInt(Properties property) {
+  int propertyToInt(Properties property) {
     switch (property) {
       case Properties.azimuth:
         return SYZ_PROPERTIES.SYZ_P_AZIMUTH;
@@ -160,14 +164,14 @@ class Synthizer {
 
   /// Get an integer property.
   int getInt(Pointer<Uint64> handle, Properties property) {
-    check(synthizer.syz_getI(
-        _intPointer, handle.value, _propertyToInt(property)));
+    check(
+        synthizer.syz_getI(_intPointer, handle.value, propertyToInt(property)));
     return _intPointer.value;
   }
 
   /// Set a int property.
   void setInt(Pointer<Uint64> handle, Properties property, int value) =>
-      check(synthizer.syz_setI(handle.value, _propertyToInt(property), value));
+      check(synthizer.syz_setI(handle.value, propertyToInt(property), value));
 
   /// Get a boolean property.
   bool getBool(Pointer<Uint64> handle, Properties property) =>
@@ -176,43 +180,43 @@ class Synthizer {
   /// Set a boolean property.
   void setBool(Pointer<Uint64> handle, Properties property, bool value) =>
       check(synthizer.syz_setI(
-          handle.value, _propertyToInt(property), value ? 1 : 0));
+          handle.value, propertyToInt(property), value ? 1 : 0));
 
   /// Get a double property.
   double getDouble(Pointer<Uint64> handle, Properties property) {
     check(synthizer.syz_getD(
-        _doublePointer, handle.value, _propertyToInt(property)));
+        _doublePointer, handle.value, propertyToInt(property)));
     return _doublePointer.value;
   }
 
   /// Set a double property.
   void setDouble(Pointer<Uint64> handle, Properties property, double value) =>
-      check(synthizer.syz_setD(handle.value, _propertyToInt(property), value));
+      check(synthizer.syz_setD(handle.value, propertyToInt(property), value));
 
   /// Get a double3 property.
   Double3 getDouble3(Pointer<Uint64> handle, Properties property) {
     check(synthizer.syz_getD3(
-        _x1, _y1, _z1, handle.value, _propertyToInt(property)));
+        _x1, _y1, _z1, handle.value, propertyToInt(property)));
     return Double3(_x1.value, _y1.value, _z1.value);
   }
 
   /// Set a double3 property.
   void setDouble3(Pointer<Uint64> handle, Properties property, Double3 value) =>
       check(synthizer.syz_setD3(
-          handle.value, _propertyToInt(property), value.x, value.y, value.z));
+          handle.value, propertyToInt(property), value.x, value.y, value.z));
 
   /// Get a double6 property.
   Double6 getDouble6(Pointer<Uint64> handle, Properties property) {
     check(synthizer.syz_getD6(
-        _x1, _y1, _z1, _x2, _y2, _z2, handle.value, _propertyToInt(property)));
+        _x1, _y1, _z1, _x2, _y2, _z2, handle.value, propertyToInt(property)));
     return Double6(
         _x1.value, _y1.value, _z1.value, _x2.value, _y2.value, _z2.value);
   }
 
   /// Set a double6 property.
   void setDouble6(Pointer<Uint64> handle, Properties property, Double6 value) =>
-      check(synthizer.syz_setD6(handle.value, _propertyToInt(property),
-          value.x1, value.y1, value.z1, value.x2, value.y2, value.z2));
+      check(synthizer.syz_setD6(handle.value, propertyToInt(property), value.x1,
+          value.y1, value.z1, value.x2, value.y2, value.z2));
 
   /// Convert an integer to a panner strategy.
   PannerStrategies _intToPannerStrategy(int i) {
@@ -305,7 +309,7 @@ class Synthizer {
   void setBiquad(
           Pointer<Uint64> handle, Properties property, BiquadConfig config) =>
       check(synthizer.syz_setBiquad(
-          handle.value, _propertyToInt(property), config.config));
+          handle.value, propertyToInt(property), config.config));
 
   /// Initialise the library.
   void initialize(
@@ -363,6 +367,7 @@ class Synthizer {
       _x2,
       _y2,
       _z2,
+      _automationTimelineHandle,
     ].forEach(calloc.free);
     _wasInit = false;
   }
@@ -418,5 +423,31 @@ class Synthizer {
       default:
         throw SynthizerError('Unrecognised object type.', _intPointer.value);
     }
+  }
+
+  /// Create an automation timeline.
+  int createAutomationTimeline(List<AutomationPoint> points) {
+    final a = malloc<syz_AutomationPoint>(points.length);
+    for (var i = 0; i < points.length; i++) {
+      final point = points[i];
+      final int interpolationType;
+      switch (point.interpolationType) {
+        case InterpolationTypes.none:
+          interpolationType =
+              SYZ_INTERPOLATION_TYPES.SYZ_INTERPOLATION_TYPE_NONE;
+          break;
+        case InterpolationTypes.linear:
+          interpolationType =
+              SYZ_INTERPOLATION_TYPES.SYZ_INTERPOLATION_TYPE_LINEAR;
+          break;
+      }
+      a[i]
+        ..automation_time = point.time
+        ..interpolation_type = interpolationType
+        ..values[0] = point.value;
+    }
+    check(synthizer.syz_createAutomationTimeline(_automationTimelineHandle,
+        points.length, a, 0, nullptr, userdataFreeCallbackPointer));
+    return _automationTimelineHandle.value;
   }
 }

@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 
+import 'automation_point.dart';
 import 'enumerations.dart';
 import 'synthizer.dart';
 
@@ -43,6 +44,18 @@ class SynthizerObject {
     synthizer.check(synthizer.synthizer.syz_configDeleteBehavior(
         handle.value, synthizer.deleteBehaviorConfigPointer));
   }
+
+  /// Set an automation timeline.
+  void setAutomation(Properties property, List<AutomationPoint> points) {
+    final timeline = synthizer.createAutomationTimeline(points);
+    synthizer.check(synthizer.synthizer.syz_automationSetTimeline(
+        handle.value, synthizer.propertyToInt(property), timeline));
+  }
+
+  /// Clear automation timeline.
+  void clearAutomation(Properties property) => synthizer.check(synthizer
+      .synthizer
+      .syz_automationClear(handle.value, synthizer.propertyToInt(property)));
 }
 
 /// Provides a [gain] property.
