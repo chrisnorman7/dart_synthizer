@@ -16,7 +16,7 @@ import 'synthizer_bindings.dart';
 /// You must create an instance of this class in order to use the library.
 class Synthizer {
   /// Create an instance.
-  Synthizer({String? filename}) {
+  Synthizer({String? filename}) : _wasInit = false {
     userdataFreeCallbackPointer = nullptr.cast<syz_UserdataFreeCallback>();
     deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>();
     if (filename == null) {
@@ -28,6 +28,11 @@ class Synthizer {
     }
     synthizer = DartSynthizer(DynamicLibrary.open(filename));
   }
+
+  bool _wasInit;
+
+  /// Whether or not [initialize] has been called.
+  bool get wasInit => _wasInit;
 
   /// The C portion of the library.
   ///
@@ -343,6 +348,7 @@ class Synthizer {
       config.ref.libsndfile_path = libsndfilePath.toNativeUtf8().cast<Int8>();
     }
     check(synthizer.syz_initializeWithConfig(config));
+    _wasInit = true;
   }
 
   /// Shutdown the library.
@@ -358,6 +364,7 @@ class Synthizer {
       _y2,
       _z2,
     ].forEach(calloc.free);
+    _wasInit = false;
   }
 
   /// Create a context.
