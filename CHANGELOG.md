@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.4]
+
+### Changed
+
+* Updated the readme.
+
 ## [0.0.3]
 
 ### Changed

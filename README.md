@@ -1,22 +1,11 @@
-A library for Dart developers.
+# dart_synthizer
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+This library contains bindings for the [synthizer]([URL](https://github.com/synthizer/synthizer)) sound library.
 
-## Usage
+## Known Issues
 
-A simple usage example:
+None at this time.
 
-```dart
-import 'package:dart_synthizer/dart_synthizer.dart';
+### Missing Functions
 
-main() {
-  var awesome = new Awesome();
-}
-```
-
-## Features and bugs
-
-Please file feature requests and bugs at the [issue tracker][tracker].
-
-[tracker]: http://example.com/issues/replaceme
+If you spot any functionality that has not been added, please feel free to [create an issue]([URL](https://github.com/chrisnorman7/dart_synthizer/issues/new)).
