@@ -4,10 +4,10 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 
-import 'automation_point.dart';
 import 'biquad.dart';
 import 'classes.dart';
 import 'context.dart';
+import 'dart_synthizer.dart';
 import 'enumerations.dart';
 import 'error.dart';
 import 'properties.dart';
@@ -18,9 +18,7 @@ import 'synthizer_bindings.dart';
 /// You must create an instance of this class in order to use the library.
 class Synthizer {
   /// Create an instance.
-  Synthizer({String? filename})
-      : _wasInit = false,
-        _objects = [] {
+  Synthizer({String? filename}) : _wasInit = false {
     userdataFreeCallbackPointer = nullptr.cast<syz_UserdataFreeCallback>();
     deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>();
     if (filename == null) {
@@ -66,29 +64,6 @@ class Synthizer {
 
   /// The delete configuration.
   late final Pointer<syz_DeleteBehaviorConfig> deleteBehaviorConfigPointer;
-
-  /// The pointer to use for automation timelines.
-  final Pointer<syz_Handle> _automationTimelineHandle = calloc<syz_Handle>();
-
-  /// All created objects.
-  final List<SynthizerObject> _objects;
-
-  /// Register an object.
-  void registerObject(SynthizerObject object) => _objects.add(object);
-
-  /// Unregister an object.
-  void unregisterObject(SynthizerObject object) =>
-      _objects.remove(getObject(object.handle.value));
-
-  /// Get an object.
-  SynthizerObject getObject(int handle) {
-    for (final object in _objects) {
-      if (object.handle.value == handle) {
-        return object;
-      }
-    }
-    throw SynthizerError('No such object.', handle);
-  }
 
   /// Check if a returned value is an error.
   void check(int value) {
@@ -390,9 +365,7 @@ class Synthizer {
       _x2,
       _y2,
       _z2,
-      _automationTimelineHandle,
     ].forEach(calloc.free);
-    _objects.clear();
     _wasInit = false;
   }
 
@@ -449,29 +422,35 @@ class Synthizer {
     }
   }
 
-  /// Create an automation timeline.
-  int createAutomationTimeline(List<AutomationPoint> points) {
-    final a = malloc<syz_AutomationPoint>(points.length);
-    for (var i = 0; i < points.length; i++) {
-      final point = points[i];
-      final int interpolationType;
-      switch (point.interpolationType) {
-        case InterpolationTypes.none:
-          interpolationType =
-              SYZ_INTERPOLATION_TYPES.SYZ_INTERPOLATION_TYPE_NONE;
-          break;
-        case InterpolationTypes.linear:
-          interpolationType =
-              SYZ_INTERPOLATION_TYPES.SYZ_INTERPOLATION_TYPE_LINEAR;
-          break;
-      }
-      a[i]
-        ..automation_time = point.time
-        ..interpolation_type = interpolationType
-        ..values[0] = point.value;
+  /// Get an object from [handle].
+  SynthizerObject getObject(int handle) {
+    final type = getObjectType(handle);
+    switch (type) {
+      case ObjectType.context:
+        return Context(this, pointer: handle);
+      case ObjectType.buffer:
+        return Buffer(this, handle: handle);
+      case ObjectType.bufferGenerator:
+        return BufferGenerator.fromHandle(this, handle);
+      case ObjectType.streamingGenerator:
+        return StreamingGenerator.fromHandle(this, handle);
+      case ObjectType.noiseGenerator:
+        return NoiseGenerator.fromHandle(this, handle);
+      case ObjectType.directSource:
+        return DirectSource.fromHandle(this, handle);
+      case ObjectType.pannedSource:
+        return PannedSource.fromHandle(this, handle);
+      case ObjectType.source3D:
+        return Source3D.fromHandle(this, handle);
+      case ObjectType.globalEcho:
+        return GlobalEcho.fromHandle(this, handle);
+      case ObjectType.globalFdnReverb:
+        return GlobalFdnReverb.fromHandle(this, handle);
+      case ObjectType.streamHandle:
+        throw SynthizerError(
+            'Stream handles are not yet supported by this package.', handle);
+      case ObjectType.automationTimeline:
+        return AutomationTimeline.fromHandle(this, handle);
     }
-    check(synthizer.syz_createAutomationTimeline(_automationTimelineHandle,
-        points.length, a, 0, nullptr, userdataFreeCallbackPointer));
-    return _automationTimelineHandle.value;
   }
 }

@@ -14,6 +14,10 @@ abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a source.
   Source(Context context) : super(context.synthizer);
 
+  /// Create an instance from a handle value.
+  Source.fromHandle(Synthizer synthizer, int pointer)
+      : super(synthizer, pointer: pointer);
+
   /// Set filter property.
   set filter(BiquadConfig config) =>
       synthizer.setBiquad(handle, Properties.filter, config);
@@ -39,6 +43,10 @@ class DirectSource extends Source {
     synthizer.check(synthizer.synthizer.syz_createDirectSource(handle,
         context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
+
+  /// Create an instance from a handle value.
+  DirectSource.fromHandle(Synthizer synthizer, int pointer)
+      : super.fromHandle(synthizer, pointer);
 }
 
 /// Properties common to [PannedSource] and [Source3D].
@@ -64,6 +72,10 @@ class PannedSource extends Source with SpatializedSource {
     synthizer.check(synthizer.synthizer.syz_createPannedSource(handle,
         context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
+
+  /// Create an instance from a handle value.
+  PannedSource.fromHandle(Synthizer synthizer, int pointer)
+      : super.fromHandle(synthizer, pointer);
 
   /// Get the azimuth for this source.
   double get azimuth => synthizer.getDouble(handle, Properties.azimuth);
@@ -99,6 +111,10 @@ class Source3D extends Source with SpatializedSource {
     synthizer.check(synthizer.synthizer.syz_createSource3D(handle,
         context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
+
+  /// Create an instance from a handle value.
+  Source3D.fromHandle(Synthizer synthizer, int pointer)
+      : super.fromHandle(synthizer, pointer);
 
   /// Get the distance model for this object.
   DistanceModels get distanceModel => synthizer.getDistanceModel(handle);

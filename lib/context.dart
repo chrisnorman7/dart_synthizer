@@ -21,9 +21,9 @@ import 'synthizer_bindings.dart';
 /// Contexts can be created with the [Synthizer.createContext] function.
 class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a context.
-  Context(Synthizer synthizer, {bool events = false})
+  Context(Synthizer synthizer, {bool events = false, int? pointer})
       : _eventPointer = calloc<syz_Event>(),
-        super(synthizer) {
+        super(synthizer, pointer: pointer) {
     synthizer.check(synthizer.synthizer.syz_createContext(
         handle, nullptr, synthizer.userdataFreeCallbackPointer));
     if (events) {
@@ -193,7 +193,7 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   ///
   /// A pause of [duration] will be awaited between polling for events.
   Stream<SynthizerEvent> getEvents({Duration duration = Duration.zero}) async* {
-    while (true) {
+    while (synthizer.wasInit) {
       final event = getEvent();
       if (event != null) {
         yield event;
@@ -201,4 +201,9 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
       await Future<void>.delayed(duration);
     }
   }
+
+  /// Get a stream of synthizer events.
+  ///
+  /// This method uses the [getEvents] method with the default wait time.
+  Stream<SynthizerEvent> get events => getEvents();
 }

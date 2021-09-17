@@ -4,30 +4,30 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 
-import 'automation_point.dart';
+import 'automation.dart';
 import 'enumerations.dart';
 import 'synthizer.dart';
+import 'synthizer_bindings.dart';
 
 /// The base class for all synthizer objects.
 class SynthizerObject {
   /// Create an instance.
-  SynthizerObject(this.synthizer, {Pointer<Uint64>? pointer})
-      : handle = pointer ?? calloc<Uint64>() {
-    synthizer.registerObject(this);
+  SynthizerObject(this.synthizer, {int? pointer}) : handle = calloc<Uint64>() {
+    if (pointer != null) {
+      handle.value = pointer;
+    }
   }
 
   /// The synthizer instance.
   final Synthizer synthizer;
 
   /// The handle for this object.
-  final Pointer<Uint64> handle;
+  final Pointer<syz_Handle> handle;
 
   /// Destroy this object.
   @mustCallSuper
   void destroy() {
-    synthizer
-      ..check(synthizer.synthizer.syz_handleDecRef(handle.value))
-      ..unregisterObject(this);
+    synthizer.check(synthizer.synthizer.syz_handleDecRef(handle.value));
     calloc.free(handle);
     handle.value = 0;
   }
@@ -51,15 +51,27 @@ class SynthizerObject {
 
   /// Set an automation timeline.
   void setAutomation(Properties property, List<AutomationPoint> points) {
-    final timeline = synthizer.createAutomationTimeline(points);
-    synthizer.check(synthizer.synthizer.syz_automationSetTimeline(
-        handle.value, synthizer.propertyToInt(property), timeline));
+    final timeline = AutomationTimeline(synthizer, points);
+    synthizer.check(synthizer.synthizer.syz_automationSetTimeline(handle.value,
+        synthizer.propertyToInt(property), timeline.handle.value));
   }
 
   /// Clear automation timeline.
   void clearAutomation(Properties property) => synthizer.check(synthizer
       .synthizer
       .syz_automationClear(handle.value, synthizer.propertyToInt(property)));
+
+  /// Used to compare two objects.
+  @override
+  bool operator ==(Object other) {
+    if (other is! SynthizerObject) {
+      return false;
+    }
+    return other.handle.value == handle.value;
+  }
+
+  @override
+  int get hashCode => handle.value.hashCode;
 }
 
 /// Provides a [gain] property.

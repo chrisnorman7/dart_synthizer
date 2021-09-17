@@ -6,6 +6,7 @@ import 'package:ffi/ffi.dart';
 import 'buffer.dart';
 import 'classes.dart';
 import 'context.dart';
+import 'dart_synthizer.dart';
 import 'enumerations.dart';
 import 'synthizer_bindings.dart';
 
@@ -13,6 +14,10 @@ import 'synthizer_bindings.dart';
 abstract class Generator extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a generator.
   Generator(Context context) : super(context.synthizer);
+
+  /// Create an instance from a handle.
+  Generator.fromHandle(Synthizer synthizer, int pointer)
+      : super(synthizer, pointer: pointer);
 
   /// Get whether or not this generator is looping.
   bool get looping => synthizer.getBool(handle, Properties.looping);
@@ -56,10 +61,9 @@ class StreamingGenerator extends Generator {
     [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
   }
 
-  /// Create an instance from a handle value.
-  StreamingGenerator.fromHandle(Context context, int value) : super(context) {
-    handle.value = value;
-  }
+  /// Return an instance from a handle.
+  StreamingGenerator.fromHandle(Synthizer synthizer, int pointer)
+      : super.fromHandle(synthizer, pointer);
 }
 
 /// A buffer generator.
@@ -76,6 +80,10 @@ class BufferGenerator extends Generator {
       setBuffer(buffer);
     }
   }
+
+  /// Return an instance from a handle.
+  BufferGenerator.fromHandle(Synthizer synthizer, int pointer)
+      : super.fromHandle(synthizer, pointer);
 
   /// Set the buffer for this generator.
   void setBuffer(Buffer? buffer) =>
@@ -100,9 +108,8 @@ class NoiseGenerator extends Generator {
   }
 
   /// Create an instance from a handle value.
-  NoiseGenerator.fromHandle(Context context, int value) : super(context) {
-    handle.value = value;
-  }
+  NoiseGenerator.fromHandle(Synthizer synthizer, int pointer)
+      : super.fromHandle(synthizer, pointer);
 
   /// Get the noise type for this generator.
   NoiseTypes get noiseType {

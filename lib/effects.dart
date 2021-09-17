@@ -12,7 +12,8 @@ import 'synthizer_bindings.dart';
 /// Synthizer docs: [https://synthizer.github.io/concepts/effects.html]
 class GlobalEffect extends SynthizerObject with GainMixin {
   /// Create a global effect.
-  GlobalEffect(Synthizer synthizer) : super(synthizer);
+  GlobalEffect(Synthizer synthizer, {int? pointer})
+      : super(synthizer, pointer: pointer);
 
   /// Reset this effect.
   void reset() =>
@@ -50,6 +51,10 @@ class GlobalEcho extends GlobalEffect {
         context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
 
+  /// Create an instance from a handle value.
+  GlobalEcho.fromHandle(Synthizer synthizer, int pointer)
+      : super(synthizer, pointer: pointer);
+
   /// Sets the taps of the echo.
   void setTaps(List<EchoTapConfig>? taps) {
     if (taps == null || taps.isEmpty) {
@@ -80,6 +85,10 @@ class GlobalFdnReverb extends GlobalEffect {
     synthizer.check(synthizer.synthizer.syz_createGlobalFdnReverb(handle,
         context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
   }
+
+  /// Create an instance from a handle value.
+  GlobalFdnReverb.fromHandle(Synthizer synthizer, int pointer)
+      : super(synthizer, pointer: pointer);
 
   /// Get mean free path.
   double get meanFreePath =>

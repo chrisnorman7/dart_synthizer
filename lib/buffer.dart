@@ -16,7 +16,7 @@ import 'synthizer.dart';
 /// Synthizer docs: [https://synthizer.github.io/object_reference/buffer.html]
 class Buffer extends SynthizerObject {
   /// Default constructor. Do not use.
-  Buffer(Synthizer synthizer, {Pointer<Uint64>? handle})
+  Buffer(Synthizer synthizer, {int? handle})
       : super(synthizer, pointer: handle);
 
   /// Create a buffer from stream parameters.
@@ -34,8 +34,8 @@ class Buffer extends SynthizerObject {
         optionsPointer,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
-    [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
-    return Buffer(synthizer, handle: out);
+    [protocolPointer, pathPointer, optionsPointer, out].forEach(calloc.free);
+    return Buffer(synthizer, handle: out.value);
   }
 
   /// Create a buffer from a stream.
@@ -43,7 +43,8 @@ class Buffer extends SynthizerObject {
     final out = calloc<Uint64>();
     synthizer.check(synthizer.synthizer.syz_createBufferFromStreamHandle(out,
         stream.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
-    return Buffer(synthizer, handle: out);
+    calloc.free(out);
+    return Buffer(synthizer, handle: out.value);
   }
 
   /// Create a buffer from a file object.
@@ -63,7 +64,7 @@ class Buffer extends SynthizerObject {
     synthizer.check(synthizer.synthizer.syz_createBufferFromEncodedData(
         out, bytes.length, a, nullptr, synthizer.userdataFreeCallbackPointer));
     malloc.free(a);
-    return Buffer(synthizer, handle: out);
+    return Buffer(synthizer, handle: out.value);
   }
 
   /// Create a buffer from a string.
@@ -88,8 +89,9 @@ class Buffer extends SynthizerObject {
         a,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
+    calloc.free(out);
     malloc.free(a);
-    return Buffer(synthizer, handle: out);
+    return Buffer(synthizer, handle: out.value);
   }
 
   /// Get the number of channels for this buffer.
