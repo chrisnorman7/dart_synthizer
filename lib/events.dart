@@ -1,4 +1,5 @@
 /// Provides Synthizer events.
+
 import 'classes.dart';
 import 'context.dart';
 import 'generator.dart';
@@ -19,9 +20,6 @@ class LoopedEvent extends SynthizerEvent {
   LoopedEvent(Context context, this.generator) : super(context);
 
   /// The generator that finished the loop.
-  ///
-  /// You cannot rely on this generator being equal to one you have lying
-  /// around.
   final Generator generator;
 }
 

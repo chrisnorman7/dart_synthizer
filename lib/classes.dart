@@ -12,7 +12,9 @@ import 'synthizer.dart';
 class SynthizerObject {
   /// Create an instance.
   SynthizerObject(this.synthizer, {Pointer<Uint64>? pointer})
-      : handle = pointer ?? calloc<Uint64>();
+      : handle = pointer ?? calloc<Uint64>() {
+    synthizer.registerObject(this);
+  }
 
   /// The synthizer instance.
   final Synthizer synthizer;
@@ -23,7 +25,9 @@ class SynthizerObject {
   /// Destroy this object.
   @mustCallSuper
   void destroy() {
-    synthizer.check(synthizer.synthizer.syz_handleDecRef(handle.value));
+    synthizer
+      ..check(synthizer.synthizer.syz_handleDecRef(handle.value))
+      ..unregisterObject(this);
     calloc.free(handle);
     handle.value = 0;
   }

@@ -6,6 +6,7 @@ import 'package:ffi/ffi.dart';
 
 import 'automation_point.dart';
 import 'biquad.dart';
+import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
 import 'error.dart';
@@ -17,7 +18,9 @@ import 'synthizer_bindings.dart';
 /// You must create an instance of this class in order to use the library.
 class Synthizer {
   /// Create an instance.
-  Synthizer({String? filename}) : _wasInit = false {
+  Synthizer({String? filename})
+      : _wasInit = false,
+        _objects = [] {
     userdataFreeCallbackPointer = nullptr.cast<syz_UserdataFreeCallback>();
     deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>();
     if (filename == null) {
@@ -66,6 +69,26 @@ class Synthizer {
 
   /// The pointer to use for automation timelines.
   final Pointer<syz_Handle> _automationTimelineHandle = calloc<syz_Handle>();
+
+  /// All created objects.
+  final List<SynthizerObject> _objects;
+
+  /// Register an object.
+  void registerObject(SynthizerObject object) => _objects.add(object);
+
+  /// Unregister an object.
+  void unregisterObject(SynthizerObject object) =>
+      _objects.remove(getObject(object.handle.value));
+
+  /// Get an object.
+  SynthizerObject getObject(int handle) {
+    for (final object in _objects) {
+      if (object.handle.value == handle) {
+        return object;
+      }
+    }
+    throw SynthizerError('No such object.', handle);
+  }
 
   /// Check if a returned value is an error.
   void check(int value) {
@@ -369,6 +392,7 @@ class Synthizer {
       _z2,
       _automationTimelineHandle,
     ].forEach(calloc.free);
+    _objects.clear();
     _wasInit = false;
   }
 

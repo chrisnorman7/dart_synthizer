@@ -21,7 +21,9 @@ import 'synthizer_bindings.dart';
 /// Contexts can be created with the [Synthizer.createContext] function.
 class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a context.
-  Context(Synthizer synthizer, {bool events = false}) : super(synthizer) {
+  Context(Synthizer synthizer, {bool events = false})
+      : _eventPointer = calloc<syz_Event>(),
+        super(synthizer) {
     synthizer.check(synthizer.synthizer.syz_createContext(
         handle, nullptr, synthizer.userdataFreeCallbackPointer));
     if (events) {
@@ -29,8 +31,8 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
     }
   }
 
-  /// The pointer to use for events.
-  final Pointer<syz_Event> _eventPointer = calloc<syz_Event>();
+  /// The handle used by [getEvent].
+  final Pointer<syz_Event> _eventPointer;
 
   /// Enable the streaming of context events.
   void enableEvents() => synthizer
@@ -163,89 +165,40 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
     calloc.free(_eventPointer);
   }
 
-  /// A stream of events.
-  Stream<SynthizerEvent> get events async* {
-    while (synthizer.wasInit) {
-      final event = getEvent();
-      if (event != null) {
-        yield event;
-      }
-    }
-  }
-
   /// Get the next Synthizer event.
   SynthizerEvent? getEvent() {
     SynthizerEvent? value;
-    synthizer.synthizer.syz_contextGetNextEvent(_eventPointer, handle.value, 0);
+    synthizer.check(synthizer.synthizer
+        .syz_contextGetNextEvent(_eventPointer, handle.value, 0));
+    if (_eventPointer.ref.type == SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_INVALID) {
+      return null;
+    }
     final sourceHandle = _eventPointer.ref.source;
+    final source = synthizer.getObject(sourceHandle);
     switch (_eventPointer.ref.type) {
-      case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_INVALID:
-        // No events left.
-        break;
       case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_FINISHED:
-        // Something has finished. Let's find out what.
-        final SynthizerObject source;
-        final type = synthizer.getObjectType(_eventPointer.ref.source);
-        switch (type) {
-          case ObjectType.bufferGenerator:
-            source = BufferGenerator(this)..handle.value = sourceHandle;
-            break;
-          case ObjectType.buffer:
-            source = Buffer(synthizer)..handle.value = sourceHandle;
-            break;
-          case ObjectType.context:
-            source = this;
-            break;
-          case ObjectType.streamingGenerator:
-            source = StreamingGenerator.fromHandle(this, sourceHandle);
-            break;
-          case ObjectType.noiseGenerator:
-            source = NoiseGenerator.fromHandle(this, sourceHandle);
-            break;
-          case ObjectType.directSource:
-            source = DirectSource(this)..handle.value = sourceHandle;
-            break;
-          case ObjectType.pannedSource:
-            source = PannedSource(this)..handle.value = sourceHandle;
-            break;
-          case ObjectType.source3D:
-            source = Source3D(this)..handle.value = sourceHandle;
-            break;
-          case ObjectType.globalEcho:
-            source = GlobalEcho(this)..handle.value = sourceHandle;
-            break;
-          case ObjectType.globalFdnReverb:
-            source = GlobalFdnReverb(this)..handle.value = sourceHandle;
-            break;
-          default:
-            throw SynthizerError(
-                'Unhandled object type: $type.', _eventPointer.ref.source);
-        }
         value = FinishedEvent(this, source);
         break;
       case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_LOOPED:
-        final type = synthizer.getObjectType(sourceHandle);
-        final Generator generator;
-        switch (type) {
-          case ObjectType.bufferGenerator:
-            generator = BufferGenerator(this)..handle.value = sourceHandle;
-            break;
-          case ObjectType.streamingGenerator:
-            generator = StreamingGenerator.fromHandle(this, sourceHandle);
-            break;
-          case ObjectType.noiseGenerator:
-            generator = NoiseGenerator.fromHandle(this, sourceHandle);
-            break;
-          default:
-            throw SynthizerError(
-                'unhandled object type: $type.', _eventPointer.ref.source);
-        }
-        value = LoopedEvent(this, generator);
+        value = LoopedEvent(this, source as Generator);
         break;
       default:
         throw SynthizerError('Unhandled event type.', _eventPointer.ref.type);
     }
     synthizer.synthizer.syz_eventDeinit(_eventPointer);
     return value;
+  }
+
+  /// Get a stream of events.
+  ///
+  /// A pause of [duration] will be awaited between polling for events.
+  Stream<SynthizerEvent> getEvents({Duration duration = Duration.zero}) async* {
+    while (true) {
+      final event = getEvent();
+      if (event != null) {
+        yield event;
+      }
+      await Future<void>.delayed(duration);
+    }
   }
 }

@@ -34,6 +34,7 @@ export 'context.dart';
 export 'effects.dart';
 export 'enumerations.dart';
 export 'error.dart';
+export 'events.dart';
 export 'generator.dart';
 export 'properties.dart';
 export 'source.dart';
