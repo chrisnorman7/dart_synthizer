@@ -22,17 +22,15 @@ import 'synthizer_bindings.dart';
 class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a context.
   Context(Synthizer synthizer, {bool events = false, int? pointer})
-      : _eventPointer = calloc<syz_Event>(),
-        super(synthizer, pointer: pointer) {
-    synthizer.check(synthizer.synthizer.syz_createContext(
-        handle, nullptr, synthizer.userdataFreeCallbackPointer));
-    if (events) {
-      enableEvents();
+      : super(synthizer, pointer: pointer) {
+    if (pointer == null) {
+      synthizer.check(synthizer.synthizer.syz_createContext(
+          handle, nullptr, synthizer.userdataFreeCallbackPointer));
+      if (events) {
+        enableEvents();
+      }
     }
   }
-
-  /// The handle used by [getEvent].
-  final Pointer<syz_Event> _eventPointer;
 
   /// Enable the streaming of context events.
   void enableEvents() => synthizer
@@ -159,35 +157,8 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
       synthizer.check(synthizer.synthizer.syz_routingRemoveRoute(
           handle.value, output.handle.value, input.handle.value, fadeTime));
 
-  @override
-  void destroy() {
-    super.destroy();
-    calloc.free(_eventPointer);
-  }
-
   /// Get the next Synthizer event.
-  SynthizerEvent? getEvent() {
-    SynthizerEvent? value;
-    synthizer.check(synthizer.synthizer
-        .syz_contextGetNextEvent(_eventPointer, handle.value, 0));
-    if (_eventPointer.ref.type == SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_INVALID) {
-      return null;
-    }
-    final sourceHandle = _eventPointer.ref.source;
-    final source = synthizer.getObject(sourceHandle);
-    switch (_eventPointer.ref.type) {
-      case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_FINISHED:
-        value = FinishedEvent(this, source);
-        break;
-      case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_LOOPED:
-        value = LoopedEvent(this, source as Generator);
-        break;
-      default:
-        throw SynthizerError('Unhandled event type.', _eventPointer.ref.type);
-    }
-    synthizer.synthizer.syz_eventDeinit(_eventPointer);
-    return value;
-  }
+  SynthizerEvent? getEvent() => synthizer.getContextEvent(this);
 
   /// Get a stream of events.
   ///

@@ -18,7 +18,9 @@ import 'synthizer_bindings.dart';
 /// You must create an instance of this class in order to use the library.
 class Synthizer {
   /// Create an instance.
-  Synthizer({String? filename}) : _wasInit = false {
+  Synthizer({String? filename})
+      : _eventPointer = calloc<syz_Event>(),
+        _wasInit = false {
     userdataFreeCallbackPointer = nullptr.cast<syz_UserdataFreeCallback>();
     deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>();
     if (filename == null) {
@@ -30,6 +32,9 @@ class Synthizer {
     }
     synthizer = DartSynthizer(DynamicLibrary.open(filename));
   }
+
+  /// The handle used by [getContextEvent].
+  final Pointer<syz_Event> _eventPointer;
 
   bool _wasInit;
 
@@ -357,6 +362,7 @@ class Synthizer {
   void shutdown() {
     check(synthizer.syz_shutdown());
     [
+      _eventPointer,
       _intPointer,
       _doublePointer,
       _x1,
@@ -452,5 +458,29 @@ class Synthizer {
       case ObjectType.automationTimeline:
         return AutomationTimeline.fromHandle(this, handle);
     }
+  }
+
+  /// Get the next event for [context].
+  SynthizerEvent? getContextEvent(Context context) {
+    SynthizerEvent? value;
+    check(synthizer.syz_contextGetNextEvent(
+        _eventPointer, context.handle.value, 0));
+    if (_eventPointer.ref.type == SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_INVALID) {
+      return null;
+    }
+    final sourceHandle = _eventPointer.ref.source;
+    final source = getObject(sourceHandle);
+    switch (_eventPointer.ref.type) {
+      case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_FINISHED:
+        value = FinishedEvent(context, source);
+        break;
+      case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_LOOPED:
+        value = LoopedEvent(context, source as Generator);
+        break;
+      default:
+        throw SynthizerError('Unhandled event type.', _eventPointer.ref.type);
+    }
+    synthizer.syz_eventDeinit(_eventPointer);
+    return value;
   }
 }
