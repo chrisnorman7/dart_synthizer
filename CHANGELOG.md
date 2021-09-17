@@ -4,9 +4,9 @@
 
 ### Added
 
-* Keep track of all created `SynthizerObject` instances.
-* Add `registerObject` and `unregisterObject` methods on the `Synthizer` class.
 * Add `getEvent` and `getEvents` methods on `Context`.`.
+* Add the ability to recreate objects from their handles with `Synthizer.getObject`.
+* Added the `Synthizer.getContextEvent` method.
 
 ## [0.0.4]
 
