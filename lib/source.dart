@@ -53,13 +53,18 @@ class DirectSource extends Source {
 ///
 class AngularPannedSource extends Source {
   /// Create an instance.
-  AngularPannedSource(Context context) : super(context) {
+  AngularPannedSource(Context context,
+      {PannerStrategies? pannerStrategy,
+      double azimuth = 0.0,
+      double elevation = 0.0})
+      : super(context) {
     synthizer.check(synthizer.synthizer.syz_createAngularPannedSource(
         handle,
         context.handle.value,
-        synthizer.pannerStrategyToInt(context.defaultPannerStrategy),
-        0.0,
-        0.0,
+        synthizer.pannerStrategyToInt(
+            pannerStrategy ?? context.defaultPannerStrategy),
+        azimuth,
+        elevation,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
   }
@@ -83,12 +88,15 @@ class AngularPannedSource extends Source {
 /// Instances can be created with [Context.createScalarPannedSource].
 class ScalarPannedSource extends Source {
   /// Create a panned source with a scalar.
-  ScalarPannedSource(Context context) : super(context) {
+  ScalarPannedSource(Context context,
+      {PannerStrategies? panningStrategy, double panningScalar = 0.0})
+      : super(context) {
     synthizer.check(synthizer.synthizer.syz_createScalarPannedSource(
         handle,
         context.handle.value,
-        synthizer.pannerStrategyToInt(context.defaultPannerStrategy),
-        0.0,
+        synthizer.pannerStrategyToInt(
+            panningStrategy ?? context.defaultPannerStrategy),
+        panningScalar,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
   }

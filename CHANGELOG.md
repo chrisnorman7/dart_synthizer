@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.0]
+
+### Changed
+
+* Updated Synthizer.
+* Added `ScalarPannedSource`.
+* Added `AngularPannedSource`.
+* Added the `Context.createAngularPannedSource` method.
+
+### Removed
+
+* Removed `PannedSource`.
+
+### Changed
+
+* Renamed `Context.createPannedSource` to `createScalarPannedSource`.
+
 ## [0.1.0]
 
 ### Added

@@ -123,8 +123,21 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a direct source.
   DirectSource createDirectSource() => DirectSource(this);
 
-  /// Create a panned source.
-  ScalarPannedSource createScalarPannedSource() => ScalarPannedSource(this);
+  /// Create a panned source with an azimuth and an elevation.
+  AngularPannedSource createAngularPannedSource(
+          {PannerStrategies? pannerStrategy,
+          double azimuth = 0.0,
+          double elevation = 0.0}) =>
+      AngularPannedSource(this,
+          azimuth: azimuth,
+          elevation: elevation,
+          pannerStrategy: pannerStrategy);
+
+  /// Create a panned source with a scalar.
+  ScalarPannedSource createScalarPannedSource(
+          {PannerStrategies? panningStrategy, double panningScalar = 0.0}) =>
+      ScalarPannedSource(this,
+          panningScalar: panningScalar, panningStrategy: panningStrategy);
 
   /// Create a 3d source.
   Source3D createSource3D() => Source3D(this);
