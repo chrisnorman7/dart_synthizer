@@ -1286,41 +1286,92 @@ class DartSynthizer {
       int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
           ffi.Pointer<syz_UserdataFreeCallback>)>();
 
-  int syz_createPannedSource(
+  int syz_createAngularPannedSource(
     ffi.Pointer<syz_Handle> out,
     int context,
+    int panner_strategy,
+    double azimuth,
+    double elevation,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
-    return _syz_createPannedSource(
+    return _syz_createAngularPannedSource(
       out,
       context,
+      panner_strategy,
+      azimuth,
+      elevation,
       userdata,
       userdata_free_callback,
     );
   }
 
-  late final _syz_createPannedSourcePtr = _lookup<
+  late final _syz_createAngularPannedSourcePtr = _lookup<
           ffi.NativeFunction<
               syz_ErrorCode Function(
                   ffi.Pointer<syz_Handle>,
                   syz_Handle,
+                  ffi.Int32,
+                  ffi.Double,
+                  ffi.Double,
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
-      'syz_createPannedSource');
-  late final _syz_createPannedSource = _syz_createPannedSourcePtr.asFunction<
-      int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
-          ffi.Pointer<syz_UserdataFreeCallback>)>();
+      'syz_createAngularPannedSource');
+  late final _syz_createAngularPannedSource =
+      _syz_createAngularPannedSourcePtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, int, double, double,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
+
+  int syz_createScalarPannedSource(
+    ffi.Pointer<syz_Handle> out,
+    int context,
+    int panner_strategy,
+    double panning_scalar,
+    ffi.Pointer<ffi.Void> userdata,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
+  ) {
+    return _syz_createScalarPannedSource(
+      out,
+      context,
+      panner_strategy,
+      panning_scalar,
+      userdata,
+      userdata_free_callback,
+    );
+  }
+
+  late final _syz_createScalarPannedSourcePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Int32,
+                  ffi.Double,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createScalarPannedSource');
+  late final _syz_createScalarPannedSource =
+      _syz_createScalarPannedSourcePtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, int, double,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createSource3D(
     ffi.Pointer<syz_Handle> out,
     int context,
+    int panner_strategy,
+    double x,
+    double y,
+    double z,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createSource3D(
       out,
       context,
+      panner_strategy,
+      x,
+      y,
+      z,
       userdata,
       userdata_free_callback,
     );
@@ -1331,11 +1382,15 @@ class DartSynthizer {
           syz_ErrorCode Function(
               ffi.Pointer<syz_Handle>,
               syz_Handle,
+              ffi.Int32,
+              ffi.Double,
+              ffi.Double,
+              ffi.Double,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<syz_UserdataFreeCallback>)>>('syz_createSource3D');
   late final _syz_createSource3D = _syz_createSource3DPtr.asFunction<
-      int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
-          ffi.Pointer<syz_UserdataFreeCallback>)>();
+      int Function(ffi.Pointer<syz_Handle>, int, int, double, double, double,
+          ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createNoiseGenerator(
     ffi.Pointer<syz_Handle> out,
@@ -1662,18 +1717,20 @@ abstract class SYZ_OBJECT_TYPE {
   static const int SYZ_OTYPE_STREAMING_GENERATOR = 3;
   static const int SYZ_OTYPE_NOISE_GENERATOR = 4;
   static const int SYZ_OTYPE_DIRECT_SOURCE = 5;
-  static const int SYZ_OTYPE_PANNED_SOURCE = 6;
-  static const int SYZ_OTYPE_SOURCE_3D = 7;
-  static const int SYZ_OTYPE_GLOBAL_ECHO = 8;
-  static const int SYZ_OTYPE_GLOBAL_FDN_REVERB = 9;
-  static const int SYZ_OTYPE_STREAM_HANDLE = 10;
-  static const int SYZ_OTYPE_AUTOMATION_TIMELINE = 11;
+  static const int SYZ_OTYPE_ANGULAR_PANNED_SOURCE = 6;
+  static const int SYZ_OTYPE_SCALAR_PANNED_SOURCE = 7;
+  static const int SYZ_OTYPE_SOURCE_3D = 8;
+  static const int SYZ_OTYPE_GLOBAL_ECHO = 9;
+  static const int SYZ_OTYPE_GLOBAL_FDN_REVERB = 10;
+  static const int SYZ_OTYPE_STREAM_HANDLE = 11;
+  static const int SYZ_OTYPE_AUTOMATION_TIMELINE = 12;
 }
 
 abstract class SYZ_PANNER_STRATEGY {
-  static const int SYZ_PANNER_STRATEGY_HRTF = 0;
-  static const int SYZ_PANNER_STRATEGY_STEREO = 1;
-  static const int SYZ_PANNER_STRATEGY_COUNT = 2;
+  static const int SYZ_PANNER_STRATEGY_DELEGATE = 0;
+  static const int SYZ_PANNER_STRATEGY_HRTF = 1;
+  static const int SYZ_PANNER_STRATEGY_STEREO = 2;
+  static const int SYZ_PANNER_STRATEGY_COUNT = 3;
 }
 
 abstract class SYZ_DISTANCE_MODEL {
@@ -1696,43 +1753,42 @@ abstract class SYZ_PROPERTIES {
   static const int SYZ_P_BUFFER = 1;
   static const int SYZ_P_ELEVATION = 2;
   static const int SYZ_P_GAIN = 3;
-  static const int SYZ_P_PANNER_STRATEGY = 4;
-  static const int SYZ_P_DEFAULT_PANNER_STRATEGY = 5;
-  static const int SYZ_P_PANNING_SCALAR = 6;
-  static const int SYZ_P_PLAYBACK_POSITION = 7;
-  static const int SYZ_P_POSITION = 8;
-  static const int SYZ_P_ORIENTATION = 9;
-  static const int SYZ_P_CLOSENESS_BOOST = 10;
-  static const int SYZ_P_CLOSENESS_BOOST_DISTANCE = 11;
-  static const int SYZ_P_DISTANCE_MAX = 12;
-  static const int SYZ_P_DISTANCE_MODEL = 13;
-  static const int SYZ_P_DISTANCE_REF = 14;
-  static const int SYZ_P_ROLLOFF = 15;
-  static const int SYZ_P_DEFAULT_CLOSENESS_BOOST = 16;
-  static const int SYZ_P_DEFAULT_CLOSENESS_BOOST_DISTANCE = 17;
-  static const int SYZ_P_DEFAULT_DISTANCE_MAX = 18;
-  static const int SYZ_P_DEFAULT_DISTANCE_MODEL = 19;
-  static const int SYZ_P_DEFAULT_DISTANCE_REF = 20;
-  static const int SYZ_P_DEFAULT_ROLLOFF = 21;
-  static const int SYZ_P_LOOPING = 22;
-  static const int SYZ_P_NOISE_TYPE = 23;
-  static const int SYZ_P_PITCH_BEND = 24;
-  static const int SYZ_P_INPUT_FILTER_ENABLED = 25;
-  static const int SYZ_P_INPUT_FILTER_CUTOFF = 26;
-  static const int SYZ_P_MEAN_FREE_PATH = 27;
-  static const int SYZ_P_T60 = 28;
-  static const int SYZ_P_LATE_REFLECTIONS_LF_ROLLOFF = 29;
-  static const int SYZ_P_LATE_REFLECTIONS_LF_REFERENCE = 30;
-  static const int SYZ_P_LATE_REFLECTIONS_HF_ROLLOFF = 31;
-  static const int SYZ_P_LATE_REFLECTIONS_HF_REFERENCE = 32;
-  static const int SYZ_P_LATE_REFLECTIONS_DIFFUSION = 33;
-  static const int SYZ_P_LATE_REFLECTIONS_MODULATION_DEPTH = 34;
-  static const int SYZ_P_LATE_REFLECTIONS_MODULATION_FREQUENCY = 35;
-  static const int SYZ_P_LATE_REFLECTIONS_DELAY = 36;
-  static const int SYZ_P_FILTER = 37;
-  static const int SYZ_P_FILTER_DIRECT = 38;
-  static const int SYZ_P_FILTER_EFFECTS = 39;
-  static const int SYZ_P_FILTER_INPUT = 40;
+  static const int SYZ_P_DEFAULT_PANNER_STRATEGY = 4;
+  static const int SYZ_P_PANNING_SCALAR = 5;
+  static const int SYZ_P_PLAYBACK_POSITION = 6;
+  static const int SYZ_P_POSITION = 7;
+  static const int SYZ_P_ORIENTATION = 8;
+  static const int SYZ_P_CLOSENESS_BOOST = 9;
+  static const int SYZ_P_CLOSENESS_BOOST_DISTANCE = 10;
+  static const int SYZ_P_DISTANCE_MAX = 11;
+  static const int SYZ_P_DISTANCE_MODEL = 12;
+  static const int SYZ_P_DISTANCE_REF = 13;
+  static const int SYZ_P_ROLLOFF = 14;
+  static const int SYZ_P_DEFAULT_CLOSENESS_BOOST = 15;
+  static const int SYZ_P_DEFAULT_CLOSENESS_BOOST_DISTANCE = 16;
+  static const int SYZ_P_DEFAULT_DISTANCE_MAX = 17;
+  static const int SYZ_P_DEFAULT_DISTANCE_MODEL = 18;
+  static const int SYZ_P_DEFAULT_DISTANCE_REF = 19;
+  static const int SYZ_P_DEFAULT_ROLLOFF = 20;
+  static const int SYZ_P_LOOPING = 21;
+  static const int SYZ_P_NOISE_TYPE = 22;
+  static const int SYZ_P_PITCH_BEND = 23;
+  static const int SYZ_P_INPUT_FILTER_ENABLED = 24;
+  static const int SYZ_P_INPUT_FILTER_CUTOFF = 25;
+  static const int SYZ_P_MEAN_FREE_PATH = 26;
+  static const int SYZ_P_T60 = 27;
+  static const int SYZ_P_LATE_REFLECTIONS_LF_ROLLOFF = 28;
+  static const int SYZ_P_LATE_REFLECTIONS_LF_REFERENCE = 29;
+  static const int SYZ_P_LATE_REFLECTIONS_HF_ROLLOFF = 30;
+  static const int SYZ_P_LATE_REFLECTIONS_HF_REFERENCE = 31;
+  static const int SYZ_P_LATE_REFLECTIONS_DIFFUSION = 32;
+  static const int SYZ_P_LATE_REFLECTIONS_MODULATION_DEPTH = 33;
+  static const int SYZ_P_LATE_REFLECTIONS_MODULATION_FREQUENCY = 34;
+  static const int SYZ_P_LATE_REFLECTIONS_DELAY = 35;
+  static const int SYZ_P_FILTER = 36;
+  static const int SYZ_P_FILTER_DIRECT = 37;
+  static const int SYZ_P_FILTER_EFFECTS = 38;
+  static const int SYZ_P_FILTER_INPUT = 39;
 }
 
 abstract class SYZ_EVENT_TYPES {

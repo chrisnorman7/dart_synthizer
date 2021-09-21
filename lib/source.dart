@@ -49,32 +49,23 @@ class DirectSource extends Source {
       : super.fromHandle(synthizer, pointer);
 }
 
-/// Properties common to [PannedSource] and [Source3D].
-///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/spatialized_source.html]
-mixin SpatializedSource on Source {
-  /// Get the panner strategy for this source.
-  PannerStrategies get pannerStrategy => synthizer.getPannerStrategy(handle);
-
-  /// Set the panner strategy for this source.
-  set pannerStrategy(PannerStrategies value) =>
-      synthizer.setPannerStrategy(handle, value);
-}
-
 /// A source with azimuth and elevation panning done by hand.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/panned_source.html]
-///
-/// Panned sources can be created with [Context.createPannedSource].
-class PannedSource extends Source with SpatializedSource {
-  /// Create a panned source.
-  PannedSource(Context context) : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createPannedSource(handle,
-        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
+class AngularPannedSource extends Source {
+  /// Create an instance.
+  AngularPannedSource(Context context) : super(context) {
+    synthizer.check(synthizer.synthizer.syz_createAngularPannedSource(
+        handle,
+        context.handle.value,
+        synthizer.pannerStrategyToInt(context.defaultPannerStrategy),
+        0.0,
+        0.0,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
   }
 
-  /// Create an instance from a handle value.
-  PannedSource.fromHandle(Synthizer synthizer, int pointer)
+  /// Get an instance from a handle.
+  AngularPannedSource.fromHandle(Synthizer synthizer, int pointer)
       : super.fromHandle(synthizer, pointer);
 
   /// Get the azimuth for this source.
@@ -83,6 +74,28 @@ class PannedSource extends Source with SpatializedSource {
   /// Set the azimuth for this source.
   set azimuth(double value) =>
       synthizer.setDouble(handle, Properties.azimuth, value);
+}
+
+/// A source with panning done by way of a [panningScalar].
+///
+/// Synthizer docs: [https://synthizer.github.io/object_reference/panned_source.html]
+///
+/// Instances can be created with [Context.createScalarPannedSource].
+class ScalarPannedSource extends Source {
+  /// Create a panned source with a scalar.
+  ScalarPannedSource(Context context) : super(context) {
+    synthizer.check(synthizer.synthizer.syz_createScalarPannedSource(
+        handle,
+        context.handle.value,
+        synthizer.pannerStrategyToInt(context.defaultPannerStrategy),
+        0.0,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
+  }
+
+  /// Create an instance from a handle value.
+  ScalarPannedSource.fromHandle(Synthizer synthizer, int pointer)
+      : super.fromHandle(synthizer, pointer);
 
   /// Get the elevation for this source.
   double get elevation => synthizer.getDouble(handle, Properties.elevation);
@@ -105,11 +118,19 @@ class PannedSource extends Source with SpatializedSource {
 /// Synthizer docs: [https://synthizer.github.io/object_reference/source_3d.html]
 ///
 /// Source 3ds can be created with [Context.createSource3D].
-class Source3D extends Source with SpatializedSource {
+class Source3D extends Source {
   /// Create a 3d source.
-  Source3D(Context context) : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createSource3D(handle,
-        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
+  Source3D(Context context, {double x = 0.0, double y = 0.0, double z = 0.0})
+      : super(context) {
+    synthizer.check(synthizer.synthizer.syz_createSource3D(
+        handle,
+        context.handle.value,
+        synthizer.pannerStrategyToInt(context.defaultPannerStrategy),
+        x,
+        y,
+        z,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
   }
 
   /// Create an instance from a handle value.

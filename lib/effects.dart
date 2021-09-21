@@ -106,35 +106,35 @@ class GlobalFdnReverb extends GlobalEffect {
 
   /// Get late reflections LF rolloff.
   double get lateReflectionsLfRolloff =>
-      synthizer.getDouble(handle, Properties.lateReflectionsLFRolloff);
+      synthizer.getDouble(handle, Properties.lateReflectionsLfRolloff);
 
   /// Set late reflections LF rolloff .
   set lateReflectionsLfRolloff(double value) =>
-      synthizer.setDouble(handle, Properties.lateReflectionsLFRolloff, value);
+      synthizer.setDouble(handle, Properties.lateReflectionsLfRolloff, value);
 
   /// Get late reflections LF reference.
   double get lateReflectionsLfReference =>
-      synthizer.getDouble(handle, Properties.lateReflectionsLFReference);
+      synthizer.getDouble(handle, Properties.lateReflectionsLfReference);
 
   /// Set late reflections LF reference
   set lateReflectionsLfReference(double value) =>
-      synthizer.setDouble(handle, Properties.lateReflectionsLFReference, value);
+      synthizer.setDouble(handle, Properties.lateReflectionsLfReference, value);
 
   /// Get late reflections HF rolloff.
   double get lateReflectionsHfRolloff =>
-      synthizer.getDouble(handle, Properties.lateReflectionsHFRolloff);
+      synthizer.getDouble(handle, Properties.lateReflectionsHfRolloff);
 
   /// Set late reflections HF Rolloff.
   set lateReflectionsHfRolloff(double value) =>
-      synthizer.setDouble(handle, Properties.lateReflectionsHFRolloff, value);
+      synthizer.setDouble(handle, Properties.lateReflectionsHfRolloff, value);
 
   /// Get late reflections HF reference.
   double get lateReflectionsHfReference =>
-      synthizer.getDouble(handle, Properties.lateReflectionsHFReference);
+      synthizer.getDouble(handle, Properties.lateReflectionsHfReference);
 
   /// Set late reflections HF reference.
   set lateReflectionsHfReference(double value) =>
-      synthizer.setDouble(handle, Properties.lateReflectionsHFReference, value);
+      synthizer.setDouble(handle, Properties.lateReflectionsHfReference, value);
 
   /// Get late reflections diffusion.
   double get lateReflectionsDiffusion =>

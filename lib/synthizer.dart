@@ -98,8 +98,6 @@ class Synthizer {
         return SYZ_PROPERTIES.SYZ_P_ELEVATION;
       case Properties.gain:
         return SYZ_PROPERTIES.SYZ_P_GAIN;
-      case Properties.pannerStrategy:
-        return SYZ_PROPERTIES.SYZ_P_PANNER_STRATEGY;
       case Properties.panningScalar:
         return SYZ_PROPERTIES.SYZ_P_PANNING_SCALAR;
       case Properties.position:
@@ -122,13 +120,13 @@ class Synthizer {
         return SYZ_PROPERTIES.SYZ_P_MEAN_FREE_PATH;
       case Properties.t60:
         return SYZ_PROPERTIES.SYZ_P_T60;
-      case Properties.lateReflectionsLFRolloff:
+      case Properties.lateReflectionsLfRolloff:
         return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_LF_ROLLOFF;
-      case Properties.lateReflectionsLFReference:
+      case Properties.lateReflectionsLfReference:
         return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_LF_REFERENCE;
-      case Properties.lateReflectionsHFRolloff:
+      case Properties.lateReflectionsHfRolloff:
         return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_HF_ROLLOFF;
-      case Properties.lateReflectionsHFReference:
+      case Properties.lateReflectionsHfReference:
         return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_HF_REFERENCE;
       case Properties.lateReflectionsDiffusion:
         return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_DIFFUSION;
@@ -234,7 +232,7 @@ class Synthizer {
   }
 
   /// Convert a panner strategy to an integer.
-  int _pannerStrategyToInt(PannerStrategies strategy) {
+  int pannerStrategyToInt(PannerStrategies strategy) {
     switch (strategy) {
       case PannerStrategies.hrtf:
         return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF;
@@ -243,14 +241,6 @@ class Synthizer {
     }
   }
 
-  /// Get a panner strategy property.
-  PannerStrategies getPannerStrategy(Pointer<Uint64> handle) =>
-      _intToPannerStrategy(getInt(handle, Properties.pannerStrategy));
-
-  /// Set a panner strategy.
-  void setPannerStrategy(Pointer<Uint64> handle, PannerStrategies value) =>
-      setInt(handle, Properties.pannerStrategy, _pannerStrategyToInt(value));
-
   /// Get a default panner strategy property.
   PannerStrategies getDefaultPannerStrategy(Pointer<Uint64> handle) =>
       _intToPannerStrategy(getInt(handle, Properties.defaultPannerStrategy));
@@ -258,8 +248,8 @@ class Synthizer {
   /// Set a default panner strategy.
   void setDefaultPannerStrategy(
           Pointer<Uint64> handle, PannerStrategies value) =>
-      setInt(handle, Properties.defaultPannerStrategy,
-          _pannerStrategyToInt(value));
+      setInt(
+          handle, Properties.defaultPannerStrategy, pannerStrategyToInt(value));
 
   /// Convert an integer to a distance model.
   DistanceModels _intToDistanceModel(int i) {
@@ -399,6 +389,8 @@ class Synthizer {
   ObjectType getObjectType(int handle) {
     check(synthizer.syz_handleGetObjectType(_intPointer, handle));
     switch (_intPointer.value) {
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_ANGULAR_PANNED_SOURCE:
+        return ObjectType.angularPannedSource;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_TIMELINE:
         return ObjectType.automationTimeline;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_BUFFER:
@@ -415,8 +407,8 @@ class Synthizer {
         return ObjectType.globalFdnReverb;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_NOISE_GENERATOR:
         return ObjectType.noiseGenerator;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_PANNED_SOURCE:
-        return ObjectType.pannedSource;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_SCALAR_PANNED_SOURCE:
+        return ObjectType.scalarPannedSource;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_SOURCE_3D:
         return ObjectType.source3D;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAMING_GENERATOR:
@@ -424,7 +416,7 @@ class Synthizer {
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAM_HANDLE:
         return ObjectType.streamHandle;
       default:
-        throw SynthizerError('Unrecognised object type.', _intPointer.value);
+        throw SynthizerError('Unhandled object type.', _intPointer.value);
     }
   }
 
@@ -444,8 +436,10 @@ class Synthizer {
         return NoiseGenerator.fromHandle(this, handle);
       case ObjectType.directSource:
         return DirectSource.fromHandle(this, handle);
-      case ObjectType.pannedSource:
-        return PannedSource.fromHandle(this, handle);
+      case ObjectType.angularPannedSource:
+        return AngularPannedSource.fromHandle(this, handle);
+      case ObjectType.scalarPannedSource:
+        return ScalarPannedSource.fromHandle(this, handle);
       case ObjectType.source3D:
         return Source3D.fromHandle(this, handle);
       case ObjectType.globalEcho:
