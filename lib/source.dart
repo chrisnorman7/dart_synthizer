@@ -79,6 +79,13 @@ class AngularPannedSource extends Source {
   /// Set the azimuth for this source.
   set azimuth(double value) =>
       synthizer.setDouble(handle, Properties.azimuth, value);
+
+  /// Get the elevation for this source.
+  double get elevation => synthizer.getDouble(handle, Properties.elevation);
+
+  /// Set the elevation for this source.
+  set elevation(double value) =>
+      synthizer.setDouble(handle, Properties.elevation, value);
 }
 
 /// A source with panning done by way of a [panningScalar].
@@ -104,13 +111,6 @@ class ScalarPannedSource extends Source {
   /// Create an instance from a handle value.
   ScalarPannedSource.fromHandle(Synthizer synthizer, int pointer)
       : super.fromHandle(synthizer, pointer);
-
-  /// Get the elevation for this source.
-  double get elevation => synthizer.getDouble(handle, Properties.elevation);
-
-  /// Set the elevation for this source.
-  set elevation(double value) =>
-      synthizer.setDouble(handle, Properties.elevation, value);
 
   /// Get the panning scalar for this source.
   double get panningScalar =>

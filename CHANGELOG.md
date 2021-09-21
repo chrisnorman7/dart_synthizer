@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.1]
+
+### Added
+
+* Added the `elevation` property to `AngularPannedSource` where it should be.
+
 ## [0.2.0]
 
 ### Changed
