@@ -45,11 +45,11 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
       synthizer.setDouble6(handle, Properties.orientation, value);
 
   /// Get the default panner strategy for this context.
-  PannerStrategies get defaultPannerStrategy =>
+  PannerStrategy get defaultPannerStrategy =>
       synthizer.getDefaultPannerStrategy(handle);
 
   /// Set the default panner strategy for this context.
-  set defaultPannerStrategy(PannerStrategies value) =>
+  set defaultPannerStrategy(PannerStrategy value) =>
       synthizer.setDefaultPannerStrategy(handle, value);
 
   /// Get the default closeness boost for this object.
@@ -85,11 +85,11 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
       synthizer.setDouble(handle, Properties.defaultRolloff, value);
 
   /// Get the default distance model for this object.
-  DistanceModels get defaultDistanceModel =>
+  DistanceModel get defaultDistanceModel =>
       synthizer.getDefaultDistanceModel(handle);
 
   /// Set the default distance model for this object.
-  set defaultDistanceModel(DistanceModels value) =>
+  set defaultDistanceModel(DistanceModel value) =>
       synthizer.setDefaultDistanceModel(handle, value);
 
   /// Get the default distance ref for this object.
@@ -125,7 +125,7 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
 
   /// Create a panned source with an azimuth and an elevation.
   AngularPannedSource createAngularPannedSource(
-          {PannerStrategies? pannerStrategy,
+          {PannerStrategy? pannerStrategy,
           double azimuth = 0.0,
           double elevation = 0.0}) =>
       AngularPannedSource(this,
@@ -135,7 +135,7 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
 
   /// Create a panned source with a scalar.
   ScalarPannedSource createScalarPannedSource(
-          {PannerStrategies? panningStrategy, double panningScalar = 0.0}) =>
+          {PannerStrategy? panningStrategy, double panningScalar = 0.0}) =>
       ScalarPannedSource(this,
           panningScalar: panningScalar, panningStrategy: panningStrategy);
 

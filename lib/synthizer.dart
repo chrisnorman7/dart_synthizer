@@ -220,81 +220,86 @@ class Synthizer {
           value.y1, value.z1, value.x2, value.y2, value.z2));
 
   /// Convert an integer to a panner strategy.
-  PannerStrategies _intToPannerStrategy(int i) {
+  PannerStrategy _intToPannerStrategy(int i) {
     switch (i) {
       case SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF:
-        return PannerStrategies.hrtf;
+        return PannerStrategy.hrtf;
       case SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_STEREO:
-        return PannerStrategies.stereo;
+        return PannerStrategy.stereo;
       default:
         throw SynthizerError('Unrecognised panner strategy.', i);
     }
   }
 
   /// Convert a panner strategy to an integer.
-  int pannerStrategyToInt(PannerStrategies strategy) {
+  int pannerStrategyToInt(PannerStrategy strategy) {
     switch (strategy) {
-      case PannerStrategies.hrtf:
+      case PannerStrategy.hrtf:
         return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF;
-      case PannerStrategies.stereo:
+      case PannerStrategy.stereo:
         return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_STEREO;
+      case PannerStrategy.count:
+        return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_COUNT;
+      case PannerStrategy.delegate:
+        return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_DELEGATE;
     }
   }
 
   /// Get a default panner strategy property.
-  PannerStrategies getDefaultPannerStrategy(Pointer<Uint64> handle) =>
+  PannerStrategy getDefaultPannerStrategy(Pointer<Uint64> handle) =>
       _intToPannerStrategy(getInt(handle, Properties.defaultPannerStrategy));
 
   /// Set a default panner strategy.
-  void setDefaultPannerStrategy(
-          Pointer<Uint64> handle, PannerStrategies value) =>
+  void setDefaultPannerStrategy(Pointer<Uint64> handle, PannerStrategy value) =>
       setInt(
           handle, Properties.defaultPannerStrategy, pannerStrategyToInt(value));
 
   /// Convert an integer to a distance model.
-  DistanceModels _intToDistanceModel(int i) {
+  DistanceModel _intToDistanceModel(int i) {
     switch (i) {
       case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL:
-        return DistanceModels.exponential;
+        return DistanceModel.exponential;
       case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_INVERSE:
-        return DistanceModels.inverse;
+        return DistanceModel.inverse;
       case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_LINEAR:
-        return DistanceModels.linear;
+        return DistanceModel.linear;
       case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE:
-        return DistanceModels.none;
+        return DistanceModel.none;
       default:
         throw SynthizerError('Unrecognised distance model.', i);
     }
   }
 
   /// Convert a distance model to an integer.
-  int _distanceModelToInt(DistanceModels model) {
+  int _distanceModelToInt(DistanceModel model) {
     switch (model) {
-      case DistanceModels.exponential:
+      case DistanceModel.exponential:
         return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL;
-      case DistanceModels.none:
+      case DistanceModel.none:
         return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE;
-      case DistanceModels.linear:
+      case DistanceModel.linear:
         return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_LINEAR;
-      case DistanceModels.inverse:
+      case DistanceModel.inverse:
         return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_INVERSE;
+      case DistanceModel.count:
+        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_COUNT;
     }
   }
 
   /// Get a distance model property.
-  DistanceModels getDistanceModel(Pointer<Uint64> handle) =>
+  DistanceModel getDistanceModel(Pointer<Uint64> handle) =>
       _intToDistanceModel(getInt(handle, Properties.distanceModel));
 
   /// Set a distance model property.
-  void setDistanceModel(Pointer<Uint64> handle, DistanceModels value) =>
+  void setDistanceModel(Pointer<Uint64> handle, DistanceModel value) =>
       setInt(handle, Properties.distanceModel, _distanceModelToInt(value));
 
   /// Get a default distance model property.
-  DistanceModels getDefaultDistanceModel(Pointer<Uint64> handle) =>
+  DistanceModel getDefaultDistanceModel(Pointer<Uint64> handle) =>
       _intToDistanceModel(getInt(handle, Properties.defaultDistanceModel));
 
   /// Set a default distance model property.
-  void setDefaultDistanceModel(Pointer<Uint64> handle, DistanceModels value) =>
+  void setDefaultDistanceModel(Pointer<Uint64> handle, DistanceModel value) =>
       setInt(
           handle, Properties.defaultDistanceModel, _distanceModelToInt(value));
 
@@ -410,7 +415,7 @@ class Synthizer {
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_SCALAR_PANNED_SOURCE:
         return ObjectType.scalarPannedSource;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_SOURCE_3D:
-        return ObjectType.source3D;
+        return ObjectType.source3d;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAMING_GENERATOR:
         return ObjectType.streamingGenerator;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAM_HANDLE:
@@ -440,7 +445,7 @@ class Synthizer {
         return AngularPannedSource.fromHandle(this, handle);
       case ObjectType.scalarPannedSource:
         return ScalarPannedSource.fromHandle(this, handle);
-      case ObjectType.source3D:
+      case ObjectType.source3d:
         return Source3D.fromHandle(this, handle);
       case ObjectType.globalEcho:
         return GlobalEcho.fromHandle(this, handle);

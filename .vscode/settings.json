@@ -46,7 +46,8 @@
     "unseekable",
     "Userdata",
     "Utf",
-    "var"
+    "var",
+    "writeln"
   ],
   "cSpell.enabled": true,
   "accessibleCodeRuler.languageMaximumLineLength": {}

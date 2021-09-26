@@ -112,32 +112,35 @@ class NoiseGenerator extends Generator {
       : super.fromHandle(synthizer, pointer);
 
   /// Get the noise type for this generator.
-  NoiseTypes get noiseType {
+  NoiseType get noiseType {
     final i = synthizer.getInt(handle, Properties.noiseType);
     switch (i) {
       case SYZ_NOISE_TYPE.SYZ_NOISE_TYPE_FILTERED_BROWN:
-        return NoiseTypes.filteredBrown;
+        return NoiseType.filteredBrown;
       case SYZ_NOISE_TYPE.SYZ_NOISE_TYPE_UNIFORM:
-        return NoiseTypes.uniform;
+        return NoiseType.uniform;
       case SYZ_NOISE_TYPE.SYZ_NOISE_TYPE_VM:
-        return NoiseTypes.vm;
+        return NoiseType.vm;
       default:
         throw Exception('Invalid noise type: $i.');
     }
   }
 
   /// Set the noise type for this generator.
-  set noiseType(NoiseTypes value) {
+  set noiseType(NoiseType value) {
     final int i;
     switch (value) {
-      case NoiseTypes.filteredBrown:
+      case NoiseType.filteredBrown:
         i = SYZ_NOISE_TYPE.SYZ_NOISE_TYPE_FILTERED_BROWN;
         break;
-      case NoiseTypes.uniform:
+      case NoiseType.uniform:
         i = SYZ_NOISE_TYPE.SYZ_NOISE_TYPE_UNIFORM;
         break;
-      case NoiseTypes.vm:
+      case NoiseType.vm:
         i = SYZ_NOISE_TYPE.SYZ_NOISE_TYPE_VM;
+        break;
+      case NoiseType.count:
+        i = SYZ_NOISE_TYPE.SYZ_NOISE_TYPE_COUNT;
         break;
     }
     synthizer.setInt(handle, Properties.noiseType, i);

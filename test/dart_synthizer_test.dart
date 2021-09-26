@@ -24,9 +24,9 @@ void main() {
       expect(ctx.defaultClosenessBoost, equals(0.0));
       expect(ctx.defaultClosenessBoostDistance, equals(0.0));
       expect(ctx.defaultDistanceMax, equals(50.0));
-      expect(ctx.defaultDistanceModel, equals(DistanceModels.linear));
+      expect(ctx.defaultDistanceModel, equals(DistanceModel.linear));
       expect(ctx.defaultDistanceRef, equals(1.0));
-      expect(ctx.defaultPannerStrategy, equals(PannerStrategies.stereo));
+      expect(ctx.defaultPannerStrategy, equals(PannerStrategy.stereo));
       expect(ctx.defaultRolloff, equals(1.0));
       expect(ctx.position, equals(Double3(0.0, 0.0, 0.0)));
       expect(ctx.gain, equals(1.0));

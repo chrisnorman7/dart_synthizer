@@ -54,7 +54,7 @@ class DirectSource extends Source {
 class AngularPannedSource extends Source {
   /// Create an instance.
   AngularPannedSource(Context context,
-      {PannerStrategies? pannerStrategy,
+      {PannerStrategy? pannerStrategy,
       double azimuth = 0.0,
       double elevation = 0.0})
       : super(context) {
@@ -96,7 +96,7 @@ class AngularPannedSource extends Source {
 class ScalarPannedSource extends Source {
   /// Create a panned source with a scalar.
   ScalarPannedSource(Context context,
-      {PannerStrategies? panningStrategy, double panningScalar = 0.0})
+      {PannerStrategy? panningStrategy, double panningScalar = 0.0})
       : super(context) {
     synthizer.check(synthizer.synthizer.syz_createScalarPannedSource(
         handle,
@@ -146,10 +146,10 @@ class Source3D extends Source {
       : super.fromHandle(synthizer, pointer);
 
   /// Get the distance model for this object.
-  DistanceModels get distanceModel => synthizer.getDistanceModel(handle);
+  DistanceModel get distanceModel => synthizer.getDistanceModel(handle);
 
   /// Set the distance model for this object.
-  set distanceModel(DistanceModels value) =>
+  set distanceModel(DistanceModel value) =>
       synthizer.setDistanceModel(handle, value);
 
   /// Get the distance ref for this object.

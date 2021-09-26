@@ -627,11 +627,11 @@ class DartSynthizer {
       _syz_automationSetTimelinePtr.asFunction<int Function(int, int, int)>();
 
   int syz_automationClear(
-    int objeect,
+    int object,
     int property,
   ) {
     return _syz_automationClear(
-      objeect,
+      object,
       property,
     );
   }
