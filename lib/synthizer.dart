@@ -315,20 +315,21 @@ class Synthizer {
     SynthizerEvent? value;
     check(synthizer.syz_contextGetNextEvent(
         _eventPointer, context.handle.value, 0));
-    if (_eventPointer.ref.type == SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_INVALID) {
-      return null;
-    }
     final sourceHandle = _eventPointer.ref.source;
-    final source = getObject(sourceHandle);
-    switch (_eventPointer.ref.type) {
-      case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_FINISHED:
-        value = FinishedEvent(context, source);
+    final eventType = _eventPointer.ref.type.toEventTypes();
+    switch (eventType) {
+      case EventTypes.finished:
+        value = FinishedEvent(context, getObject(sourceHandle));
         break;
-      case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_LOOPED:
-        value = LoopedEvent(context, source as Generator);
+      case EventTypes.looped:
+        value = LoopedEvent(context, getObject(sourceHandle) as Generator);
         break;
-      default:
-        throw SynthizerError('Unhandled event type.', _eventPointer.ref.type);
+      case EventTypes.userAutomation:
+        value = UserAutomationEvent(context, getObject(sourceHandle),
+            _eventPointer.ref.payload.user_automation.param);
+        break;
+      case EventTypes.invalid:
+        return null;
     }
     synthizer.syz_eventDeinit(_eventPointer);
     return value;

@@ -12,11 +12,20 @@ Future<void> main() async {
       print('Finished: ${event.source}');
     } else if (event is LoopedEvent) {
       print('Looped: ${event.generator}');
+    } else if (event is UserAutomationEvent) {
+      print('User automation: ${event.target} ${event.param}.');
+    } else {
+      print(event);
     }
   });
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
   final generator = ctx.createBufferGenerator(buffer: buffer)..looping = true;
   final source = ctx.createDirectSource()..addGenerator(generator);
+  final commands = [
+    for (var i = 0; i < 10; i += 2)
+      AutomationSendUserEventCommand(i.toDouble(), i * 2)
+  ];
+  ctx.executeAutomation(source, commands);
   await Future<void>.delayed(Duration(seconds: 10));
   source.destroy();
   generator.destroy();
