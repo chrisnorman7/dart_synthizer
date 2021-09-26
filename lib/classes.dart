@@ -52,14 +52,13 @@ class SynthizerObject {
   /// Set an automation timeline.
   void setAutomation(Properties property, List<AutomationPoint> points) {
     final timeline = AutomationTimeline(synthizer, points);
-    synthizer.check(synthizer.synthizer.syz_automationSetTimeline(handle.value,
-        synthizer.propertyToInt(property), timeline.handle.value));
+    synthizer.check(synthizer.synthizer.syz_automationSetTimeline(
+        handle.value, property.toInt(), timeline.handle.value));
   }
 
   /// Clear automation timeline.
-  void clearAutomation(Properties property) => synthizer.check(synthizer
-      .synthizer
-      .syz_automationClear(handle.value, synthizer.propertyToInt(property)));
+  void clearAutomation(Properties property) => synthizer.check(
+      synthizer.synthizer.syz_automationClear(handle.value, property.toInt()));
 
   /// Used to compare two objects.
   @override

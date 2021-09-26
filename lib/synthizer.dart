@@ -77,102 +77,15 @@ class Synthizer {
     }
   }
 
-  /// Get an integer from a property member.
-  int propertyToInt(Properties property) {
-    switch (property) {
-      case Properties.azimuth:
-        return SYZ_PROPERTIES.SYZ_P_AZIMUTH;
-      case Properties.buffer:
-        return SYZ_PROPERTIES.SYZ_P_BUFFER;
-      case Properties.closenessBoost:
-        return SYZ_PROPERTIES.SYZ_P_CLOSENESS_BOOST;
-      case Properties.closenessBoostDistance:
-        return SYZ_PROPERTIES.SYZ_P_CLOSENESS_BOOST_DISTANCE;
-      case Properties.distanceMax:
-        return SYZ_PROPERTIES.SYZ_P_DISTANCE_MAX;
-      case Properties.distanceModel:
-        return SYZ_PROPERTIES.SYZ_P_DISTANCE_MODEL;
-      case Properties.distanceRef:
-        return SYZ_PROPERTIES.SYZ_P_DISTANCE_REF;
-      case Properties.elevation:
-        return SYZ_PROPERTIES.SYZ_P_ELEVATION;
-      case Properties.gain:
-        return SYZ_PROPERTIES.SYZ_P_GAIN;
-      case Properties.panningScalar:
-        return SYZ_PROPERTIES.SYZ_P_PANNING_SCALAR;
-      case Properties.position:
-        return SYZ_PROPERTIES.SYZ_P_POSITION;
-      case Properties.orientation:
-        return SYZ_PROPERTIES.SYZ_P_ORIENTATION;
-      case Properties.rolloff:
-        return SYZ_PROPERTIES.SYZ_P_ROLLOFF;
-      case Properties.looping:
-        return SYZ_PROPERTIES.SYZ_P_LOOPING;
-      case Properties.noiseType:
-        return SYZ_PROPERTIES.SYZ_P_NOISE_TYPE;
-      case Properties.pitchBend:
-        return SYZ_PROPERTIES.SYZ_P_PITCH_BEND;
-      case Properties.inputFilterEnabled:
-        return SYZ_PROPERTIES.SYZ_P_INPUT_FILTER_ENABLED;
-      case Properties.inputFilterCutoff:
-        return SYZ_PROPERTIES.SYZ_P_INPUT_FILTER_CUTOFF;
-      case Properties.meanFreePath:
-        return SYZ_PROPERTIES.SYZ_P_MEAN_FREE_PATH;
-      case Properties.t60:
-        return SYZ_PROPERTIES.SYZ_P_T60;
-      case Properties.lateReflectionsLfRolloff:
-        return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_LF_ROLLOFF;
-      case Properties.lateReflectionsLfReference:
-        return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_LF_REFERENCE;
-      case Properties.lateReflectionsHfRolloff:
-        return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_HF_ROLLOFF;
-      case Properties.lateReflectionsHfReference:
-        return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_HF_REFERENCE;
-      case Properties.lateReflectionsDiffusion:
-        return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_DIFFUSION;
-      case Properties.lateReflectionsModulationDepth:
-        return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_MODULATION_DEPTH;
-      case Properties.lateReflectionsModulationFrequency:
-        return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_MODULATION_FREQUENCY;
-      case Properties.lateReflectionsDelay:
-        return SYZ_PROPERTIES.SYZ_P_LATE_REFLECTIONS_DELAY;
-      case Properties.filter:
-        return SYZ_PROPERTIES.SYZ_P_FILTER;
-      case Properties.filterDirect:
-        return SYZ_PROPERTIES.SYZ_P_FILTER_DIRECT;
-      case Properties.filterEffects:
-        return SYZ_PROPERTIES.SYZ_P_FILTER_EFFECTS;
-      case Properties.filterInput:
-        return SYZ_PROPERTIES.SYZ_P_FILTER_INPUT;
-      case Properties.defaultPannerStrategy:
-        return SYZ_PROPERTIES.SYZ_P_DEFAULT_PANNER_STRATEGY;
-      case Properties.playbackPosition:
-        return SYZ_PROPERTIES.SYZ_P_PLAYBACK_POSITION;
-      case Properties.defaultClosenessBoost:
-        return SYZ_PROPERTIES.SYZ_P_DEFAULT_CLOSENESS_BOOST;
-      case Properties.defaultClosenessBoostDistance:
-        return SYZ_PROPERTIES.SYZ_P_DEFAULT_CLOSENESS_BOOST_DISTANCE;
-      case Properties.defaultDistanceMax:
-        return SYZ_PROPERTIES.SYZ_P_DEFAULT_DISTANCE_MAX;
-      case Properties.defaultDistanceModel:
-        return SYZ_PROPERTIES.SYZ_P_DEFAULT_DISTANCE_MODEL;
-      case Properties.defaultDistanceRef:
-        return SYZ_PROPERTIES.SYZ_P_DEFAULT_DISTANCE_REF;
-      case Properties.defaultRolloff:
-        return SYZ_PROPERTIES.SYZ_P_DEFAULT_ROLLOFF;
-    }
-  }
-
   /// Get an integer property.
   int getInt(Pointer<Uint64> handle, Properties property) {
-    check(
-        synthizer.syz_getI(_intPointer, handle.value, propertyToInt(property)));
+    check(synthizer.syz_getI(_intPointer, handle.value, property.toInt()));
     return _intPointer.value;
   }
 
   /// Set a int property.
   void setInt(Pointer<Uint64> handle, Properties property, int value) =>
-      check(synthizer.syz_setI(handle.value, propertyToInt(property), value));
+      check(synthizer.syz_setI(handle.value, property.toInt(), value));
 
   /// Get a boolean property.
   bool getBool(Pointer<Uint64> handle, Properties property) =>
@@ -180,134 +93,71 @@ class Synthizer {
 
   /// Set a boolean property.
   void setBool(Pointer<Uint64> handle, Properties property, bool value) =>
-      check(synthizer.syz_setI(
-          handle.value, propertyToInt(property), value ? 1 : 0));
+      check(synthizer.syz_setI(handle.value, property.toInt(), value ? 1 : 0));
 
   /// Get a double property.
   double getDouble(Pointer<Uint64> handle, Properties property) {
-    check(synthizer.syz_getD(
-        _doublePointer, handle.value, propertyToInt(property)));
+    check(synthizer.syz_getD(_doublePointer, handle.value, property.toInt()));
     return _doublePointer.value;
   }
 
   /// Set a double property.
   void setDouble(Pointer<Uint64> handle, Properties property, double value) =>
-      check(synthizer.syz_setD(handle.value, propertyToInt(property), value));
+      check(synthizer.syz_setD(handle.value, property.toInt(), value));
 
   /// Get a double3 property.
   Double3 getDouble3(Pointer<Uint64> handle, Properties property) {
-    check(synthizer.syz_getD3(
-        _x1, _y1, _z1, handle.value, propertyToInt(property)));
+    check(synthizer.syz_getD3(_x1, _y1, _z1, handle.value, property.toInt()));
     return Double3(_x1.value, _y1.value, _z1.value);
   }
 
   /// Set a double3 property.
   void setDouble3(Pointer<Uint64> handle, Properties property, Double3 value) =>
       check(synthizer.syz_setD3(
-          handle.value, propertyToInt(property), value.x, value.y, value.z));
+          handle.value, property.toInt(), value.x, value.y, value.z));
 
   /// Get a double6 property.
   Double6 getDouble6(Pointer<Uint64> handle, Properties property) {
     check(synthizer.syz_getD6(
-        _x1, _y1, _z1, _x2, _y2, _z2, handle.value, propertyToInt(property)));
+        _x1, _y1, _z1, _x2, _y2, _z2, handle.value, property.toInt()));
     return Double6(
         _x1.value, _y1.value, _z1.value, _x2.value, _y2.value, _z2.value);
   }
 
   /// Set a double6 property.
   void setDouble6(Pointer<Uint64> handle, Properties property, Double6 value) =>
-      check(synthizer.syz_setD6(handle.value, propertyToInt(property), value.x1,
+      check(synthizer.syz_setD6(handle.value, property.toInt(), value.x1,
           value.y1, value.z1, value.x2, value.y2, value.z2));
-
-  /// Convert an integer to a panner strategy.
-  PannerStrategy _intToPannerStrategy(int i) {
-    switch (i) {
-      case SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF:
-        return PannerStrategy.hrtf;
-      case SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_STEREO:
-        return PannerStrategy.stereo;
-      default:
-        throw SynthizerError('Unrecognised panner strategy.', i);
-    }
-  }
-
-  /// Convert a panner strategy to an integer.
-  int pannerStrategyToInt(PannerStrategy strategy) {
-    switch (strategy) {
-      case PannerStrategy.hrtf:
-        return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_HRTF;
-      case PannerStrategy.stereo:
-        return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_STEREO;
-      case PannerStrategy.count:
-        return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_COUNT;
-      case PannerStrategy.delegate:
-        return SYZ_PANNER_STRATEGY.SYZ_PANNER_STRATEGY_DELEGATE;
-    }
-  }
 
   /// Get a default panner strategy property.
   PannerStrategy getDefaultPannerStrategy(Pointer<Uint64> handle) =>
-      _intToPannerStrategy(getInt(handle, Properties.defaultPannerStrategy));
+      getInt(handle, Properties.defaultPannerStrategy).toPannerStrategy();
 
   /// Set a default panner strategy.
   void setDefaultPannerStrategy(Pointer<Uint64> handle, PannerStrategy value) =>
-      setInt(
-          handle, Properties.defaultPannerStrategy, pannerStrategyToInt(value));
-
-  /// Convert an integer to a distance model.
-  DistanceModel _intToDistanceModel(int i) {
-    switch (i) {
-      case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL:
-        return DistanceModel.exponential;
-      case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_INVERSE:
-        return DistanceModel.inverse;
-      case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_LINEAR:
-        return DistanceModel.linear;
-      case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE:
-        return DistanceModel.none;
-      default:
-        throw SynthizerError('Unrecognised distance model.', i);
-    }
-  }
-
-  /// Convert a distance model to an integer.
-  int _distanceModelToInt(DistanceModel model) {
-    switch (model) {
-      case DistanceModel.exponential:
-        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_EXPONENTIAL;
-      case DistanceModel.none:
-        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_NONE;
-      case DistanceModel.linear:
-        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_LINEAR;
-      case DistanceModel.inverse:
-        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_INVERSE;
-      case DistanceModel.count:
-        return SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_COUNT;
-    }
-  }
+      setInt(handle, Properties.defaultPannerStrategy, value.toInt());
 
   /// Get a distance model property.
   DistanceModel getDistanceModel(Pointer<Uint64> handle) =>
-      _intToDistanceModel(getInt(handle, Properties.distanceModel));
+      getInt(handle, Properties.distanceModel).toDistanceModel();
 
   /// Set a distance model property.
   void setDistanceModel(Pointer<Uint64> handle, DistanceModel value) =>
-      setInt(handle, Properties.distanceModel, _distanceModelToInt(value));
+      setInt(handle, Properties.distanceModel, value.toInt());
 
   /// Get a default distance model property.
   DistanceModel getDefaultDistanceModel(Pointer<Uint64> handle) =>
-      _intToDistanceModel(getInt(handle, Properties.defaultDistanceModel));
+      getInt(handle, Properties.defaultDistanceModel).toDistanceModel();
 
   /// Set a default distance model property.
   void setDefaultDistanceModel(Pointer<Uint64> handle, DistanceModel value) =>
-      setInt(
-          handle, Properties.defaultDistanceModel, _distanceModelToInt(value));
+      setInt(handle, Properties.defaultDistanceModel, value.toInt());
 
   /// Set a biquad property.
   void setBiquad(
           Pointer<Uint64> handle, Properties property, BiquadConfig config) =>
       check(synthizer.syz_setBiquad(
-          handle.value, propertyToInt(property), config.config));
+          handle.value, property.toInt(), config.config));
 
   /// Initialise the library.
   void initialize(

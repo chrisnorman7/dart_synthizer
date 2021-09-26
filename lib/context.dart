@@ -125,7 +125,7 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
 
   /// Create a panned source with an azimuth and an elevation.
   AngularPannedSource createAngularPannedSource(
-          {PannerStrategy? pannerStrategy,
+          {PannerStrategy pannerStrategy = PannerStrategy.delegate,
           double azimuth = 0.0,
           double elevation = 0.0}) =>
       AngularPannedSource(this,
@@ -135,7 +135,8 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
 
   /// Create a panned source with a scalar.
   ScalarPannedSource createScalarPannedSource(
-          {PannerStrategy? panningStrategy, double panningScalar = 0.0}) =>
+          {PannerStrategy panningStrategy = PannerStrategy.delegate,
+          double panningScalar = 0.0}) =>
       ScalarPannedSource(this,
           panningScalar: panningScalar, panningStrategy: panningStrategy);
 

@@ -54,15 +54,14 @@ class DirectSource extends Source {
 class AngularPannedSource extends Source {
   /// Create an instance.
   AngularPannedSource(Context context,
-      {PannerStrategy? pannerStrategy,
+      {PannerStrategy pannerStrategy = PannerStrategy.delegate,
       double azimuth = 0.0,
       double elevation = 0.0})
       : super(context) {
     synthizer.check(synthizer.synthizer.syz_createAngularPannedSource(
         handle,
         context.handle.value,
-        synthizer.pannerStrategyToInt(
-            pannerStrategy ?? context.defaultPannerStrategy),
+        pannerStrategy.toInt(),
         azimuth,
         elevation,
         nullptr,
@@ -96,13 +95,13 @@ class AngularPannedSource extends Source {
 class ScalarPannedSource extends Source {
   /// Create a panned source with a scalar.
   ScalarPannedSource(Context context,
-      {PannerStrategy? panningStrategy, double panningScalar = 0.0})
+      {PannerStrategy panningStrategy = PannerStrategy.delegate,
+      double panningScalar = 0.0})
       : super(context) {
     synthizer.check(synthizer.synthizer.syz_createScalarPannedSource(
         handle,
         context.handle.value,
-        synthizer.pannerStrategyToInt(
-            panningStrategy ?? context.defaultPannerStrategy),
+        panningStrategy.toInt(),
         panningScalar,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
@@ -128,12 +127,16 @@ class ScalarPannedSource extends Source {
 /// Source 3ds can be created with [Context.createSource3D].
 class Source3D extends Source {
   /// Create a 3d source.
-  Source3D(Context context, {double x = 0.0, double y = 0.0, double z = 0.0})
+  Source3D(Context context,
+      {double x = 0.0,
+      double y = 0.0,
+      double z = 0.0,
+      PannerStrategy pannerStrategy = PannerStrategy.delegate})
       : super(context) {
     synthizer.check(synthizer.synthizer.syz_createSource3D(
         handle,
         context.handle.value,
-        synthizer.pannerStrategyToInt(context.defaultPannerStrategy),
+        pannerStrategy.toInt(),
         x,
         y,
         z,
