@@ -113,7 +113,7 @@ Future<void> main() async {
       ..writeln('enum ${e.dartName} {');
     for (final m in e.members) {
       buffer
-        ..writeln('/// ${e.synthizerName} = ${m.value}')
+        ..writeln('/// ${m.synthizerName} = ${m.value}')
         ..writeln('${m.dartName},');
     }
     buffer
