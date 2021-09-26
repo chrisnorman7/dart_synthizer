@@ -7,6 +7,7 @@
     "Behavior",
     "Biquad",
     "calloc",
+    "chrono",
     "ctx",
     "CUTOFF",
     "Deinit",
