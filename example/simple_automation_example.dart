@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
@@ -15,6 +17,7 @@ Future<void> main() async {
     AutomationAppendPropertyCommand(5.0, Properties.gain, 0.0)
   ]);
   await Future<void>.delayed(Duration(milliseconds: 5500));
+  print('Final gain is ${generator.gain}.');
   for (final thing in <SynthizerObject>[
     ctx,
     buffer,
