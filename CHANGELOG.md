@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.0]
+
+### Changed
+
+* Removed the deprecated automation API and updated it.
+
+### Added
+
+* Added 2 automation examples.
+
 ## [0.2.1]
 
 ### Added
