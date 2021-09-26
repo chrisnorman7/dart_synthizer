@@ -4,10 +4,10 @@ import 'synthizer_bindings.dart';
 
 /// SYZ_LOGGING_BACKEND.
 enum LoggingBackend {
-  /// SYZ_LOGGING_BACKEND = 0
+  /// SYZ_LOGGING_BACKEND_NONE = 0
   none,
 
-  /// SYZ_LOGGING_BACKEND = 1
+  /// SYZ_LOGGING_BACKEND_STDERR = 1
   stderr,
 }
 
@@ -26,16 +26,16 @@ extension LoggingBackendToInt on LoggingBackend {
 
 /// SYZ_LOG_LEVEL.
 enum LogLevel {
-  /// SYZ_LOG_LEVEL = 0
+  /// SYZ_LOG_LEVEL_ERROR = 0
   error,
 
-  /// SYZ_LOG_LEVEL = 10
+  /// SYZ_LOG_LEVEL_WARN = 10
   warn,
 
-  /// SYZ_LOG_LEVEL = 20
+  /// SYZ_LOG_LEVEL_INFO = 20
   info,
 
-  /// SYZ_LOG_LEVEL = 30
+  /// SYZ_LOG_LEVEL_DEBUG = 30
   debug,
 }
 
@@ -58,44 +58,47 @@ extension LogLevelToInt on LogLevel {
 
 /// SYZ_OBJECT_TYPE.
 enum ObjectType {
-  /// SYZ_OBJECT_TYPE = 0
+  /// SYZ_OTYPE_CONTEXT = 0
   context,
 
-  /// SYZ_OBJECT_TYPE = 1
+  /// SYZ_OTYPE_BUFFER = 1
   buffer,
 
-  /// SYZ_OBJECT_TYPE = 2
+  /// SYZ_OTYPE_BUFFER_GENERATOR = 2
   bufferGenerator,
 
-  /// SYZ_OBJECT_TYPE = 3
+  /// SYZ_OTYPE_STREAMING_GENERATOR = 3
   streamingGenerator,
 
-  /// SYZ_OBJECT_TYPE = 4
+  /// SYZ_OTYPE_NOISE_GENERATOR = 4
   noiseGenerator,
 
-  /// SYZ_OBJECT_TYPE = 5
+  /// SYZ_OTYPE_DIRECT_SOURCE = 5
   directSource,
 
-  /// SYZ_OBJECT_TYPE = 6
+  /// SYZ_OTYPE_ANGULAR_PANNED_SOURCE = 6
   angularPannedSource,
 
-  /// SYZ_OBJECT_TYPE = 7
+  /// SYZ_OTYPE_SCALAR_PANNED_SOURCE = 7
   scalarPannedSource,
 
-  /// SYZ_OBJECT_TYPE = 8
+  /// SYZ_OTYPE_SOURCE_3D = 8
   source3d,
 
-  /// SYZ_OBJECT_TYPE = 9
+  /// SYZ_OTYPE_GLOBAL_ECHO = 9
   globalEcho,
 
-  /// SYZ_OBJECT_TYPE = 10
+  /// SYZ_OTYPE_GLOBAL_FDN_REVERB = 10
   globalFdnReverb,
 
-  /// SYZ_OBJECT_TYPE = 11
+  /// SYZ_OTYPE_STREAM_HANDLE = 11
   streamHandle,
 
-  /// SYZ_OBJECT_TYPE = 12
+  /// SYZ_OTYPE_AUTOMATION_TIMELINE = 12
   automationTimeline,
+
+  /// SYZ_OTYPE_AUTOMATION_BATCH = 13
+  automationBatch,
 }
 
 /// An extension for converting Dart to Synthizer values.
@@ -129,22 +132,24 @@ extension ObjectTypeToInt on ObjectType {
         return SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAM_HANDLE;
       case ObjectType.automationTimeline:
         return SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_TIMELINE;
+      case ObjectType.automationBatch:
+        return SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_BATCH;
     }
   }
 }
 
 /// SYZ_PANNER_STRATEGY.
 enum PannerStrategy {
-  /// SYZ_PANNER_STRATEGY = 0
+  /// SYZ_PANNER_STRATEGY_DELEGATE = 0
   delegate,
 
-  /// SYZ_PANNER_STRATEGY = 1
+  /// SYZ_PANNER_STRATEGY_HRTF = 1
   hrtf,
 
-  /// SYZ_PANNER_STRATEGY = 2
+  /// SYZ_PANNER_STRATEGY_STEREO = 2
   stereo,
 
-  /// SYZ_PANNER_STRATEGY = 3
+  /// SYZ_PANNER_STRATEGY_COUNT = 3
   count,
 }
 
@@ -167,19 +172,19 @@ extension PannerStrategyToInt on PannerStrategy {
 
 /// SYZ_DISTANCE_MODEL.
 enum DistanceModel {
-  /// SYZ_DISTANCE_MODEL = 0
+  /// SYZ_DISTANCE_MODEL_NONE = 0
   none,
 
-  /// SYZ_DISTANCE_MODEL = 1
+  /// SYZ_DISTANCE_MODEL_LINEAR = 1
   linear,
 
-  /// SYZ_DISTANCE_MODEL = 2
+  /// SYZ_DISTANCE_MODEL_EXPONENTIAL = 2
   exponential,
 
-  /// SYZ_DISTANCE_MODEL = 3
+  /// SYZ_DISTANCE_MODEL_INVERSE = 3
   inverse,
 
-  /// SYZ_DISTANCE_MODEL = 4
+  /// SYZ_DISTANCE_MODEL_COUNT = 4
   count,
 }
 
@@ -204,16 +209,16 @@ extension DistanceModelToInt on DistanceModel {
 
 /// SYZ_NOISE_TYPE.
 enum NoiseType {
-  /// SYZ_NOISE_TYPE = 0
+  /// SYZ_NOISE_TYPE_UNIFORM = 0
   uniform,
 
-  /// SYZ_NOISE_TYPE = 1
+  /// SYZ_NOISE_TYPE_VM = 1
   vm,
 
-  /// SYZ_NOISE_TYPE = 2
+  /// SYZ_NOISE_TYPE_FILTERED_BROWN = 2
   filteredBrown,
 
-  /// SYZ_NOISE_TYPE = 3
+  /// SYZ_NOISE_TYPE_COUNT = 3
   count,
 }
 
@@ -236,124 +241,124 @@ extension NoiseTypeToInt on NoiseType {
 
 /// SYZ_PROPERTIES.
 enum Properties {
-  /// SYZ_PROPERTIES = 0
+  /// SYZ_P_AZIMUTH = 0
   azimuth,
 
-  /// SYZ_PROPERTIES = 1
+  /// SYZ_P_BUFFER = 1
   buffer,
 
-  /// SYZ_PROPERTIES = 2
+  /// SYZ_P_ELEVATION = 2
   elevation,
 
-  /// SYZ_PROPERTIES = 3
+  /// SYZ_P_GAIN = 3
   gain,
 
-  /// SYZ_PROPERTIES = 4
+  /// SYZ_P_DEFAULT_PANNER_STRATEGY = 4
   defaultPannerStrategy,
 
-  /// SYZ_PROPERTIES = 5
+  /// SYZ_P_PANNING_SCALAR = 5
   panningScalar,
 
-  /// SYZ_PROPERTIES = 6
+  /// SYZ_P_PLAYBACK_POSITION = 6
   playbackPosition,
 
-  /// SYZ_PROPERTIES = 7
+  /// SYZ_P_POSITION = 7
   position,
 
-  /// SYZ_PROPERTIES = 8
+  /// SYZ_P_ORIENTATION = 8
   orientation,
 
-  /// SYZ_PROPERTIES = 9
+  /// SYZ_P_CLOSENESS_BOOST = 9
   closenessBoost,
 
-  /// SYZ_PROPERTIES = 10
+  /// SYZ_P_CLOSENESS_BOOST_DISTANCE = 10
   closenessBoostDistance,
 
-  /// SYZ_PROPERTIES = 11
+  /// SYZ_P_DISTANCE_MAX = 11
   distanceMax,
 
-  /// SYZ_PROPERTIES = 12
+  /// SYZ_P_DISTANCE_MODEL = 12
   distanceModel,
 
-  /// SYZ_PROPERTIES = 13
+  /// SYZ_P_DISTANCE_REF = 13
   distanceRef,
 
-  /// SYZ_PROPERTIES = 14
+  /// SYZ_P_ROLLOFF = 14
   rolloff,
 
-  /// SYZ_PROPERTIES = 15
+  /// SYZ_P_DEFAULT_CLOSENESS_BOOST = 15
   defaultClosenessBoost,
 
-  /// SYZ_PROPERTIES = 16
+  /// SYZ_P_DEFAULT_CLOSENESS_BOOST_DISTANCE = 16
   defaultClosenessBoostDistance,
 
-  /// SYZ_PROPERTIES = 17
+  /// SYZ_P_DEFAULT_DISTANCE_MAX = 17
   defaultDistanceMax,
 
-  /// SYZ_PROPERTIES = 18
+  /// SYZ_P_DEFAULT_DISTANCE_MODEL = 18
   defaultDistanceModel,
 
-  /// SYZ_PROPERTIES = 19
+  /// SYZ_P_DEFAULT_DISTANCE_REF = 19
   defaultDistanceRef,
 
-  /// SYZ_PROPERTIES = 20
+  /// SYZ_P_DEFAULT_ROLLOFF = 20
   defaultRolloff,
 
-  /// SYZ_PROPERTIES = 21
+  /// SYZ_P_LOOPING = 21
   looping,
 
-  /// SYZ_PROPERTIES = 22
+  /// SYZ_P_NOISE_TYPE = 22
   noiseType,
 
-  /// SYZ_PROPERTIES = 23
+  /// SYZ_P_PITCH_BEND = 23
   pitchBend,
 
-  /// SYZ_PROPERTIES = 24
+  /// SYZ_P_INPUT_FILTER_ENABLED = 24
   inputFilterEnabled,
 
-  /// SYZ_PROPERTIES = 25
+  /// SYZ_P_INPUT_FILTER_CUTOFF = 25
   inputFilterCutoff,
 
-  /// SYZ_PROPERTIES = 26
+  /// SYZ_P_MEAN_FREE_PATH = 26
   meanFreePath,
 
-  /// SYZ_PROPERTIES = 27
+  /// SYZ_P_T60 = 27
   t60,
 
-  /// SYZ_PROPERTIES = 28
+  /// SYZ_P_LATE_REFLECTIONS_LF_ROLLOFF = 28
   lateReflectionsLfRolloff,
 
-  /// SYZ_PROPERTIES = 29
+  /// SYZ_P_LATE_REFLECTIONS_LF_REFERENCE = 29
   lateReflectionsLfReference,
 
-  /// SYZ_PROPERTIES = 30
+  /// SYZ_P_LATE_REFLECTIONS_HF_ROLLOFF = 30
   lateReflectionsHfRolloff,
 
-  /// SYZ_PROPERTIES = 31
+  /// SYZ_P_LATE_REFLECTIONS_HF_REFERENCE = 31
   lateReflectionsHfReference,
 
-  /// SYZ_PROPERTIES = 32
+  /// SYZ_P_LATE_REFLECTIONS_DIFFUSION = 32
   lateReflectionsDiffusion,
 
-  /// SYZ_PROPERTIES = 33
+  /// SYZ_P_LATE_REFLECTIONS_MODULATION_DEPTH = 33
   lateReflectionsModulationDepth,
 
-  /// SYZ_PROPERTIES = 34
+  /// SYZ_P_LATE_REFLECTIONS_MODULATION_FREQUENCY = 34
   lateReflectionsModulationFrequency,
 
-  /// SYZ_PROPERTIES = 35
+  /// SYZ_P_LATE_REFLECTIONS_DELAY = 35
   lateReflectionsDelay,
 
-  /// SYZ_PROPERTIES = 36
+  /// SYZ_P_FILTER = 36
   filter,
 
-  /// SYZ_PROPERTIES = 37
+  /// SYZ_P_FILTER_DIRECT = 37
   filterDirect,
 
-  /// SYZ_PROPERTIES = 38
+  /// SYZ_P_FILTER_EFFECTS = 38
   filterEffects,
 
-  /// SYZ_PROPERTIES = 39
+  /// SYZ_P_FILTER_INPUT = 39
   filterInput,
 }
 
@@ -448,14 +453,17 @@ extension PropertiesToInt on Properties {
 
 /// SYZ_EVENT_TYPES.
 enum EventTypes {
-  /// SYZ_EVENT_TYPES = 0
+  /// SYZ_EVENT_TYPE_INVALID = 0
   invalid,
 
-  /// SYZ_EVENT_TYPES = 1
+  /// SYZ_EVENT_TYPE_LOOPED = 1
   looped,
 
-  /// SYZ_EVENT_TYPES = 2
+  /// SYZ_EVENT_TYPE_FINISHED = 2
   finished,
+
+  /// SYZ_EVENT_TYPE_USER_AUTOMATION = 3
+  userAutomation,
 }
 
 /// An extension for converting Dart to Synthizer values.
@@ -469,16 +477,18 @@ extension EventTypesToInt on EventTypes {
         return SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_LOOPED;
       case EventTypes.finished:
         return SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_FINISHED;
+      case EventTypes.userAutomation:
+        return SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_USER_AUTOMATION;
     }
   }
 }
 
 /// SYZ_INTERPOLATION_TYPES.
 enum InterpolationTypes {
-  /// SYZ_INTERPOLATION_TYPES = 0
+  /// SYZ_INTERPOLATION_TYPE_NONE = 0
   none,
 
-  /// SYZ_INTERPOLATION_TYPES = 1
+  /// SYZ_INTERPOLATION_TYPE_LINEAR = 1
   linear,
 }
 
@@ -491,6 +501,44 @@ extension InterpolationTypesToInt on InterpolationTypes {
         return SYZ_INTERPOLATION_TYPES.SYZ_INTERPOLATION_TYPE_NONE;
       case InterpolationTypes.linear:
         return SYZ_INTERPOLATION_TYPES.SYZ_INTERPOLATION_TYPE_LINEAR;
+    }
+  }
+}
+
+/// SYZ_AUTOMATION_COMMANDS.
+enum AutomationCommands {
+  /// SYZ_AUTOMATION_COMMAND_APPEND_PROPERTY = 0
+  appendProperty,
+
+  /// SYZ_AUTOMATION_COMMAND_SEND_USER_EVENT = 1
+  sendUserEvent,
+
+  /// SYZ_AUTOMATION_COMMAND_CLEAR_PROPERTY = 2
+  clearProperty,
+
+  /// SYZ_AUTOMATION_COMMAND_CLEAR_EVENTS = 3
+  clearEvents,
+
+  /// SYZ_AUTOMATION_COMMAND_CLEAR_ALL_PROPERTIES = 4
+  clearAllProperties,
+}
+
+/// An extension for converting Dart to Synthizer values.
+extension AutomationCommandsToInt on AutomationCommands {
+  /// Return an integer.
+  int toInt() {
+    switch (this) {
+      case AutomationCommands.appendProperty:
+        return SYZ_AUTOMATION_COMMANDS.SYZ_AUTOMATION_COMMAND_APPEND_PROPERTY;
+      case AutomationCommands.sendUserEvent:
+        return SYZ_AUTOMATION_COMMANDS.SYZ_AUTOMATION_COMMAND_SEND_USER_EVENT;
+      case AutomationCommands.clearProperty:
+        return SYZ_AUTOMATION_COMMANDS.SYZ_AUTOMATION_COMMAND_CLEAR_PROPERTY;
+      case AutomationCommands.clearEvents:
+        return SYZ_AUTOMATION_COMMANDS.SYZ_AUTOMATION_COMMAND_CLEAR_EVENTS;
+      case AutomationCommands.clearAllProperties:
+        return SYZ_AUTOMATION_COMMANDS
+            .SYZ_AUTOMATION_COMMAND_CLEAR_ALL_PROPERTIES;
     }
   }
 }
@@ -555,6 +603,8 @@ extension IntToSynthizer on int {
         return ObjectType.streamHandle;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_TIMELINE:
         return ObjectType.automationTimeline;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_BATCH:
+        return ObjectType.automationBatch;
       default:
         throw SynthizerError('Unrecognised `SYZ_OBJECT_TYPE` member.', this);
     }
@@ -708,6 +758,8 @@ extension IntToSynthizer on int {
         return EventTypes.looped;
       case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_FINISHED:
         return EventTypes.finished;
+      case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_USER_AUTOMATION:
+        return EventTypes.userAutomation;
       default:
         throw SynthizerError('Unrecognised `SYZ_EVENT_TYPES` member.', this);
     }
@@ -723,6 +775,25 @@ extension IntToSynthizer on int {
       default:
         throw SynthizerError(
             'Unrecognised `SYZ_INTERPOLATION_TYPES` member.', this);
+    }
+  }
+
+  /// Convert from a [SYZ_AUTOMATION_COMMANDS] member.
+  AutomationCommands toAutomationCommands() {
+    switch (this) {
+      case SYZ_AUTOMATION_COMMANDS.SYZ_AUTOMATION_COMMAND_APPEND_PROPERTY:
+        return AutomationCommands.appendProperty;
+      case SYZ_AUTOMATION_COMMANDS.SYZ_AUTOMATION_COMMAND_SEND_USER_EVENT:
+        return AutomationCommands.sendUserEvent;
+      case SYZ_AUTOMATION_COMMANDS.SYZ_AUTOMATION_COMMAND_CLEAR_PROPERTY:
+        return AutomationCommands.clearProperty;
+      case SYZ_AUTOMATION_COMMANDS.SYZ_AUTOMATION_COMMAND_CLEAR_EVENTS:
+        return AutomationCommands.clearEvents;
+      case SYZ_AUTOMATION_COMMANDS.SYZ_AUTOMATION_COMMAND_CLEAR_ALL_PROPERTIES:
+        return AutomationCommands.clearAllProperties;
+      default:
+        throw SynthizerError(
+            'Unrecognised `SYZ_AUTOMATION_COMMANDS` member.', this);
     }
   }
 }

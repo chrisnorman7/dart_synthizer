@@ -191,4 +191,11 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   ///
   /// This method uses the [getEvents] method with the default wait time.
   Stream<SynthizerEvent> get events => getEvents();
+
+  /// Start automating [target].
+  AutomationBatch executeAutomation(
+          SynthizerObject target, List<AutomationCommand> commands) =>
+      AutomationBatch(this)
+        ..addCommands(target, commands)
+        ..execute();
 }

@@ -4,7 +4,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 
-import 'automation.dart';
 import 'enumerations.dart';
 import 'synthizer.dart';
 import 'synthizer_bindings.dart';
@@ -48,17 +47,6 @@ class SynthizerObject {
     synthizer.check(synthizer.synthizer.syz_configDeleteBehavior(
         handle.value, synthizer.deleteBehaviorConfigPointer));
   }
-
-  /// Set an automation timeline.
-  void setAutomation(Properties property, List<AutomationPoint> points) {
-    final timeline = AutomationTimeline(synthizer, points);
-    synthizer.check(synthizer.synthizer.syz_automationSetTimeline(
-        handle.value, property.toInt(), timeline.handle.value));
-  }
-
-  /// Clear automation timeline.
-  void clearAutomation(Properties property) => synthizer.check(
-      synthizer.synthizer.syz_automationClear(handle.value, property.toInt()));
 
   /// Used to compare two objects.
   @override

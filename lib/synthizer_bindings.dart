@@ -569,78 +569,67 @@ class DartSynthizer {
       _syz_biquadDesignBandpassPtr.asFunction<
           int Function(ffi.Pointer<syz_BiquadConfig>, double, double)>();
 
-  int syz_createAutomationTimeline(
+  int syz_createAutomationBatch(
     ffi.Pointer<syz_Handle> out,
-    int point_count,
-    ffi.Pointer<syz_AutomationPoint> points,
-    int flags,
+    int context,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
-    return _syz_createAutomationTimeline(
+    return _syz_createAutomationBatch(
       out,
-      point_count,
-      points,
-      flags,
+      context,
       userdata,
       userdata_free_callback,
     );
   }
 
-  late final _syz_createAutomationTimelinePtr = _lookup<
+  late final _syz_createAutomationBatchPtr = _lookup<
           ffi.NativeFunction<
               syz_ErrorCode Function(
                   ffi.Pointer<syz_Handle>,
-                  ffi.Uint32,
-                  ffi.Pointer<syz_AutomationPoint>,
-                  ffi.Uint64,
+                  syz_Handle,
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
-      'syz_createAutomationTimeline');
-  late final _syz_createAutomationTimeline =
-      _syz_createAutomationTimelinePtr.asFunction<
-          int Function(
-              ffi.Pointer<syz_Handle>,
-              int,
-              ffi.Pointer<syz_AutomationPoint>,
-              int,
-              ffi.Pointer<ffi.Void>,
+      'syz_createAutomationBatch');
+  late final _syz_createAutomationBatch =
+      _syz_createAutomationBatchPtr.asFunction<
+          int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
               ffi.Pointer<syz_UserdataFreeCallback>)>();
 
-  int syz_automationSetTimeline(
-    int object,
-    int property,
-    int timeline,
+  int syz_automationBatchAddCommands(
+    int batch,
+    int commands_len,
+    ffi.Pointer<syz_AutomationCommand> commands,
   ) {
-    return _syz_automationSetTimeline(
-      object,
-      property,
-      timeline,
+    return _syz_automationBatchAddCommands(
+      batch,
+      commands_len,
+      commands,
     );
   }
 
-  late final _syz_automationSetTimelinePtr = _lookup<
-      ffi.NativeFunction<
-          syz_ErrorCode Function(
-              syz_Handle, ffi.Int32, syz_Handle)>>('syz_automationSetTimeline');
-  late final _syz_automationSetTimeline =
-      _syz_automationSetTimelinePtr.asFunction<int Function(int, int, int)>();
+  late final _syz_automationBatchAddCommandsPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  syz_Handle, ffi.Uint64, ffi.Pointer<syz_AutomationCommand>)>>(
+      'syz_automationBatchAddCommands');
+  late final _syz_automationBatchAddCommands =
+      _syz_automationBatchAddCommandsPtr.asFunction<
+          int Function(int, int, ffi.Pointer<syz_AutomationCommand>)>();
 
-  int syz_automationClear(
-    int object,
-    int property,
+  int syz_automationBatchExecute(
+    int batch,
   ) {
-    return _syz_automationClear(
-      object,
-      property,
+    return _syz_automationBatchExecute(
+      batch,
     );
   }
 
-  late final _syz_automationClearPtr = _lookup<
-          ffi.NativeFunction<syz_ErrorCode Function(syz_Handle, ffi.Int32)>>(
-      'syz_automationClear');
-  late final _syz_automationClear =
-      _syz_automationClearPtr.asFunction<int Function(int, int)>();
+  late final _syz_automationBatchExecutePtr =
+      _lookup<ffi.NativeFunction<syz_ErrorCode Function(syz_Handle)>>(
+          'syz_automationBatchExecute');
+  late final _syz_automationBatchExecute =
+      _syz_automationBatchExecutePtr.asFunction<int Function(int)>();
 
   int syz_createContext(
     ffi.Pointer<syz_Handle> out,
@@ -1565,6 +1554,11 @@ class DartSynthizer {
               ffi.Pointer<syz_UserdataFreeCallback>)>();
 }
 
+class syz_UserAutomationEvent extends ffi.Struct {
+  @ffi.Uint64()
+  external int param;
+}
+
 class syz_Event extends ffi.Struct {
   @ffi.Int32()
   external int type;
@@ -1574,9 +1568,15 @@ class syz_Event extends ffi.Struct {
 
   @syz_Handle()
   external int context;
+
+  external UnnamedUnion1 payload;
 }
 
 typedef syz_Handle = ffi.Uint64;
+
+class UnnamedUnion1 extends ffi.Union {
+  external syz_UserAutomationEvent user_automation;
+}
 
 abstract class SYZ_LOGGING_BACKEND {
   static const int SYZ_LOGGING_BACKEND_NONE = 0;
@@ -1640,14 +1640,52 @@ class syz_AutomationPoint extends ffi.Struct {
   @ffi.Uint32()
   external int interpolation_type;
 
-  @ffi.Double()
-  external double automation_time;
-
   @ffi.Array.multi([6])
   external ffi.Array<ffi.Double> values;
 
   @ffi.Uint64()
   external int flags;
+}
+
+class syz_AutomationAppendPropertyCommand extends ffi.Struct {
+  @ffi.Int32()
+  external int property;
+
+  external syz_AutomationPoint point;
+}
+
+class syz_AutomationClearPropertyCommand extends ffi.Struct {
+  @ffi.Int32()
+  external int property;
+}
+
+class syz_AutomationSendUserEventCommand extends ffi.Struct {
+  @ffi.Uint64()
+  external int param;
+}
+
+class syz_AutomationCommand extends ffi.Struct {
+  @syz_Handle()
+  external int target;
+
+  @ffi.Double()
+  external double time;
+
+  @ffi.Int32()
+  external int type;
+
+  @ffi.Uint32()
+  external int flags;
+
+  external UnnamedUnion2 params;
+}
+
+class UnnamedUnion2 extends ffi.Union {
+  external syz_AutomationAppendPropertyCommand append_to_property;
+
+  external syz_AutomationClearPropertyCommand clear_property;
+
+  external syz_AutomationSendUserEventCommand send_user_event;
 }
 
 class syz_CustomStreamDef extends ffi.Struct {
@@ -1724,6 +1762,7 @@ abstract class SYZ_OBJECT_TYPE {
   static const int SYZ_OTYPE_GLOBAL_FDN_REVERB = 10;
   static const int SYZ_OTYPE_STREAM_HANDLE = 11;
   static const int SYZ_OTYPE_AUTOMATION_TIMELINE = 12;
+  static const int SYZ_OTYPE_AUTOMATION_BATCH = 13;
 }
 
 abstract class SYZ_PANNER_STRATEGY {
@@ -1795,9 +1834,18 @@ abstract class SYZ_EVENT_TYPES {
   static const int SYZ_EVENT_TYPE_INVALID = 0;
   static const int SYZ_EVENT_TYPE_LOOPED = 1;
   static const int SYZ_EVENT_TYPE_FINISHED = 2;
+  static const int SYZ_EVENT_TYPE_USER_AUTOMATION = 3;
 }
 
 abstract class SYZ_INTERPOLATION_TYPES {
   static const int SYZ_INTERPOLATION_TYPE_NONE = 0;
   static const int SYZ_INTERPOLATION_TYPE_LINEAR = 1;
+}
+
+abstract class SYZ_AUTOMATION_COMMANDS {
+  static const int SYZ_AUTOMATION_COMMAND_APPEND_PROPERTY = 0;
+  static const int SYZ_AUTOMATION_COMMAND_SEND_USER_EVENT = 1;
+  static const int SYZ_AUTOMATION_COMMAND_CLEAR_PROPERTY = 2;
+  static const int SYZ_AUTOMATION_COMMAND_CLEAR_EVENTS = 3;
+  static const int SYZ_AUTOMATION_COMMAND_CLEAR_ALL_PROPERTIES = 4;
 }

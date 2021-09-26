@@ -302,10 +302,11 @@ class Synthizer {
       case ObjectType.globalFdnReverb:
         return GlobalFdnReverb.fromHandle(this, handle);
       case ObjectType.streamHandle:
-        throw SynthizerError(
-            'Stream handles are not yet supported by this package.', handle);
+        throw UnimplementedError();
       case ObjectType.automationTimeline:
-        return AutomationTimeline.fromHandle(this, handle);
+        throw UnimplementedError();
+      case ObjectType.automationBatch:
+        return AutomationBatch.fromHandle(this, handle);
     }
   }
 
