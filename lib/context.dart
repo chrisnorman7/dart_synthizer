@@ -141,7 +141,12 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
           panningScalar: panningScalar, panningStrategy: panningStrategy);
 
   /// Create a 3d source.
-  Source3D createSource3D() => Source3D(this);
+  Source3D createSource3D(
+          {double x = 0.0,
+          double y = 0.0,
+          double z = 0.0,
+          PannerStrategy pannerStrategy = PannerStrategy.delegate}) =>
+      Source3D(this, pannerStrategy: pannerStrategy, x: x, y: y, z: z);
 
   /// Create a global echo.
   GlobalEcho createGlobalEcho() => GlobalEcho(this);
