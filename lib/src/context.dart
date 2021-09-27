@@ -3,9 +3,11 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
+import 'automation.dart';
+import 'biquad.dart';
 import 'buffer.dart';
 import 'classes.dart';
-import 'dart_synthizer.dart';
+import 'effects.dart';
 import 'enumerations.dart';
 import 'events.dart';
 import 'generator.dart';

@@ -2,8 +2,7 @@ include: package:pedantic/analysis_options.yaml
 
 analyzer:
   exclude:
-    - lib/json/*.g.dart
-    - lib/synthizer_bindings.dart
+    - lib/src/synthizer_bindings.dart
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false

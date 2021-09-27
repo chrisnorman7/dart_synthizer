@@ -67,7 +67,7 @@ Future<void> main() async {
     'AUTOMATION_COMMANDS': 'AUTOMATION_COMMAND',
   };
   final enums = <SynthizerEnum>[];
-  final bindings = File('lib/synthizer_bindings.dart');
+  final bindings = File('lib/src/synthizer_bindings.dart');
   final classNamePattern = RegExp(r'^abstract class SYZ_([^ ]+) [{]$');
   final classMemberPattern =
       RegExp(r'^  static const int SYZ_([^ ]+) = ([^;]+);$');
@@ -151,7 +151,7 @@ Future<void> main() async {
   }
   buffer.writeln('}');
   final formatter = DartFormatter();
-  File('lib/enumerations.dart')
+  File('lib/src/enumerations.dart')
       .writeAsStringSync(formatter.format(buffer.toString()));
   print('Done.');
 }

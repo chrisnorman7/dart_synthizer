@@ -4,13 +4,18 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 
+import 'automation.dart';
 import 'biquad.dart';
+import 'buffer.dart';
 import 'classes.dart';
 import 'context.dart';
-import 'dart_synthizer.dart';
+import 'effects.dart';
 import 'enumerations.dart';
 import 'error.dart';
+import 'events.dart';
+import 'generator.dart';
 import 'properties.dart';
+import 'source.dart';
 import 'synthizer_bindings.dart';
 
 /// The main synthizer class.

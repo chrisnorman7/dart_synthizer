@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.0]
+
+### Changed
+
+* Brought code structure to be more in line with Google's guidelines.
+
 ## [0.5.0]
 
 ### Removed

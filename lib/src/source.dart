@@ -1,11 +1,13 @@
 /// Provides source classes.
 import 'dart:ffi';
 
+import 'biquad.dart';
 import 'classes.dart';
 import 'context.dart';
-import 'dart_synthizer.dart';
 import 'enumerations.dart';
 import 'generator.dart';
+import 'properties.dart';
+import 'synthizer.dart';
 
 /// The base class for all sources.
 ///

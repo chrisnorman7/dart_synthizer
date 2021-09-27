@@ -6,8 +6,8 @@ import 'package:ffi/ffi.dart';
 import 'buffer.dart';
 import 'classes.dart';
 import 'context.dart';
-import 'dart_synthizer.dart';
 import 'enumerations.dart';
+import 'synthizer.dart';
 import 'synthizer_bindings.dart';
 
 /// The base class for all generators.

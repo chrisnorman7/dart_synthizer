@@ -24,19 +24,19 @@
 /// ```
 ///
 /// For more help, see the API docs.
-import 'synthizer.dart';
+import 'src/synthizer.dart';
 
-export 'automation.dart';
-export 'biquad.dart';
-export 'buffer.dart';
-export 'classes.dart';
-export 'context.dart';
-export 'effects.dart';
-export 'enumerations.dart';
-export 'error.dart';
-export 'events.dart';
-export 'generator.dart';
-export 'properties.dart';
-export 'source.dart';
-export 'stream.dart';
-export 'synthizer.dart';
+export 'src/automation.dart';
+export 'src/biquad.dart';
+export 'src/buffer.dart';
+export 'src/classes.dart';
+export 'src/context.dart';
+export 'src/effects.dart';
+export 'src/enumerations.dart';
+export 'src/error.dart';
+export 'src/events.dart';
+export 'src/generator.dart';
+export 'src/properties.dart';
+export 'src/source.dart';
+export 'src/stream.dart';
+export 'src/synthizer.dart';
