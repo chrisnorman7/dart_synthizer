@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.0]
+
+### Changed
+
+* Updated Synthizer.
+* Shorten the code for `Synthizer.getObjectType`.
+
+### Removed
+
+* The `ObjectTypes.automationTimeline` member has been removed.
+
 ## [0.3.0]
 
 ### Changed
