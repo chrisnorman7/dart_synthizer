@@ -29,7 +29,6 @@ import 'synthizer.dart';
 export 'automation.dart';
 export 'biquad.dart';
 export 'buffer.dart';
-export 'buffer_cache.dart';
 export 'classes.dart';
 export 'context.dart';
 export 'effects.dart';

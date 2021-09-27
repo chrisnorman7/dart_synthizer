@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.0]
+
+### Removed
+
+* Removed the `BufferCache` class.
+
 ## [0.4.0]
 
 ### Changed
