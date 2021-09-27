@@ -1761,8 +1761,7 @@ abstract class SYZ_OBJECT_TYPE {
   static const int SYZ_OTYPE_GLOBAL_ECHO = 9;
   static const int SYZ_OTYPE_GLOBAL_FDN_REVERB = 10;
   static const int SYZ_OTYPE_STREAM_HANDLE = 11;
-  static const int SYZ_OTYPE_AUTOMATION_TIMELINE = 12;
-  static const int SYZ_OTYPE_AUTOMATION_BATCH = 13;
+  static const int SYZ_OTYPE_AUTOMATION_BATCH = 12;
 }
 
 abstract class SYZ_PANNER_STRATEGY {

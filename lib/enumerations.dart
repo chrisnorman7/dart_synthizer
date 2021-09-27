@@ -94,10 +94,7 @@ enum ObjectType {
   /// SYZ_OTYPE_STREAM_HANDLE = 11
   streamHandle,
 
-  /// SYZ_OTYPE_AUTOMATION_TIMELINE = 12
-  automationTimeline,
-
-  /// SYZ_OTYPE_AUTOMATION_BATCH = 13
+  /// SYZ_OTYPE_AUTOMATION_BATCH = 12
   automationBatch,
 }
 
@@ -130,8 +127,6 @@ extension ObjectTypeToInt on ObjectType {
         return SYZ_OBJECT_TYPE.SYZ_OTYPE_GLOBAL_FDN_REVERB;
       case ObjectType.streamHandle:
         return SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAM_HANDLE;
-      case ObjectType.automationTimeline:
-        return SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_TIMELINE;
       case ObjectType.automationBatch:
         return SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_BATCH;
     }
@@ -601,8 +596,6 @@ extension IntToSynthizer on int {
         return ObjectType.globalFdnReverb;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAM_HANDLE:
         return ObjectType.streamHandle;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_TIMELINE:
-        return ObjectType.automationTimeline;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_BATCH:
         return ObjectType.automationBatch;
       default:

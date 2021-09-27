@@ -243,36 +243,7 @@ class Synthizer {
   /// Get the type of a handle.
   ObjectType getObjectType(int handle) {
     check(synthizer.syz_handleGetObjectType(_intPointer, handle));
-    switch (_intPointer.value) {
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_ANGULAR_PANNED_SOURCE:
-        return ObjectType.angularPannedSource;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_TIMELINE:
-        return ObjectType.automationTimeline;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_BUFFER:
-        return ObjectType.buffer;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_BUFFER_GENERATOR:
-        return ObjectType.bufferGenerator;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_CONTEXT:
-        return ObjectType.context;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_DIRECT_SOURCE:
-        return ObjectType.directSource;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_GLOBAL_ECHO:
-        return ObjectType.globalEcho;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_GLOBAL_FDN_REVERB:
-        return ObjectType.globalFdnReverb;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_NOISE_GENERATOR:
-        return ObjectType.noiseGenerator;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_SCALAR_PANNED_SOURCE:
-        return ObjectType.scalarPannedSource;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_SOURCE_3D:
-        return ObjectType.source3d;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAMING_GENERATOR:
-        return ObjectType.streamingGenerator;
-      case SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAM_HANDLE:
-        return ObjectType.streamHandle;
-      default:
-        throw SynthizerError('Unhandled object type.', _intPointer.value);
-    }
+    return _intPointer.value.toObjectType();
   }
 
   /// Get an object from [handle].
@@ -302,8 +273,6 @@ class Synthizer {
       case ObjectType.globalFdnReverb:
         return GlobalFdnReverb.fromHandle(this, handle);
       case ObjectType.streamHandle:
-        throw UnimplementedError();
-      case ObjectType.automationTimeline:
         throw UnimplementedError();
       case ObjectType.automationBatch:
         return AutomationBatch.fromHandle(this, handle);
