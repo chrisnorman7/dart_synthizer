@@ -18,7 +18,7 @@ dev_dependencies:
   test: ^1.17.10
 
 ffigen:
-  output: "lib/synthizer_bindings.dart"
+  output: "lib/src/synthizer_bindings.dart"
   name: "DartSynthizer"
   description: "Bindings for the Synthizer audio library"
   headers:
