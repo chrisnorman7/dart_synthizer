@@ -34,6 +34,17 @@ abstract class Generator extends SynthizerObject with PausableMixin, GainMixin {
       synthizer.setDouble(handle, Properties.pitchBend, value);
 }
 
+/// Add playback position to [Generator] subclasses.
+mixin PlaybackPosition on Generator {
+  /// Get the current playback position.
+  double get playbackPosition =>
+      synthizer.getDouble(handle, Properties.playbackPosition);
+
+  /// Set [playbackPosition].
+  set playbackPosition(double value) =>
+      synthizer.setDouble(handle, Properties.playbackPosition, value);
+}
+
 /// A streaming generator.
 ///
 /// Synthizer docs: [https://synthizer.github.io/object_reference/streaming_generator.html]
@@ -41,7 +52,7 @@ abstract class Generator extends SynthizerObject with PausableMixin, GainMixin {
 /// Streaming generators can be created with [Context.createStreamingGenerator].
 ///
 /// The `options` argument is as yet undocumented.
-class StreamingGenerator extends Generator {
+class StreamingGenerator extends Generator with PlaybackPosition {
   /// Create a generator.
   StreamingGenerator(Context context, String protocol, String path,
       {String options = ''})
@@ -71,7 +82,7 @@ class StreamingGenerator extends Generator {
 /// Synthizer docs: [https://synthizer.github.io/object_reference/buffer_generator.html]
 ///
 /// Buffer generators can be created with [Context.createBufferGenerator].
-class BufferGenerator extends Generator {
+class BufferGenerator extends Generator with PlaybackPosition {
   /// Create a buffer generator.
   BufferGenerator(Context context, {Buffer? buffer}) : super(context) {
     synthizer.check(synthizer.synthizer.syz_createBufferGenerator(handle,
