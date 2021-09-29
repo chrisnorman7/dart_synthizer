@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.1]
+
+### Added
+
+* Added the `playbackPosition` property for `BufferGenerator` and `StreamingGenerator`.
+
 ## [0.6.0]
 
 ### Changed
