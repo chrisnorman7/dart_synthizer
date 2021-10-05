@@ -19,8 +19,8 @@ Future<void> main() async {
   await Future<void>.delayed(Duration(milliseconds: 5500));
   print('Gain is ${generator.gain}.');
   ctx.executeAutomation(generator, [
-    AutomationAppendPropertyCommand(0.0, Properties.gain, 0.0),
-    AutomationAppendPropertyCommand(5.0, Properties.gain, 1.0)
+    AutomationAppendPropertyCommand(5.0, Properties.gain, 0.0),
+    AutomationAppendPropertyCommand(10.0, Properties.gain, 1.0)
   ]).destroy();
   await Future<void>.delayed(Duration(milliseconds: 5500));
   print('Final gain is ${generator.gain}.');
