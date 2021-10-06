@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 /// Create reverb and exit.
@@ -12,7 +14,7 @@ Future<void> main() async {
   final reverb = ctx.createGlobalFdnReverb();
   await Future<void>.delayed(Duration(milliseconds: 200));
   reverb
-    ..t60 = 5
+    ..t60 = 100
     ..meanFreePath = 0.5;
   ctx.ConfigRoute(source, reverb);
   await Future<void>.delayed(Duration(seconds: 5));
