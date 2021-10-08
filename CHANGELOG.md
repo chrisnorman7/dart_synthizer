@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.2]
+
+### Fixed
+
+* Fixed a bunch of broken documentation links.
+
 ## [0.6.1]
 
 ### Added

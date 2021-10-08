@@ -11,7 +11,7 @@ import 'synthizer.dart';
 
 /// The base class for all sources.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/source.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/source.html)
 abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a source.
   Source(Context context) : super(context.synthizer);
@@ -36,7 +36,7 @@ abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
 
 /// A source with no panning.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/direct_source.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/direct_source.html)
 ///
 /// Direct sources can be created with [Context.createDirectSource].
 class DirectSource extends Source {
@@ -91,7 +91,7 @@ class AngularPannedSource extends Source {
 
 /// A source with panning done by way of a [panningScalar].
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/panned_source.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/panned_source.html)
 ///
 /// Instances can be created with [Context.createScalarPannedSource].
 class ScalarPannedSource extends Source {
@@ -124,7 +124,7 @@ class ScalarPannedSource extends Source {
 
 /// A source with 3D parameters.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/source_3d.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/source_3d.html)
 ///
 /// Source 3ds can be created with [Context.createSource3D].
 class Source3D extends Source {

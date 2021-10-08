@@ -13,7 +13,7 @@ import 'synthizer.dart';
 /// Instead of using the default constructor directly, use one of the named
 /// constructors.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/buffer.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/buffer.html)
 class Buffer extends SynthizerObject {
   /// Default constructor. Do not use.
   Buffer(Synthizer synthizer, {int? handle})

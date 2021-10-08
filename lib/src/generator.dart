@@ -47,7 +47,7 @@ mixin PlaybackPosition on Generator {
 
 /// A streaming generator.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/streaming_generator.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/streaming_generator.html)
 ///
 /// Streaming generators can be created with [Context.createStreamingGenerator].
 ///
@@ -79,7 +79,7 @@ class StreamingGenerator extends Generator with PlaybackPosition {
 
 /// A buffer generator.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/buffer_generator.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/buffer_generator.html)
 ///
 /// Buffer generators can be created with [Context.createBufferGenerator].
 class BufferGenerator extends Generator with PlaybackPosition {
@@ -104,7 +104,7 @@ class BufferGenerator extends Generator with PlaybackPosition {
 
 /// A noise generator.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/noise_generator.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/noise_generator.html)
 ///
 /// Noise generators can be created with [Context.createNoiseGenerator].
 class NoiseGenerator extends Generator {

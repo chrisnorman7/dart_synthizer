@@ -18,7 +18,7 @@ import 'synthizer_bindings.dart';
 
 /// A synthizer context.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/context.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/context.html)
 ///
 /// Contexts can be created with the [Synthizer.createContext] function.
 class Context extends SynthizerObject with PausableMixin, GainMixin {

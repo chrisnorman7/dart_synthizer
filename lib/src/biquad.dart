@@ -10,7 +10,7 @@ import 'synthizer_bindings.dart';
 ///
 /// These objects are used for filtering.
 ///
-/// Synthizer docs: [https://synthizer.github.io/concepts/filters.html]
+/// [Synthizer docs](https://synthizer.github.io/concepts/filters.html)
 class BiquadConfig {
   /// Default constructor. Do not use.
   ///

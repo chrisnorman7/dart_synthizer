@@ -12,7 +12,7 @@ import 'synthizer_bindings.dart';
 
 /// The base class for all global effects.
 ///
-/// Synthizer docs: [https://synthizer.github.io/concepts/effects.html]
+/// [Synthizer docs](https://synthizer.github.io/concepts/effects.html)
 class GlobalEffect extends SynthizerObject with GainMixin {
   /// Create a global effect.
   GlobalEffect(Synthizer synthizer, {int? pointer})
@@ -46,7 +46,7 @@ class EchoTapConfig {
 
 /// Global echo.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/echo.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/echo.html)
 class GlobalEcho extends GlobalEffect {
   /// Create an echo.
   GlobalEcho(Context context) : super(context.synthizer) {
@@ -81,7 +81,7 @@ class GlobalEcho extends GlobalEffect {
 
 /// FDN reverb.
 ///
-/// Synthizer docs: [https://synthizer.github.io/object_reference/fdn_reverb.html]
+/// [Synthizer docs](https://synthizer.github.io/object_reference/fdn_reverb.html)
 class GlobalFdnReverb extends GlobalEffect {
   /// Create a reverb.
   GlobalFdnReverb(Context context) : super(context.synthizer) {
