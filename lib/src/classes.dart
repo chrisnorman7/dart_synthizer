@@ -34,6 +34,13 @@ class SynthizerObject {
   /// Returns `true` if this object is still valid.
   bool get isValid => handle.value != 0;
 
+  /// Get the current Synthizer time.
+  double get currentTime => synthizer.getDouble(handle, Properties.currentTime);
+
+  /// Get the suggested automation time.
+  double get suggestedAutomationTime =>
+      synthizer.getDouble(handle, Properties.suggestedAutomationTime);
+
   /// Configure delete behaviour for this object.
   void configDeleteBehavior({bool? linger, double? timeout}) {
     synthizer.synthizer

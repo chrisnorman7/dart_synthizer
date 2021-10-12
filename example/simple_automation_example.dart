@@ -12,15 +12,17 @@ Future<void> main() async {
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
   final generator = ctx.createBufferGenerator(buffer: buffer)..looping = true;
   final source = ctx.createDirectSource()..addGenerator(generator);
+  var time = ctx.currentTime;
   ctx.executeAutomation(generator, [
-    AutomationAppendPropertyCommand(0.5, Properties.gain, 1.0),
-    AutomationAppendPropertyCommand(5.0, Properties.gain, 0.0)
+    AutomationAppendPropertyCommand(time + 0.5, Properties.gain, 1.0),
+    AutomationAppendPropertyCommand(time + 5.0, Properties.gain, 0.0)
   ]).destroy();
   await Future<void>.delayed(Duration(milliseconds: 5500));
   print('Gain is ${generator.gain}.');
+  time = ctx.currentTime;
   ctx.executeAutomation(generator, [
-    AutomationAppendPropertyCommand(5.0, Properties.gain, 0.0),
-    AutomationAppendPropertyCommand(10.0, Properties.gain, 1.0)
+    AutomationAppendPropertyCommand(time, Properties.gain, 0.0),
+    AutomationAppendPropertyCommand(time + 5.0, Properties.gain, 1.0)
   ]).destroy();
   await Future<void>.delayed(Duration(milliseconds: 5500));
   print('Final gain is ${generator.gain}.');
