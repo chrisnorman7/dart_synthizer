@@ -50,8 +50,12 @@ class EchoTapConfig {
 class GlobalEcho extends GlobalEffect {
   /// Create an echo.
   GlobalEcho(Context context) : super(context.synthizer) {
-    synthizer.check(synthizer.synthizer.syz_createGlobalEcho(handle,
-        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
+    synthizer.check(synthizer.synthizer.syz_createGlobalEcho(
+        handle,
+        context.handle.value,
+        nullptr,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
   }
 
   /// Create an instance from a handle value.
@@ -85,8 +89,12 @@ class GlobalEcho extends GlobalEffect {
 class GlobalFdnReverb extends GlobalEffect {
   /// Create a reverb.
   GlobalFdnReverb(Context context) : super(context.synthizer) {
-    synthizer.check(synthizer.synthizer.syz_createGlobalFdnReverb(handle,
-        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
+    synthizer.check(synthizer.synthizer.syz_createGlobalFdnReverb(
+        handle,
+        context.handle.value,
+        nullptr,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
   }
 
   /// Create an instance from a handle value.

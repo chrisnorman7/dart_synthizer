@@ -42,8 +42,12 @@ abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
 class DirectSource extends Source {
   /// Create a direct source.
   DirectSource(Context context) : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createDirectSource(handle,
-        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
+    synthizer.check(synthizer.synthizer.syz_createDirectSource(
+        handle,
+        context.handle.value,
+        nullptr,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
   }
 
   /// Create an instance from a handle value.
@@ -66,6 +70,7 @@ class AngularPannedSource extends Source {
         pannerStrategy.toInt(),
         azimuth,
         elevation,
+        nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
   }
@@ -106,6 +111,7 @@ class ScalarPannedSource extends Source {
         panningStrategy.toInt(),
         panningScalar,
         nullptr,
+        nullptr,
         synthizer.userdataFreeCallbackPointer));
   }
 
@@ -142,6 +148,7 @@ class Source3D extends Source {
         x,
         y,
         z,
+        nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
   }

@@ -68,6 +68,7 @@ class StreamingGenerator extends Generator with PlaybackPosition {
             pathPointer,
             optionsPointer,
             nullptr,
+            nullptr,
             synthizer.userdataFreeCallbackPointer));
     [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
   }
@@ -85,8 +86,12 @@ class StreamingGenerator extends Generator with PlaybackPosition {
 class BufferGenerator extends Generator with PlaybackPosition {
   /// Create a buffer generator.
   BufferGenerator(Context context, {Buffer? buffer}) : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createBufferGenerator(handle,
-        context.handle.value, nullptr, synthizer.userdataFreeCallbackPointer));
+    synthizer.check(synthizer.synthizer.syz_createBufferGenerator(
+        handle,
+        context.handle.value,
+        nullptr,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer));
     if (buffer != null) {
       setBuffer(buffer);
     }
@@ -114,6 +119,7 @@ class NoiseGenerator extends Generator {
         handle,
         context.handle.value,
         channels,
+        nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
   }
