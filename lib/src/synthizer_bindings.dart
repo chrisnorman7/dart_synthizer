@@ -19,6 +19,26 @@ class DartSynthizer {
           lookup)
       : _lookup = lookup;
 
+  void syz_getVersion(
+    ffi.Pointer<ffi.Uint32> major,
+    ffi.Pointer<ffi.Uint32> minor,
+    ffi.Pointer<ffi.Uint32> patch,
+  ) {
+    return _syz_getVersion(
+      major,
+      minor,
+      patch,
+    );
+  }
+
+  late final _syz_getVersionPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<ffi.Uint32>, ffi.Pointer<ffi.Uint32>,
+              ffi.Pointer<ffi.Uint32>)>>('syz_getVersion');
+  late final _syz_getVersion = _syz_getVersionPtr.asFunction<
+      void Function(ffi.Pointer<ffi.Uint32>, ffi.Pointer<ffi.Uint32>,
+          ffi.Pointer<ffi.Uint32>)>();
+
   void syz_eventDeinit(
     ffi.Pointer<syz_Event> event,
   ) {
@@ -879,6 +899,7 @@ class DartSynthizer {
     ffi.Pointer<ffi.Int8> protocol,
     ffi.Pointer<ffi.Int8> path,
     ffi.Pointer<ffi.Void> param,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
@@ -888,6 +909,7 @@ class DartSynthizer {
       protocol,
       path,
       param,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -902,6 +924,7 @@ class DartSynthizer {
                   ffi.Pointer<ffi.Int8>,
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createStreamingGeneratorFromStreamParams');
   late final _syz_createStreamingGeneratorFromStreamParams =
@@ -913,12 +936,14 @@ class DartSynthizer {
               ffi.Pointer<ffi.Int8>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
               ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createStreamingGeneratorFromFile(
     ffi.Pointer<syz_Handle> out,
     int context,
     ffi.Pointer<ffi.Int8> path,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
@@ -926,6 +951,7 @@ class DartSynthizer {
       out,
       context,
       path,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -938,17 +964,24 @@ class DartSynthizer {
                   syz_Handle,
                   ffi.Pointer<ffi.Int8>,
                   ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createStreamingGeneratorFromFile');
   late final _syz_createStreamingGeneratorFromFile =
       _syz_createStreamingGeneratorFromFilePtr.asFunction<
-          int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Int8>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              ffi.Pointer<ffi.Int8>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createStreamingGeneratorFromStreamHandle(
     ffi.Pointer<syz_Handle> out,
     int context,
     int stream,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
@@ -956,6 +989,7 @@ class DartSynthizer {
       out,
       context,
       stream,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -968,12 +1002,13 @@ class DartSynthizer {
                   syz_Handle,
                   syz_Handle,
                   ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createStreamingGeneratorFromStreamHandle');
   late final _syz_createStreamingGeneratorFromStreamHandle =
       _syz_createStreamingGeneratorFromStreamHandlePtr.asFunction<
           int Function(ffi.Pointer<syz_Handle>, int, int, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<syz_UserdataFreeCallback>)>();
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createBufferFromStreamParams(
     ffi.Pointer<syz_Handle> out,
@@ -1193,12 +1228,14 @@ class DartSynthizer {
   int syz_createBufferGenerator(
     ffi.Pointer<syz_Handle> out,
     int context,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createBufferGenerator(
       out,
       context,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -1210,12 +1247,13 @@ class DartSynthizer {
                   ffi.Pointer<syz_Handle>,
                   syz_Handle,
                   ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createBufferGenerator');
   late final _syz_createBufferGenerator =
       _syz_createBufferGeneratorPtr.asFunction<
           int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<syz_UserdataFreeCallback>)>();
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_sourceAddGenerator(
     int source,
@@ -1252,12 +1290,14 @@ class DartSynthizer {
   int syz_createDirectSource(
     ffi.Pointer<syz_Handle> out,
     int context,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createDirectSource(
       out,
       context,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -1269,11 +1309,12 @@ class DartSynthizer {
                   ffi.Pointer<syz_Handle>,
                   syz_Handle,
                   ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createDirectSource');
   late final _syz_createDirectSource = _syz_createDirectSourcePtr.asFunction<
       int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
-          ffi.Pointer<syz_UserdataFreeCallback>)>();
+          ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createAngularPannedSource(
     ffi.Pointer<syz_Handle> out,
@@ -1281,6 +1322,7 @@ class DartSynthizer {
     int panner_strategy,
     double azimuth,
     double elevation,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
@@ -1290,6 +1332,7 @@ class DartSynthizer {
       panner_strategy,
       azimuth,
       elevation,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -1304,18 +1347,27 @@ class DartSynthizer {
                   ffi.Double,
                   ffi.Double,
                   ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createAngularPannedSource');
   late final _syz_createAngularPannedSource =
       _syz_createAngularPannedSourcePtr.asFunction<
-          int Function(ffi.Pointer<syz_Handle>, int, int, double, double,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              int,
+              double,
+              double,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createScalarPannedSource(
     ffi.Pointer<syz_Handle> out,
     int context,
     int panner_strategy,
     double panning_scalar,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
@@ -1324,6 +1376,7 @@ class DartSynthizer {
       context,
       panner_strategy,
       panning_scalar,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -1337,12 +1390,19 @@ class DartSynthizer {
                   ffi.Int32,
                   ffi.Double,
                   ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createScalarPannedSource');
   late final _syz_createScalarPannedSource =
       _syz_createScalarPannedSourcePtr.asFunction<
-          int Function(ffi.Pointer<syz_Handle>, int, int, double,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              int,
+              double,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createSource3D(
     ffi.Pointer<syz_Handle> out,
@@ -1351,6 +1411,7 @@ class DartSynthizer {
     double x,
     double y,
     double z,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
@@ -1361,6 +1422,7 @@ class DartSynthizer {
       x,
       y,
       z,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -1376,15 +1438,25 @@ class DartSynthizer {
               ffi.Double,
               ffi.Double,
               ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
               ffi.Pointer<syz_UserdataFreeCallback>)>>('syz_createSource3D');
   late final _syz_createSource3D = _syz_createSource3DPtr.asFunction<
-      int Function(ffi.Pointer<syz_Handle>, int, int, double, double, double,
-          ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
+      int Function(
+          ffi.Pointer<syz_Handle>,
+          int,
+          int,
+          double,
+          double,
+          double,
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_createNoiseGenerator(
     ffi.Pointer<syz_Handle> out,
     int context,
     int channels,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
@@ -1392,6 +1464,7 @@ class DartSynthizer {
       out,
       context,
       channels,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -1404,12 +1477,13 @@ class DartSynthizer {
                   syz_Handle,
                   ffi.Uint32,
                   ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createNoiseGenerator');
   late final _syz_createNoiseGenerator =
       _syz_createNoiseGeneratorPtr.asFunction<
           int Function(ffi.Pointer<syz_Handle>, int, int, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<syz_UserdataFreeCallback>)>();
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_initRouteConfig(
     ffi.Pointer<syz_RouteConfig> cfg,
@@ -1485,12 +1559,14 @@ class DartSynthizer {
   int syz_createGlobalEcho(
     ffi.Pointer<syz_Handle> out,
     int context,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createGlobalEcho(
       out,
       context,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -1502,10 +1578,11 @@ class DartSynthizer {
               ffi.Pointer<syz_Handle>,
               syz_Handle,
               ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
               ffi.Pointer<syz_UserdataFreeCallback>)>>('syz_createGlobalEcho');
   late final _syz_createGlobalEcho = _syz_createGlobalEchoPtr.asFunction<
       int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
-          ffi.Pointer<syz_UserdataFreeCallback>)>();
+          ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
   int syz_globalEchoSetTaps(
     int handle,
@@ -1529,12 +1606,14 @@ class DartSynthizer {
   int syz_createGlobalFdnReverb(
     ffi.Pointer<syz_Handle> out,
     int context,
+    ffi.Pointer<ffi.Void> config,
     ffi.Pointer<ffi.Void> userdata,
     ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
   ) {
     return _syz_createGlobalFdnReverb(
       out,
       context,
+      config,
       userdata,
       userdata_free_callback,
     );
@@ -1546,12 +1625,13 @@ class DartSynthizer {
                   ffi.Pointer<syz_Handle>,
                   syz_Handle,
                   ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<syz_UserdataFreeCallback>)>>(
       'syz_createGlobalFdnReverb');
   late final _syz_createGlobalFdnReverb =
       _syz_createGlobalFdnReverbPtr.asFunction<
           int Function(ffi.Pointer<syz_Handle>, int, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<syz_UserdataFreeCallback>)>();
+              ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 }
 
 class syz_UserAutomationEvent extends ffi.Struct {
@@ -1827,6 +1907,8 @@ abstract class SYZ_PROPERTIES {
   static const int SYZ_P_FILTER_DIRECT = 37;
   static const int SYZ_P_FILTER_EFFECTS = 38;
   static const int SYZ_P_FILTER_INPUT = 39;
+  static const int SYZ_P_CURRENT_TIME = 40;
+  static const int SYZ_P_SUGGESTED_AUTOMATION_TIME = 41;
 }
 
 abstract class SYZ_EVENT_TYPES {

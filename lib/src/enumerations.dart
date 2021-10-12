@@ -355,6 +355,12 @@ enum Properties {
 
   /// SYZ_P_FILTER_INPUT = 39
   filterInput,
+
+  /// SYZ_P_CURRENT_TIME = 40
+  currentTime,
+
+  /// SYZ_P_SUGGESTED_AUTOMATION_TIME = 41
+  suggestedAutomationTime,
 }
 
 /// An extension for converting Dart to Synthizer values.
@@ -442,6 +448,10 @@ extension PropertiesToInt on Properties {
         return SYZ_PROPERTIES.SYZ_P_FILTER_EFFECTS;
       case Properties.filterInput:
         return SYZ_PROPERTIES.SYZ_P_FILTER_INPUT;
+      case Properties.currentTime:
+        return SYZ_PROPERTIES.SYZ_P_CURRENT_TIME;
+      case Properties.suggestedAutomationTime:
+        return SYZ_PROPERTIES.SYZ_P_SUGGESTED_AUTOMATION_TIME;
     }
   }
 }
@@ -737,6 +747,10 @@ extension IntToSynthizer on int {
         return Properties.filterEffects;
       case SYZ_PROPERTIES.SYZ_P_FILTER_INPUT:
         return Properties.filterInput;
+      case SYZ_PROPERTIES.SYZ_P_CURRENT_TIME:
+        return Properties.currentTime;
+      case SYZ_PROPERTIES.SYZ_P_SUGGESTED_AUTOMATION_TIME:
+        return Properties.suggestedAutomationTime;
       default:
         throw SynthizerError('Unrecognised `SYZ_PROPERTIES` member.', this);
     }
