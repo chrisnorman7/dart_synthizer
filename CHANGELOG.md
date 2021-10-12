@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.3]
+
+### Added
+
+* Added `SynthizerObject.currentTime` and `SynthizerObject.suggestedAutomationTime`.
+
+### Changed
+
+* Code cleanup.
+
 ## [0.6.2]
 
 ### Fixed
