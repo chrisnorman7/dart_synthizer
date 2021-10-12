@@ -1,8 +1,6 @@
 /// Provides the [Context] class.
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
-
 import 'automation.dart';
 import 'biquad.dart';
 import 'buffer.dart';
@@ -14,7 +12,6 @@ import 'generator.dart';
 import 'properties.dart';
 import 'source.dart';
 import 'synthizer.dart';
-import 'synthizer_bindings.dart';
 
 /// A synthizer context.
 ///
@@ -159,17 +156,16 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Configure an fx send.
   void ConfigRoute(SynthizerObject output, SynthizerObject input,
       {double gain = 1.0, double fadeTime = 0.01, BiquadConfig? filter}) {
-    final cfg = calloc<syz_RouteConfig>();
-    synthizer.check(synthizer.synthizer.syz_initRouteConfig(cfg));
+    synthizer
+        .check(synthizer.synthizer.syz_initRouteConfig(synthizer.routeConfig));
     if (filter != null) {
-      cfg.ref.filter = filter.config.ref;
+      synthizer.routeConfig.ref.filter = filter.config.ref;
     }
-    cfg.ref
+    synthizer.routeConfig.ref
       ..gain = gain
       ..fade_time = fadeTime;
-    synthizer.check(synthizer.synthizer.syz_routingConfigRoute(
-        handle.value, output.handle.value, input.handle.value, cfg));
-    calloc.free(cfg);
+    synthizer.check(synthizer.synthizer.syz_routingConfigRoute(handle.value,
+        output.handle.value, input.handle.value, synthizer.routeConfig));
   }
 
   /// Remove an fx route.

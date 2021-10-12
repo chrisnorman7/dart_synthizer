@@ -62,6 +62,9 @@ class Synthizer {
   final Pointer<Uint32> _minorPointer = calloc<Uint32>();
   final Pointer<Uint32> _patchPointer = calloc<Uint32>();
 
+  /// The handle used by [Context.ConfigRoute].
+  final Pointer<syz_RouteConfig> routeConfig = calloc<syz_RouteConfig>();
+
   /// The handle used for all calls to [getDouble] and [setDouble].
   final Pointer<Double> _doublePointer = calloc<Double>();
 
@@ -223,6 +226,7 @@ class Synthizer {
       _majorPointer,
       _minorPointer,
       _patchPointer,
+      routeConfig,
       _doublePointer,
       _x1,
       _y1,
