@@ -17,6 +17,7 @@ import 'generator.dart';
 import 'properties.dart';
 import 'source.dart';
 import 'synthizer_bindings.dart';
+import 'synthizer_version.dart';
 
 /// The main synthizer class.
 ///
@@ -55,6 +56,11 @@ class Synthizer {
   /// The handle used by all calls to [getInt], [setInt], [getBool], and
   /// [setBool].
   final Pointer<Int32> _intPointer = calloc<Int32>();
+
+  /// The handles used by [version].
+  final Pointer<Uint32> _majorPointer = calloc<Uint32>();
+  final Pointer<Uint32> _minorPointer = calloc<Uint32>();
+  final Pointer<Uint32> _patchPointer = calloc<Uint32>();
 
   /// The handle used for all calls to [getDouble] and [setDouble].
   final Pointer<Double> _doublePointer = calloc<Double>();
@@ -214,6 +220,9 @@ class Synthizer {
     [
       _eventPointer,
       _intPointer,
+      _majorPointer,
+      _minorPointer,
+      _patchPointer,
       _doublePointer,
       _x1,
       _y1,
@@ -307,5 +316,12 @@ class Synthizer {
     }
     synthizer.syz_eventDeinit(_eventPointer);
     return value;
+  }
+
+  /// Get the synthizer version.
+  SynthizerVersion get version {
+    synthizer.syz_getVersion(_majorPointer, _minorPointer, _patchPointer);
+    return SynthizerVersion(
+        _majorPointer.value, _minorPointer.value, _patchPointer.value);
   }
 }

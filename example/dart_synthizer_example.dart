@@ -6,6 +6,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
   final synthizer = Synthizer()..initialize();
+  print('Using Synthizer v${synthizer.version}.');
   final ctx = synthizer.createContext();
   print('Created context.');
   final source = ctx.createDirectSource();
