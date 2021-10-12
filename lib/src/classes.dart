@@ -26,7 +26,7 @@ class SynthizerObject {
   /// Destroy this object.
   @mustCallSuper
   void destroy() {
-    synthizer.check(synthizer.synthizer.syz_handleDecRef(handle.value));
+    synthizer.decRef(handle.value);
     calloc.free(handle);
     handle.value = 0;
   }

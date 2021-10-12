@@ -324,4 +324,10 @@ class Synthizer {
     return SynthizerVersion(
         _majorPointer.value, _minorPointer.value, _patchPointer.value);
   }
+
+  /// Increase the reference count for the object with the given [handle].
+  void incRef(int handle) => check(synthizer.syz_handleIncRef(handle));
+
+  /// Decrease the reference count for the object with the given [handle].
+  void decRef(int handle) => check(synthizer.syz_handleDecRef(handle));
 }
