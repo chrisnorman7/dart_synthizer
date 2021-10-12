@@ -8,6 +8,7 @@
     "Biquad",
     "calloc",
     "chrono",
+    "cleanup",
     "ctx",
     "CUTOFF",
     "Deinit",
