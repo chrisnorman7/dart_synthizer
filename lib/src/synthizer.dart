@@ -19,6 +19,16 @@ import 'source.dart';
 import 'synthizer_bindings.dart';
 import 'synthizer_version.dart';
 
+/// The filename to use to load the Synthizer library from the current process.
+///
+/// This uses [DynamicLibrary.process] under the hood.
+const synthizerProcessFilename = ':process:';
+
+/// The filename to use to load Synthizer from the current executable.
+///
+/// This uses [DynamicLibrary.executable] under the hood.
+const synthizerExecutableFilename = ':executable:';
+
 /// The main synthizer class.
 ///
 /// You must create an instance of this class in order to use the library.
@@ -26,18 +36,45 @@ class Synthizer {
   /// Create an instance.
   Synthizer({String? filename})
       : _eventPointer = calloc<syz_Event>(),
+        _intPointer = calloc<Int32>(),
+        _majorPointer = calloc<Uint32>(),
+        _minorPointer = calloc<Uint32>(),
+        _patchPointer = calloc<Uint32>(),
+        routeConfig = calloc<syz_RouteConfig>(),
+        _doublePointer = calloc<Double>(),
+        _x1 = calloc<Double>(),
+        _y1 = calloc<Double>(),
+        _z1 = calloc<Double>(),
+        _x2 = calloc<Double>(),
+        _y2 = calloc<Double>(),
+        _z2 = calloc<Double>(),
+        userdataFreeCallbackPointer = nullptr.cast<syz_UserdataFreeCallback>(),
+        deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>(),
         _wasInit = false {
-    userdataFreeCallbackPointer = nullptr.cast<syz_UserdataFreeCallback>();
-    deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>();
+    final DynamicLibrary library;
     if (filename == null) {
       if (Platform.isWindows) {
-        filename = 'synthizer.dll';
+        library = DynamicLibrary.open('synthizer.dll');
       } else {
         throw SynthizerError('Unhandled platform.', -1);
       }
+    } else if (filename == synthizerExecutableFilename) {
+      library = DynamicLibrary.executable();
+    } else if (filename == synthizerProcessFilename) {
+      library = DynamicLibrary.process();
+    } else {
+      library = DynamicLibrary.open(filename);
     }
-    synthizer = DartSynthizer(DynamicLibrary.open(filename));
+    synthizer = DartSynthizer(library);
   }
+
+  /// Create an instance with the library loaded from the current process.
+  factory Synthizer.fromProcess() =>
+      Synthizer(filename: synthizerProcessFilename);
+
+  /// Create an instance with the library loaded from the current executable.
+  factory Synthizer.fromExecutable() =>
+      Synthizer(filename: synthizerExecutableFilename);
 
   /// The handle used by [getContextEvent].
   final Pointer<syz_Event> _eventPointer;
@@ -55,34 +92,34 @@ class Synthizer {
 
   /// The handle used by all calls to [getInt], [setInt], [getBool], and
   /// [setBool].
-  final Pointer<Int32> _intPointer = calloc<Int32>();
+  final Pointer<Int32> _intPointer;
 
   /// The handles used by [version].
-  final Pointer<Uint32> _majorPointer = calloc<Uint32>();
-  final Pointer<Uint32> _minorPointer = calloc<Uint32>();
-  final Pointer<Uint32> _patchPointer = calloc<Uint32>();
+  final Pointer<Uint32> _majorPointer;
+  final Pointer<Uint32> _minorPointer;
+  final Pointer<Uint32> _patchPointer;
 
   /// The handle used by [Context.ConfigRoute].
-  final Pointer<syz_RouteConfig> routeConfig = calloc<syz_RouteConfig>();
+  final Pointer<syz_RouteConfig> routeConfig;
 
   /// The handle used for all calls to [getDouble] and [setDouble].
-  final Pointer<Double> _doublePointer = calloc<Double>();
+  final Pointer<Double> _doublePointer;
 
   /// The handles used by [getDouble3].
-  final Pointer<Double> _x1 = calloc<Double>();
-  final Pointer<Double> _y1 = calloc<Double>();
-  final Pointer<Double> _z1 = calloc<Double>();
+  final Pointer<Double> _x1;
+  final Pointer<Double> _y1;
+  final Pointer<Double> _z1;
 
   /// The extra handles used by double6.
-  final Pointer<Double> _x2 = calloc<Double>();
-  final Pointer<Double> _y2 = calloc<Double>();
-  final Pointer<Double> _z2 = calloc<Double>();
+  final Pointer<Double> _x2;
+  final Pointer<Double> _y2;
+  final Pointer<Double> _z2;
 
   /// The default pointer for freeing user data.
-  late final Pointer<syz_UserdataFreeCallback> userdataFreeCallbackPointer;
+  final Pointer<syz_UserdataFreeCallback> userdataFreeCallbackPointer;
 
   /// The delete configuration.
-  late final Pointer<syz_DeleteBehaviorConfig> deleteBehaviorConfigPointer;
+  final Pointer<syz_DeleteBehaviorConfig> deleteBehaviorConfigPointer;
 
   /// Check if a returned value is an error.
   void check(int value) {
