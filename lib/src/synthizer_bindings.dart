@@ -1744,6 +1744,14 @@ class syz_AutomationSendUserEventCommand extends ffi.Struct {
   external int param;
 }
 
+class syz_AutomationCommandParams extends ffi.Union {
+  external syz_AutomationAppendPropertyCommand append_to_property;
+
+  external syz_AutomationClearPropertyCommand clear_property;
+
+  external syz_AutomationSendUserEventCommand send_user_event;
+}
+
 class syz_AutomationCommand extends ffi.Struct {
   @syz_Handle()
   external int target;
@@ -1757,15 +1765,7 @@ class syz_AutomationCommand extends ffi.Struct {
   @ffi.Uint32()
   external int flags;
 
-  external UnnamedUnion2 params;
-}
-
-class UnnamedUnion2 extends ffi.Union {
-  external syz_AutomationAppendPropertyCommand append_to_property;
-
-  external syz_AutomationClearPropertyCommand clear_property;
-
-  external syz_AutomationSendUserEventCommand send_user_event;
+  external syz_AutomationCommandParams params;
 }
 
 class syz_CustomStreamDef extends ffi.Struct {

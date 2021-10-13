@@ -14,7 +14,7 @@ Future<void> main() async {
   final source = ctx.createDirectSource()..addGenerator(generator);
   var time = ctx.currentTime;
   ctx.executeAutomation(generator, [
-    AutomationAppendPropertyCommand(time + 0.5, Properties.gain, 1.0),
+    AutomationAppendPropertyCommand(time, Properties.gain, 1.0),
     AutomationAppendPropertyCommand(time + 5.0, Properties.gain, 0.0)
   ]).destroy();
   await Future<void>.delayed(Duration(milliseconds: 5500));

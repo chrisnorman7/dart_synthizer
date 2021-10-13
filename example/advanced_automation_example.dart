@@ -11,7 +11,7 @@ const degreesPerStep = 5.0;
 void enqueueEvents(Source3D source, Context ctx, int itersSoFar) {
   final commands = <AutomationCommand>[
     AutomationSendUserEventCommand(
-        ctx.suggestedAutomationTime, itersSoFar + stepsBeforeWait)
+        ctx.currentTime, itersSoFar + stepsBeforeWait)
   ];
   for (var i = 0; i < stepsBeforeWait; i++) {
     final iter = itersSoFar + i;
