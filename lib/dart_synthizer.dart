@@ -1,4 +1,4 @@
-/// Bindings for the [Synthizer](https://synthizer.github.io/) manual.
+/// Bindings for [Synthizer](https://synthizer.github.io/).
 ///
 /// ## Working with Synthizer
 ///
