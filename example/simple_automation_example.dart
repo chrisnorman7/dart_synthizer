@@ -12,20 +12,27 @@ Future<void> main() async {
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
   final generator = ctx.createBufferGenerator(buffer: buffer)..looping = true;
   final source = ctx.createDirectSource()..addGenerator(generator);
-  var time = ctx.currentTime;
-  ctx.executeAutomation(generator, [
-    AutomationAppendPropertyCommand(time, Properties.gain, 1.0),
-    AutomationAppendPropertyCommand(time + 5.0, Properties.gain, 0.0)
-  ]).destroy();
-  await Future<void>.delayed(Duration(milliseconds: 5500));
-  print('Gain is ${generator.gain}.');
-  time = ctx.currentTime;
-  ctx.executeAutomation(generator, [
-    AutomationAppendPropertyCommand(time, Properties.gain, 0.0),
-    AutomationAppendPropertyCommand(time + 5.0, Properties.gain, 1.0)
-  ]).destroy();
-  await Future<void>.delayed(Duration(milliseconds: 5500));
-  print('Final gain is ${generator.gain}.');
+  var timebase = ctx.currentTime;
+  generator.pitchBend.automate(
+      startTime: timebase,
+      startValue: 1.0,
+      endTime: timebase + 10.0,
+      endValue: 0.1);
+  generator.gain.automate(
+      startTime: timebase,
+      startValue: 1.0,
+      endTime: timebase + 5.0,
+      endValue: 0.0);
+  await Future<void>.delayed(Duration(seconds: 5));
+  print('Gain is ${generator.gain.value}.');
+  timebase = ctx.currentTime;
+  generator.gain.automate(
+      startTime: timebase,
+      startValue: 0.0,
+      endTime: timebase + 5.0,
+      endValue: 1.0);
+  await Future<void>.delayed(Duration(seconds: 5));
+  print('Final gain is ${generator.gain.value}.');
   for (final thing in <SynthizerObject>[
     ctx,
     buffer,

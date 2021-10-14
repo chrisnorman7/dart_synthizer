@@ -1,7 +1,6 @@
 /// Provides the [Context] class.
 import 'dart:ffi';
 
-import 'automation.dart';
 import 'biquad.dart';
 import 'buffer.dart';
 import 'classes.dart';
@@ -9,16 +8,16 @@ import 'effects.dart';
 import 'enumerations.dart';
 import 'events.dart';
 import 'generator.dart';
-import 'properties.dart';
 import 'source.dart';
 import 'synthizer.dart';
+import 'synthizer_property.dart';
 
 /// A synthizer context.
 ///
 /// [Synthizer docs](https://synthizer.github.io/object_reference/context.html)
 ///
 /// Contexts can be created with the [Synthizer.createContext] function.
-class Context extends SynthizerObject with PausableMixin, GainMixin {
+class Context extends SynthizerObject with PausableMixin {
   /// Create a context.
   Context(Synthizer synthizer, {bool events = false, int? pointer})
       : super(synthizer, pointer: pointer) {
@@ -29,19 +28,28 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
         enableEvents();
       }
     }
+    orientation =
+        SynthizerDouble6Property(this, handle, Properties.orientation);
+    defaultClosenessBoost =
+        SynthizerDoubleProperty(this, handle, Properties.defaultClosenessBoost);
+    defaultClosenessBoostDistance = SynthizerDoubleProperty(
+        this, handle, Properties.defaultClosenessBoostDistance);
+    defaultDistanceMax =
+        SynthizerDoubleProperty(this, handle, Properties.defaultDistanceMax);
+    defaultRolloff =
+        SynthizerDoubleProperty(this, handle, Properties.defaultRolloff);
+    defaultDistanceRef =
+        SynthizerDoubleProperty(this, handle, Properties.defaultDistanceRef);
+    position = SynthizerDouble3Property(this, handle, Properties.position);
+    gain = SynthizerDoubleProperty(this, handle, Properties.gain);
   }
 
   /// Enable the streaming of context events.
   void enableEvents() => synthizer
       .check(synthizer.synthizer.syz_contextEnableEvents(handle.value));
 
-  /// Get the orientation of this context.
-  Double6 get orientation =>
-      synthizer.getDouble6(handle, Properties.orientation);
-
-  /// Set the orientation of this context.
-  set orientation(Double6 value) =>
-      synthizer.setDouble6(handle, Properties.orientation, value);
+  /// The orientation of this context.
+  late final SynthizerDouble6Property orientation;
 
   /// Get the default panner strategy for this context.
   PannerStrategy get defaultPannerStrategy =>
@@ -51,37 +59,17 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   set defaultPannerStrategy(PannerStrategy value) =>
       synthizer.setDefaultPannerStrategy(handle, value);
 
-  /// Get the default closeness boost for this object.
-  double get defaultClosenessBoost =>
-      synthizer.getDouble(handle, Properties.defaultClosenessBoost);
+  /// The default closeness boost for this object.
+  late final SynthizerDoubleProperty defaultClosenessBoost;
 
-  /// Set the default closeness boost for this object.
-  set defaultClosenessBoost(double value) =>
-      synthizer.setDouble(handle, Properties.defaultClosenessBoost, value);
+  /// The default closeness boost distance for this object.
+  late final SynthizerDoubleProperty defaultClosenessBoostDistance;
 
-  /// Get the default closeness boost distance for this object.
-  double get defaultClosenessBoostDistance =>
-      synthizer.getDouble(handle, Properties.defaultClosenessBoostDistance);
+  /// The default distance max for this object.
+  late final SynthizerDoubleProperty defaultDistanceMax;
 
-  /// Set the default closeness boost distance for this object.
-  set defaultClosenessBoostDistance(double value) => synthizer.setDouble(
-      handle, Properties.defaultClosenessBoostDistance, value);
-
-  /// Get the default distance max for this object.
-  double get defaultDistanceMax =>
-      synthizer.getDouble(handle, Properties.defaultDistanceMax);
-
-  /// Set the default distance max for this object.
-  set defaultDistanceMax(double value) =>
-      synthizer.setDouble(handle, Properties.defaultDistanceMax, value);
-
-  /// Get the default rolloff for this object.
-  double get defaultRolloff =>
-      synthizer.getDouble(handle, Properties.defaultRolloff);
-
-  /// Set the default rolloff for this object.
-  set defaultRolloff(double value) =>
-      synthizer.setDouble(handle, Properties.defaultRolloff, value);
+  /// The default rolloff for this object.
+  late final SynthizerDoubleProperty defaultRolloff;
 
   /// Get the default distance model for this object.
   DistanceModel get defaultDistanceModel =>
@@ -91,20 +79,14 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   set defaultDistanceModel(DistanceModel value) =>
       synthizer.setDefaultDistanceModel(handle, value);
 
-  /// Get the default distance ref for this object.
-  double get defaultDistanceRef =>
-      synthizer.getDouble(handle, Properties.defaultDistanceRef);
+  /// The default distance ref for this object.
+  late final SynthizerDoubleProperty defaultDistanceRef;
 
-  /// Set the default distance ref for this object.
-  set defaultDistanceRef(double value) =>
-      synthizer.setDouble(handle, Properties.defaultDistanceRef, value);
+  /// The position of this object.
+  late final SynthizerDouble3Property position;
 
-  /// Get the position of this object.
-  Double3 get position => synthizer.getDouble3(handle, Properties.position);
-
-  /// Set the position of this object.
-  set position(Double3 value) =>
-      synthizer.setDouble3(handle, Properties.position, value);
+  /// The gain for this instance.
+  late final SynthizerDoubleProperty gain;
 
   /// Create a buffer generator.
   BufferGenerator createBufferGenerator({Buffer? buffer}) =>
@@ -128,8 +110,8 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
           double azimuth = 0.0,
           double elevation = 0.0}) =>
       AngularPannedSource(this,
-          azimuth: azimuth,
-          elevation: elevation,
+          initialAzimuth: azimuth,
+          initialElevation: elevation,
           pannerStrategy: pannerStrategy);
 
   /// Create a panned source with a scalar.
@@ -137,7 +119,8 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
           {PannerStrategy panningStrategy = PannerStrategy.delegate,
           double panningScalar = 0.0}) =>
       ScalarPannedSource(this,
-          panningScalar: panningScalar, panningStrategy: panningStrategy);
+          initialPanningScalar: panningScalar,
+          panningStrategy: panningStrategy);
 
   /// Create a 3d source.
   Source3D createSource3D(
@@ -194,11 +177,4 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   ///
   /// This method uses the [getEvents] method with the default wait time.
   Stream<SynthizerEvent> get events => getEvents();
-
-  /// Start automating [target].
-  AutomationBatch executeAutomation(
-          SynthizerObject target, List<AutomationCommand> commands) =>
-      AutomationBatch(this)
-        ..addCommands(target, commands)
-        ..execute();
 }

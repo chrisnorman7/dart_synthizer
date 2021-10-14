@@ -8,7 +8,8 @@ Future<void> main() async {
   final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext();
   final source = ctx.createDirectSource();
-  final noiseGenerator = ctx.createNoiseGenerator(channels: 2)..gain = 0.1;
+  final noiseGenerator = ctx.createNoiseGenerator(channels: 2)
+    ..gain.value = 0.1;
   source.addGenerator(noiseGenerator);
 
   /// Listen for kill signal.

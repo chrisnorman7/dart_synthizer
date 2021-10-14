@@ -11,7 +11,8 @@ import 'synthizer_bindings.dart';
 /// The base class for all synthizer objects.
 class SynthizerObject {
   /// Create an instance.
-  SynthizerObject(this.synthizer, {int? pointer}) : handle = calloc<Uint64>() {
+  SynthizerObject(this.synthizer, {int? pointer})
+      : handle = calloc<syz_Handle>() {
     if (pointer != null) {
       handle.value = pointer;
     }
@@ -21,7 +22,7 @@ class SynthizerObject {
   final Synthizer synthizer;
 
   /// The handle for this object.
-  final Pointer<syz_Handle> handle;
+  late final Pointer<syz_Handle> handle;
 
   /// Destroy this object.
   @mustCallSuper
@@ -66,15 +67,6 @@ class SynthizerObject {
 
   @override
   int get hashCode => handle.value.hashCode;
-}
-
-/// Provides a [gain] property.
-mixin GainMixin on SynthizerObject {
-  /// Get the gain of this object.
-  double get gain => synthizer.getDouble(handle, Properties.gain);
-
-  /// Set the gain of this object.
-  set gain(double value) => synthizer.setDouble(handle, Properties.gain, value);
 }
 
 /// Base class for anything which can be paused. Adds pause and play methods.

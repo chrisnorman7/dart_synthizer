@@ -8,52 +8,63 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 const stepsBeforeWait = 10;
 const secondsPerStep = 0.1;
 const degreesPerStep = 5.0;
-void enqueueEvents(Source3D source, Context ctx, int itersSoFar) {
-  final commands = <AutomationCommand>[
-    AutomationSendUserEventCommand(
-        ctx.currentTime, itersSoFar + stepsBeforeWait)
-  ];
+
+/// Enqueue some automation including the event to drive things forward.  Uses
+/// iters_so_far to maintain state, which we read back from the event this
+/// schedules.
+void enqueueAutomation(
+    Context context, Source3D source, double timebase, int iters_so_far) {
+  final batch = AutomationBatch(context);
   for (var i = 0; i < stepsBeforeWait; i++) {
-    final iter = itersSoFar + i;
-    commands.insert(
-        0,
-        AutomationAppendPropertyCommand(
-            iter * secondsPerStep,
-            Properties.position,
-            Double3(10.0 * sin(iter * degreesPerStep * pi / 180.0),
-                10.0 * cos(iter * degreesPerStep * pi / 180.0), 0.0)));
+    final iter = iters_so_far + i;
+    batch.appendDouble3(
+        source.handle,
+        timebase + iter * secondsPerStep,
+        Properties.position,
+        Double3(10.0 * sin(iter * degreesPerStep * pi / 180.0),
+            10.0 * cos(iter * degreesPerStep * pi / 180.0), 0));
   }
-  ctx.executeAutomation(source, commands);
+  batch
+    ..sendUserEvent(
+        source.handle,
+        (iters_so_far + stepsBeforeWait) * secondsPerStep,
+        iters_so_far + stepsBeforeWait)
+    ..execute()
+    ..destroy();
 }
 
-Future<void> main() async {
-  var itersSoFar = 0;
+void main() async {
   final synthizer = Synthizer()
     ..initialize(
         logLevel: LogLevel.debug, loggingBackend: LoggingBackend.stderr);
-  final ctx = synthizer.createContext(events: true)
-    ..orientation = Double6(0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
-  final source = ctx.createSource3D();
+  final context = synthizer.createContext(events: true)
+    ..defaultPannerStrategy = PannerStrategy.hrtf;
+  final source = context.createSource3D();
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
-  final generator = ctx.createBufferGenerator(buffer: buffer)..looping = true;
+  final generator = context.createBufferGenerator(buffer: buffer)
+    ..looping = true;
   source.addGenerator(generator);
-  final listener = ctx.events.listen((event) {
-    if (event is UserAutomationEvent) {
-      print('Starting iteration $itersSoFar.');
-      itersSoFar = event.param;
-      enqueueEvents(source, ctx, itersSoFar);
-    }
-  });
-  enqueueEvents(source, ctx, itersSoFar);
-  stdin
-    ..echoMode = false
-    ..lineMode = false
-    ..listen((event) {
-      listener.cancel();
-      for (final thing in [ctx, source, generator, buffer]) {
-        thing.destroy();
-      }
-      synthizer.shutdown();
-      exit(0);
-    });
+  // Create a reverb to make it a bit more obvious when the sound passes behind.
+  final reverb = context.createGlobalFdnReverb()
+    ..gain.value = 0.5
+    ..t60.value = 3;
+  context.ConfigRoute(source, reverb);
+  final timebase = context.currentTime;
+  var itersSoFar = 0;
+  while (itersSoFar < 300) {
+    print('Beginning iteration $itersSoFar.');
+    enqueueAutomation(context, source, timebase, itersSoFar);
+    SynthizerEvent? event;
+    do {
+      await Future<void>.delayed(Duration(milliseconds: 10));
+      event = context.getEvent();
+    } while (event is! UserAutomationEvent);
+
+    itersSoFar = event.param;
+  }
+
+  for (final thing in [context, generator, buffer, source, reverb]) {
+    thing.destroy();
+  }
+  synthizer.shutdown();
 }

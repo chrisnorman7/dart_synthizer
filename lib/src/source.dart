@@ -6,19 +6,24 @@ import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
 import 'generator.dart';
-import 'properties.dart';
 import 'synthizer.dart';
+import 'synthizer_property.dart';
 
 /// The base class for all sources.
 ///
 /// [Synthizer docs](https://synthizer.github.io/object_reference/source.html)
-abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
+abstract class Source extends SynthizerObject with PausableMixin {
   /// Create a source.
-  Source(Context context) : super(context.synthizer);
+  Source(Context context) : super(context.synthizer) {
+    gain = SynthizerDoubleProperty(context, handle, Properties.gain);
+  }
 
   /// Create an instance from a handle value.
   Source.fromHandle(Synthizer synthizer, int pointer)
       : super(synthizer, pointer: pointer);
+
+  /// The gain for this source.
+  late final SynthizerDoubleProperty gain;
 
   /// Set filter property.
   set filter(BiquadConfig config) =>
@@ -61,37 +66,31 @@ class AngularPannedSource extends Source {
   /// Create an instance.
   AngularPannedSource(Context context,
       {PannerStrategy pannerStrategy = PannerStrategy.delegate,
-      double azimuth = 0.0,
-      double elevation = 0.0})
+      double initialAzimuth = 0.0,
+      double initialElevation = 0.0})
       : super(context) {
     synthizer.check(synthizer.synthizer.syz_createAngularPannedSource(
         handle,
         context.handle.value,
         pannerStrategy.toInt(),
-        azimuth,
-        elevation,
+        initialAzimuth,
+        initialElevation,
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
+    azimuth = SynthizerDoubleProperty(context, handle, Properties.azimuth);
+    elevation = SynthizerDoubleProperty(context, handle, Properties.elevation);
   }
 
   /// Get an instance from a handle.
   AngularPannedSource.fromHandle(Synthizer synthizer, int pointer)
       : super.fromHandle(synthizer, pointer);
 
-  /// Get the azimuth for this source.
-  double get azimuth => synthizer.getDouble(handle, Properties.azimuth);
+  /// The azimuth for this source.
+  late final SynthizerDoubleProperty azimuth;
 
-  /// Set the azimuth for this source.
-  set azimuth(double value) =>
-      synthizer.setDouble(handle, Properties.azimuth, value);
-
-  /// Get the elevation for this source.
-  double get elevation => synthizer.getDouble(handle, Properties.elevation);
-
-  /// Set the elevation for this source.
-  set elevation(double value) =>
-      synthizer.setDouble(handle, Properties.elevation, value);
+  /// The elevation for this source.
+  late final SynthizerDoubleProperty elevation;
 }
 
 /// A source with panning done by way of a [panningScalar].
@@ -103,29 +102,26 @@ class ScalarPannedSource extends Source {
   /// Create a panned source with a scalar.
   ScalarPannedSource(Context context,
       {PannerStrategy panningStrategy = PannerStrategy.delegate,
-      double panningScalar = 0.0})
+      double initialPanningScalar = 0.0})
       : super(context) {
     synthizer.check(synthizer.synthizer.syz_createScalarPannedSource(
         handle,
         context.handle.value,
         panningStrategy.toInt(),
-        panningScalar,
+        initialPanningScalar,
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
+    panningScalar =
+        SynthizerDoubleProperty(context, handle, Properties.panningScalar);
   }
 
   /// Create an instance from a handle value.
   ScalarPannedSource.fromHandle(Synthizer synthizer, int pointer)
       : super.fromHandle(synthizer, pointer);
 
-  /// Get the panning scalar for this source.
-  double get panningScalar =>
-      synthizer.getDouble(handle, Properties.panningScalar);
-
-  /// Set the panning scala for this source.
-  set panningScalar(double value) =>
-      synthizer.setDouble(handle, Properties.panningScalar, value);
+  /// The panning scalar for this source.
+  late final SynthizerDoubleProperty panningScalar;
 }
 
 /// A source with 3D parameters.
@@ -151,6 +147,16 @@ class Source3D extends Source {
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
+    distanceMax =
+        SynthizerDoubleProperty(context, handle, Properties.distanceMax);
+    distanceRef =
+        SynthizerDoubleProperty(context, handle, Properties.distanceRef);
+    rolloff = SynthizerDoubleProperty(context, handle, Properties.rolloff);
+    closenessBoost =
+        SynthizerDoubleProperty(context, handle, Properties.closenessBoost);
+    closenessBoostDistance = SynthizerDoubleProperty(
+        context, handle, Properties.closenessBoostDistance);
+    position = SynthizerDouble3Property(context, handle, Properties.position);
   }
 
   /// Create an instance from a handle value.
@@ -164,47 +170,21 @@ class Source3D extends Source {
   set distanceModel(DistanceModel value) =>
       synthizer.setDistanceModel(handle, value);
 
-  /// Get the distance ref for this object.
-  double get distanceRef => synthizer.getDouble(handle, Properties.distanceRef);
+  /// The distance ref for this object.
+  late final SynthizerDoubleProperty distanceRef;
 
-  /// Set the distance ref for this object.
-  set distanceRef(double value) =>
-      synthizer.setDouble(handle, Properties.distanceRef, value);
+  /// The distance max for this object.
+  late final SynthizerDoubleProperty distanceMax;
 
-  /// Get the distance max for this object.
-  double get distanceMax => synthizer.getDouble(handle, Properties.distanceMax);
+  /// The rolloff for this object.
+  late final SynthizerDoubleProperty rolloff;
 
-  /// Set the distance max for this object.
-  set distanceMax(double value) =>
-      synthizer.setDouble(handle, Properties.distanceMax, value);
+  /// The closeness boost for this object.
+  late final SynthizerDoubleProperty closenessBoost;
 
-  /// Get the rolloff for this object.
-  double get rolloff => synthizer.getDouble(handle, Properties.rolloff);
+  /// The closeness boost distance for this object.
+  late final SynthizerDoubleProperty closenessBoostDistance;
 
-  /// Set the rolloff for this object.
-  set rolloff(double value) =>
-      synthizer.setDouble(handle, Properties.rolloff, value);
-
-  /// Get the closeness boost for this object.
-  double get closenessBoost =>
-      synthizer.getDouble(handle, Properties.closenessBoost);
-
-  /// Set the closeness boost for this object.
-  set closenessBoost(double value) =>
-      synthizer.setDouble(handle, Properties.closenessBoost, value);
-
-  /// Get the closeness boost distance for this object.
-  double get closenessBoostDistance =>
-      synthizer.getDouble(handle, Properties.closenessBoostDistance);
-
-  /// Set the closeness boost distance for this object.
-  set closenessBoostDistance(double value) =>
-      synthizer.setDouble(handle, Properties.closenessBoostDistance, value);
-
-  /// Get the position of this object.
-  Double3 get position => synthizer.getDouble3(handle, Properties.position);
-
-  /// Set the position of this object.
-  set position(Double3 value) =>
-      synthizer.setDouble3(handle, Properties.position, value);
+  /// The position of this object.
+  late final SynthizerDouble3Property position;
 }

@@ -13,10 +13,10 @@ Future<void> main() async {
   source.addGenerator(generator);
   for (var i = 0; i < 5; i++) {
     await Future<void>.delayed(Duration(seconds: 1));
-    print('Playback position: ${generator.playbackPosition}.');
+    print('Playback position: ${generator.playbackPosition.value}.');
   }
   await Future<void>.delayed(Duration(seconds: 1));
-  generator.playbackPosition = 0.0;
+  generator.playbackPosition.value = 0.0;
   print('Restarted generator.');
   await Future<void>.delayed(Duration(seconds: 1));
   for (final thing in [source, generator, ctx, buffer]) {

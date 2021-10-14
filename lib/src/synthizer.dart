@@ -302,6 +302,11 @@ class Synthizer {
   }
 
   /// Get an object from [handle].
+  ///
+  /// *NOTE*: Objects constructed by this method should be used for comparison
+  /// only.
+  ///
+  /// If you try to access properties for example, you *will* get errors.
   SynthizerObject getObject(int handle) {
     final type = getObjectType(handle);
     switch (type) {

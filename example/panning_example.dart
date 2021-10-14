@@ -16,7 +16,7 @@ Future<void> main() async {
     await Future<void>.delayed(Duration(milliseconds: 200));
     scalar += 0.2;
     print('Scalar is $scalar.');
-    source.panningScalar = scalar;
+    source.panningScalar.value = scalar;
   }
   for (final thing in [buffer, source, generator, ctx]) {
     thing.destroy();

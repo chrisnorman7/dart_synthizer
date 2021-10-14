@@ -14,12 +14,12 @@ Future<void> main() async {
   final reverb = ctx.createGlobalFdnReverb();
   await Future<void>.delayed(Duration(milliseconds: 200));
   reverb
-    ..t60 = 100
-    ..meanFreePath = 0.5;
+    ..t60.value = 100
+    ..meanFreePath.value = 0.5;
   ctx.ConfigRoute(source, reverb);
   await Future<void>.delayed(Duration(seconds: 5));
-  print(reverb.meanFreePath);
-  print(reverb.t60);
+  print(reverb.meanFreePath.value);
+  print(reverb.t60.value);
   [source, ctx, generator, reverb].forEach((element) => element.destroy());
   synthizer.shutdown();
 }

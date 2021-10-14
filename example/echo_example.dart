@@ -61,7 +61,7 @@ Future<void> main() async {
   await Future<void>.delayed(Duration(seconds: 10));
 
   /// Set the source's gain to 0, which will let the tail of the echo be heard.
-  src.gain = 0.0;
+  src.gain.value = 0.0;
   print('Now muted.');
 
   /// Sleep for a bit for the tail.
@@ -69,7 +69,7 @@ Future<void> main() async {
 
   /// Bring it back. This causes a little bit of clipping because of the abrupt
   /// change.
-  src.gain = 1.0;
+  src.gain.value = 1.0;
   print('Full volume.');
 
   /// Sleep for long enough to build up audio in the echo:
@@ -79,6 +79,7 @@ Future<void> main() async {
   ctx.removeRoute(src, echo, fadeTime: 1.0);
   print('Fading.');
   await Future<void>.delayed(Duration(seconds: 2));
+  echo.destroy();
   gen.destroy();
   src.destroy();
   ctx.destroy();

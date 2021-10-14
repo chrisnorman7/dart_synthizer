@@ -12,7 +12,7 @@ Future<void> main() async {
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
   final generator = ctx.createBufferGenerator(buffer: buffer);
   print('Created generator $generator with gain ${generator.gain}.');
-  generator.gain = 0.5;
+  generator.gain.value = 0.5;
   ctx.createDirectSource().addGenerator(generator);
   await Future<void>.delayed(Duration(seconds: 2));
   synthizer.shutdown();
