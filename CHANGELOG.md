@@ -2,6 +2,12 @@
 
 ## [0.7.0]
 
+### Fixed
+
+* Filled some gaps in the implementation of sources.
+
+## [0.7.0]
+
 ### Added
 
 * Added the `SynthizerProperty` class, and it's subclasses.
