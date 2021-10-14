@@ -18,10 +18,6 @@ class SynthizerObject {
     if (pointer != null) {
       handle.value = pointer;
     }
-    currentTime =
-        SynthizerDoubleProperty(synthizer, handle, Properties.currentTime);
-    suggestedAutomationTime = SynthizerDoubleProperty(
-        synthizer, handle, Properties.suggestedAutomationTime);
   }
 
   /// The synthizer instance.
@@ -30,6 +26,18 @@ class SynthizerObject {
   /// The handle for this object.
   late final Pointer<syz_Handle> handle;
 
+  /// The current Synthizer time.
+  SynthizerDoubleProperty get currentTime =>
+      SynthizerDoubleProperty(synthizer, handle, Properties.currentTime);
+
+  /// The suggested automation time.
+  SynthizerDoubleProperty get suggestedAutomationTime =>
+      SynthizerDoubleProperty(
+          synthizer, handle, Properties.suggestedAutomationTime);
+
+  /// Returns `true` if this object is still valid.
+  bool get isValid => handle.value != 0;
+
   /// Destroy this object.
   @mustCallSuper
   void destroy() {
@@ -37,15 +45,6 @@ class SynthizerObject {
     calloc.free(handle);
     handle.value = 0;
   }
-
-  /// Returns `true` if this object is still valid.
-  bool get isValid => handle.value != 0;
-
-  /// Get the current Synthizer time.
-  late final SynthizerDoubleProperty currentTime;
-
-  /// Get the suggested automation time.
-  late final SynthizerDoubleProperty suggestedAutomationTime;
 
   /// Configure delete behaviour for this object.
   void configDeleteBehavior({bool? linger, double? timeout}) {
@@ -74,6 +73,13 @@ class SynthizerObject {
   int get hashCode => handle.value.hashCode;
 }
 
+/// Add gain to any [SynthizerObject].
+mixin GainMixin on SynthizerObject {
+  /// The gain for this object.
+  SynthizerDoubleProperty get gain =>
+      SynthizerDoubleProperty(synthizer, handle, Properties.gain);
+}
+
 /// Base class for anything which can be paused. Adds pause and play methods.
 mixin PausableMixin on SynthizerObject {
   /// Pause this object.
@@ -81,4 +87,11 @@ mixin PausableMixin on SynthizerObject {
 
   /// Play this object.
   void play() => synthizer.check(synthizer.synthizer.syz_play(handle.value));
+}
+
+/// Add playback position to any object.
+mixin PlaybackPosition on SynthizerObject {
+  /// The playback position for this object.
+  SynthizerDoubleProperty get playbackPosition =>
+      SynthizerDoubleProperty(synthizer, handle, Properties.playbackPosition);
 }

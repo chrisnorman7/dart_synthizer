@@ -11,7 +11,7 @@ Future<void> main() async {
   final generator = ctx.createBufferGenerator();
   final source = ctx.createDirectSource()..addGenerator(generator);
   final buffer = Buffer.fromBytes(synthizer, f.readAsBytesSync());
-  generator.setBuffer(buffer);
+  generator.buffer.value = buffer;
   await Future<void>.delayed(Duration(seconds: 2));
   buffer.destroy();
   generator.destroy();

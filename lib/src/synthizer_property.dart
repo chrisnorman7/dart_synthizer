@@ -268,3 +268,16 @@ class SynthizerBiquadConfigProperty extends SynthizerProperty<BiquadConfig> {
   set value(BiquadConfig value) => synthizer.check(synthizer.synthizer
       .syz_setBiquad(targetHandle.value, property.toInt(), value.config));
 }
+
+/// An object property.
+class SynthizerObjectProperty extends SynthizerProperty<SynthizerObject> {
+  /// Create an instance.
+  SynthizerObjectProperty(Synthizer synthizer, Pointer<syz_Handle> targetHandle,
+      Properties property)
+      : super(synthizer, targetHandle, property);
+
+  @override
+  set value(SynthizerObject? value) =>
+      synthizer.check(synthizer.synthizer.syz_setO(
+          targetHandle.value, property.toInt(), value?.handle.value ?? 0));
+}

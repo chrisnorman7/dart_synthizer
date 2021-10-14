@@ -1,6 +1,7 @@
 /// Provides the [Context] class.
 import 'dart:ffi';
 
+import '../dart_synthizer.dart';
 import 'biquad.dart';
 import 'buffer.dart';
 import 'classes.dart';
@@ -17,7 +18,7 @@ import 'synthizer_property.dart';
 /// [Synthizer docs](https://synthizer.github.io/object_reference/context.html)
 ///
 /// Contexts can be created with the [Synthizer.createContext] function.
-class Context extends SynthizerObject with PausableMixin {
+class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a context.
   Context(Synthizer synthizer, {bool events = false, int? pointer})
       : super(synthizer, pointer: pointer) {
@@ -28,24 +29,6 @@ class Context extends SynthizerObject with PausableMixin {
         enableEvents();
       }
     }
-    orientation =
-        SynthizerDouble6Property(synthizer, handle, Properties.orientation);
-    defaultClosenessBoost = SynthizerDoubleProperty(
-        synthizer, handle, Properties.defaultClosenessBoost);
-    defaultClosenessBoostDistance = SynthizerDoubleProperty(
-        synthizer, handle, Properties.defaultClosenessBoostDistance);
-    defaultDistanceMax = SynthizerDoubleProperty(
-        synthizer, handle, Properties.defaultDistanceMax);
-    defaultRolloff =
-        SynthizerDoubleProperty(synthizer, handle, Properties.defaultRolloff);
-    defaultDistanceRef = SynthizerDoubleProperty(
-        synthizer, handle, Properties.defaultDistanceRef);
-    position = SynthizerDouble3Property(synthizer, handle, Properties.position);
-    gain = SynthizerDoubleProperty(synthizer, handle, Properties.gain);
-    defaultPannerStrategy = SynthizerPannerStrategyProperty(
-        synthizer, handle, Properties.defaultPannerStrategy);
-    defaultDistanceModel = SynthizerDistanceModelProperty(
-        synthizer, handle, Properties.defaultDistanceModel);
   }
 
   /// Enable the streaming of context events.
@@ -53,34 +36,43 @@ class Context extends SynthizerObject with PausableMixin {
       .check(synthizer.synthizer.syz_contextEnableEvents(handle.value));
 
   /// The orientation of this context.
-  late final SynthizerDouble6Property orientation;
+  SynthizerDouble6Property get orientation =>
+      SynthizerDouble6Property(synthizer, handle, Properties.orientation);
 
   /// The default panner strategy for this context.
-  late final SynthizerPannerStrategyProperty defaultPannerStrategy;
+  SynthizerPannerStrategyProperty get defaultPannerStrategy =>
+      SynthizerPannerStrategyProperty(
+          synthizer, handle, Properties.defaultPannerStrategy);
 
   /// The default closeness boost for this object.
-  late final SynthizerDoubleProperty defaultClosenessBoost;
+  SynthizerDoubleProperty get defaultClosenessBoost => SynthizerDoubleProperty(
+      synthizer, handle, Properties.defaultClosenessBoost);
 
   /// The default closeness boost distance for this object.
-  late final SynthizerDoubleProperty defaultClosenessBoostDistance;
+  SynthizerDoubleProperty get defaultClosenessBoostDistance =>
+      SynthizerDoubleProperty(
+          synthizer, handle, Properties.defaultClosenessBoostDistance);
 
   /// The default distance max for this object.
-  late final SynthizerDoubleProperty defaultDistanceMax;
+  SynthizerDoubleProperty get defaultDistanceMax =>
+      SynthizerDoubleProperty(synthizer, handle, Properties.defaultDistanceMax);
 
   /// The default rolloff for this object.
-  late final SynthizerDoubleProperty defaultRolloff;
+  SynthizerDoubleProperty get defaultRolloff =>
+      SynthizerDoubleProperty(synthizer, handle, Properties.defaultRolloff);
 
   /// The default distance model for this object.
-  late final SynthizerDistanceModelProperty defaultDistanceModel;
+  SynthizerDistanceModelProperty get defaultDistanceModel =>
+      SynthizerDistanceModelProperty(
+          synthizer, handle, Properties.defaultDistanceModel);
 
   /// The default distance ref for this object.
-  late final SynthizerDoubleProperty defaultDistanceRef;
+  SynthizerDoubleProperty get defaultDistanceRef =>
+      SynthizerDoubleProperty(synthizer, handle, Properties.defaultDistanceRef);
 
   /// The position of this object.
-  late final SynthizerDouble3Property position;
-
-  /// The gain for this instance.
-  late final SynthizerDoubleProperty gain;
+  SynthizerDouble3Property get position =>
+      SynthizerDouble3Property(synthizer, handle, Properties.position);
 
   /// Create a buffer generator.
   BufferGenerator createBufferGenerator({Buffer? buffer}) =>
@@ -171,4 +163,22 @@ class Context extends SynthizerObject with PausableMixin {
   ///
   /// This method uses the [getEvents] method with the default wait time.
   Stream<SynthizerEvent> get events => getEvents();
+
+  /// Clear all properties for [object].
+  ///
+  /// If [time] is `null`, then [currentTime] will be used.
+  void clearAllProperties(SynthizerObject object, {double? time}) =>
+      AutomationBatch(this)
+        ..clearAllProperties(object.handle, time ?? currentTime.value)
+        ..execute()
+        ..destroy();
+
+  /// Clear all events for [object].
+  ///
+  /// If [time] is `null`, then [currentTime] will be used.
+  void clearEvents(SynthizerObject object, {double? time}) =>
+      AutomationBatch(this)
+        ..clearEvents(object.handle, time ?? currentTime.value)
+        ..execute()
+        ..destroy();
 }

@@ -13,6 +13,7 @@ Future<void> main() async {
   print('Created generator $generator.');
   source.addGenerator(generator);
   await Future<void>.delayed(Duration(seconds: 2));
+  print(generator.playbackPosition.value);
   synthizer.shutdown();
   print('Synthizer shutdown.');
 }

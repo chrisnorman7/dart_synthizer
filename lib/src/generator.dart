@@ -8,31 +8,24 @@ import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
 import 'synthizer.dart';
-import 'synthizer_bindings.dart';
 import 'synthizer_property.dart';
 
 /// The base class for all generators.
-abstract class Generator extends SynthizerObject with PausableMixin {
+abstract class Generator extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a generator.
-  Generator(Context context) : super(context.synthizer) {
-    gain = SynthizerDoubleProperty(synthizer, handle, Properties.gain);
-    looping = SynthizerBoolProperty(synthizer, handle, Properties.looping);
-    pitchBend =
-        SynthizerDoubleProperty(synthizer, handle, Properties.pitchBend);
-  }
+  Generator(Context context) : super(context.synthizer);
 
   /// Create an instance from a handle.
   Generator.fromHandle(Synthizer synthizer, int pointer)
       : super(synthizer, pointer: pointer);
 
-  /// The gain for this object.
-  late final SynthizerDoubleProperty gain;
-
   /// Whether or not this generator is looping.
-  late final SynthizerBoolProperty looping;
+  SynthizerBoolProperty get looping =>
+      SynthizerBoolProperty(synthizer, handle, Properties.looping);
 
-  /// Get the current pitch bend.
-  late final SynthizerDoubleProperty pitchBend;
+  /// The pitch bend for this generator.
+  SynthizerDoubleProperty get pitchBend =>
+      SynthizerDoubleProperty(synthizer, handle, Properties.pitchBend);
 }
 
 /// A streaming generator.
@@ -42,7 +35,7 @@ abstract class Generator extends SynthizerObject with PausableMixin {
 /// Streaming generators can be created with [Context.createStreamingGenerator].
 ///
 /// The `options` argument is as yet undocumented.
-class StreamingGenerator extends Generator {
+class StreamingGenerator extends Generator with PlaybackPosition {
   /// Create a generator.
   StreamingGenerator(Context context, String protocol, String path,
       {String options = ''})
@@ -61,16 +54,11 @@ class StreamingGenerator extends Generator {
             nullptr,
             synthizer.userdataFreeCallbackPointer));
     [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
-    playbackPosition =
-        SynthizerDoubleProperty(synthizer, handle, Properties.playbackPosition);
   }
 
   /// Return an instance from a handle.
   StreamingGenerator.fromHandle(Synthizer synthizer, int pointer)
       : super.fromHandle(synthizer, pointer);
-
-  /// The playback position of this generator.
-  late final SynthizerDoubleProperty playbackPosition;
 }
 
 /// A buffer generator.
@@ -78,7 +66,7 @@ class StreamingGenerator extends Generator {
 /// [Synthizer docs](https://synthizer.github.io/object_reference/buffer_generator.html)
 ///
 /// Buffer generators can be created with [Context.createBufferGenerator].
-class BufferGenerator extends Generator {
+class BufferGenerator extends Generator with PlaybackPosition {
   /// Create a buffer generator.
   BufferGenerator(Context context, {Buffer? buffer}) : super(context) {
     synthizer.check(synthizer.synthizer.syz_createBufferGenerator(
@@ -88,23 +76,17 @@ class BufferGenerator extends Generator {
         nullptr,
         synthizer.userdataFreeCallbackPointer));
     if (buffer != null) {
-      setBuffer(buffer);
+      this.buffer.value = buffer;
     }
-    playbackPosition =
-        SynthizerDoubleProperty(synthizer, handle, Properties.playbackPosition);
   }
 
   /// Return an instance from a handle.
   BufferGenerator.fromHandle(Synthizer synthizer, int pointer)
       : super.fromHandle(synthizer, pointer);
 
-  /// The playback position of this generator.
-  late final SynthizerDoubleProperty playbackPosition;
-
-  /// Set the buffer for this generator.
-  void setBuffer(Buffer? buffer) =>
-      synthizer.check(synthizer.synthizer.syz_setO(handle.value,
-          SYZ_PROPERTIES.SYZ_P_BUFFER, buffer?.handle.value ?? 0));
+  /// The buffer for this generator.
+  SynthizerObjectProperty get buffer =>
+      SynthizerObjectProperty(synthizer, handle, Properties.buffer);
 }
 
 /// A noise generator.
@@ -122,14 +104,13 @@ class NoiseGenerator extends Generator {
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
-    noiseType =
-        SynthizerNoiseTypeProperty(synthizer, handle, Properties.noiseType);
   }
 
   /// Create an instance from a handle value.
   NoiseGenerator.fromHandle(Synthizer synthizer, int pointer)
       : super.fromHandle(synthizer, pointer);
 
-  /// Get the noise type for this generator.
-  late final SynthizerNoiseTypeProperty noiseType;
+  /// The noise type for this generator.
+  SynthizerNoiseTypeProperty get noiseType =>
+      SynthizerNoiseTypeProperty(synthizer, handle, Properties.noiseType);
 }

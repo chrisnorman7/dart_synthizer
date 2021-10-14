@@ -6,10 +6,13 @@
 
 * Added the `SynthizerProperty` class, and it's subclasses.
 * It is now easier to create automation batches using various methods on the `AutomationBatch` class.
+* Added the `Context.clearAllProperties` method.
+* Added the `Context.clearEvents` method.
 
 ### Changed
 
-* Any properties that support automation have been switch to use the new `SynthizerProperty` API.
+* Switched all properties to the new `SynthizerProperty` API.
+* Changed `BufferGenerator.setBuffer` to be a `SynthizerObjectProperty`.
 
 ### Removed
 

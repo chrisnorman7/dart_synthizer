@@ -13,19 +13,14 @@ import 'synthizer_property.dart';
 /// The base class for all global effects.
 ///
 /// [Synthizer docs](https://synthizer.github.io/concepts/effects.html)
-class GlobalEffect extends SynthizerObject {
+class GlobalEffect extends SynthizerObject with GainMixin {
   /// Create a global effect.
   GlobalEffect(Synthizer synthizer, {int? pointer})
-      : super(synthizer, pointer: pointer) {
-    filterInput = SynthizerBiquadConfigProperty(
-        synthizer, handle, Properties.filterInput);
-  }
-
-  /// The gain for this instance.
-  late final SynthizerDoubleProperty gain;
+      : super(synthizer, pointer: pointer) {}
 
   /// The filter input.
-  late final SynthizerBiquadConfigProperty filterInput;
+  SynthizerBiquadConfigProperty get filterInput =>
+      SynthizerBiquadConfigProperty(synthizer, handle, Properties.filterInput);
 
   /// Reset this effect.
   void reset() =>
@@ -61,7 +56,6 @@ class GlobalEcho extends GlobalEffect {
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
-    gain = SynthizerDoubleProperty(synthizer, handle, Properties.gain);
   }
 
   /// Create an instance from a handle value.
@@ -101,26 +95,6 @@ class GlobalFdnReverb extends GlobalEffect {
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
-    gain = SynthizerDoubleProperty(synthizer, handle, Properties.gain);
-    meanFreePath =
-        SynthizerDoubleProperty(synthizer, handle, Properties.meanFreePath);
-    t60 = SynthizerDoubleProperty(synthizer, handle, Properties.t60);
-    lateReflectionsLfRolloff = SynthizerDoubleProperty(
-        synthizer, handle, Properties.lateReflectionsLfRolloff);
-    lateReflectionsLfReference = SynthizerDoubleProperty(
-        synthizer, handle, Properties.lateReflectionsLfReference);
-    lateReflectionsHfRolloff = SynthizerDoubleProperty(
-        synthizer, handle, Properties.lateReflectionsHfRolloff);
-    lateReflectionsHfReference = SynthizerDoubleProperty(
-        synthizer, handle, Properties.lateReflectionsHfReference);
-    lateReflectionsDiffusion = SynthizerDoubleProperty(
-        synthizer, handle, Properties.lateReflectionsDiffusion);
-    lateReflectionsModulationDepth = SynthizerDoubleProperty(
-        synthizer, handle, Properties.lateReflectionsModulationDepth);
-    lateReflectionsModulationFrequency = SynthizerDoubleProperty(
-        synthizer, handle, Properties.lateReflectionsModulationFrequency);
-    lateReflectionsDelay = SynthizerDoubleProperty(
-        synthizer, handle, Properties.lateReflectionsDelay);
   }
 
   /// Create an instance from a handle value.
@@ -128,32 +102,49 @@ class GlobalFdnReverb extends GlobalEffect {
       : super(synthizer, pointer: pointer);
 
   /// The mean free path.
-  late final SynthizerDoubleProperty meanFreePath;
+  SynthizerDoubleProperty get meanFreePath =>
+      SynthizerDoubleProperty(synthizer, handle, Properties.meanFreePath);
 
   /// The t60.
-  late final SynthizerDoubleProperty t60;
+  SynthizerDoubleProperty get t60 =>
+      SynthizerDoubleProperty(synthizer, handle, Properties.t60);
 
   /// The late reflections LF rolloff.
-  late final SynthizerDoubleProperty lateReflectionsLfRolloff;
+  SynthizerDoubleProperty get lateReflectionsLfRolloff =>
+      SynthizerDoubleProperty(
+          synthizer, handle, Properties.lateReflectionsLfRolloff);
 
   /// The late reflections LF reference.
-  late final SynthizerDoubleProperty lateReflectionsLfReference;
+  SynthizerDoubleProperty get lateReflectionsLfReference =>
+      SynthizerDoubleProperty(
+          synthizer, handle, Properties.lateReflectionsLfReference);
 
   /// The late reflections HF rolloff.
-  late final SynthizerDoubleProperty lateReflectionsHfRolloff;
+  SynthizerDoubleProperty get lateReflectionsHfRolloff =>
+      SynthizerDoubleProperty(
+          synthizer, handle, Properties.lateReflectionsHfRolloff);
 
   /// The late reflections HF reference.
-  late final SynthizerDoubleProperty lateReflectionsHfReference;
+  SynthizerDoubleProperty get lateReflectionsHfReference =>
+      SynthizerDoubleProperty(
+          synthizer, handle, Properties.lateReflectionsHfReference);
 
   /// The late reflections diffusion.
-  late final SynthizerDoubleProperty lateReflectionsDiffusion;
+  SynthizerDoubleProperty get lateReflectionsDiffusion =>
+      SynthizerDoubleProperty(
+          synthizer, handle, Properties.lateReflectionsDiffusion);
 
   /// The late reflections modulation depth.
-  late final SynthizerDoubleProperty lateReflectionsModulationDepth;
+  SynthizerDoubleProperty get lateReflectionsModulationDepth =>
+      SynthizerDoubleProperty(
+          synthizer, handle, Properties.lateReflectionsModulationDepth);
 
   /// The late reflections modulation frequency.
-  late final SynthizerDoubleProperty lateReflectionsModulationFrequency;
+  SynthizerDoubleProperty get lateReflectionsModulationFrequency =>
+      SynthizerDoubleProperty(
+          synthizer, handle, Properties.lateReflectionsModulationFrequency);
 
   /// The late reflections delay.
-  late final SynthizerDoubleProperty lateReflectionsDelay;
+  SynthizerDoubleProperty get lateReflectionsDelay => SynthizerDoubleProperty(
+      synthizer, handle, Properties.lateReflectionsDelay);
 }
