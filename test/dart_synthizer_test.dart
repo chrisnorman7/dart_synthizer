@@ -8,18 +8,15 @@ void main() {
 
   tearDownAll(synthizer.shutdown);
 
-  group('Base object tests', () {
-    test('isValid', () {
+  group('Context', () {
+    test('.isValid', () {
       final ctx = synthizer.createContext();
       expect(ctx.isValid, isTrue);
       ctx.destroy();
       expect(ctx.isValid, isFalse);
     });
-  });
-
-  group('Context properties', () {
-    final ctx = synthizer.createContext();
     test('Check properties', () async {
+      final ctx = synthizer.createContext();
       expect(ctx.orientation, equals(Double6(0.0, 1.0, 0.0, 0.0, 0.0, 1.0)));
       expect(ctx.defaultClosenessBoost, equals(0.0));
       expect(ctx.defaultClosenessBoostDistance, equals(0.0));
@@ -33,33 +30,29 @@ void main() {
     });
   });
 
-  group('Test buffers', () {
-    test('Test Buffer.fromStream', () {
+  group('Buffer', () {
+    test('.fromStream', () {
       expect(Buffer.fromStreamParams(synthizer, 'file', 'sound.wav'),
           isA<Buffer>());
     });
-
-    test('Test Buffer.fromFile', () {
+    test('.fromFile', () {
       expect(Buffer.fromFile(synthizer, File('sound.wav')), isA<Buffer>());
     });
-
-    test('Try to load an invalid file', () {
+    test('Invalid file', () {
       expect(
           () => Buffer.fromStreamParams(synthizer, 'file', 'nothing.invalid'),
-          throwsA(TypeMatcher<SynthizerError>()));
+          throwsA(isA<SynthizerError>()));
     });
-
     test('Test lengthInSamples', () {
       final buffer = Buffer.fromStreamParams(synthizer, 'file', 'sound.wav');
       expect(buffer.lengthInSamples, equals(11520));
     });
-
     test('Test lengthInSeconds', () {
       final buffer = Buffer.fromStreamParams(synthizer, 'file', 'sound.wav');
       expect(buffer.lengthInSeconds.toStringAsFixed(4), equals('0.2612'));
     });
   });
-  group('Linger Behaviour Tests', () {
+  group('Linger Behaviour', () {
     final ctx = synthizer.createContext();
     final s = ctx.createDirectSource();
     test('See if linger crashes', () {
