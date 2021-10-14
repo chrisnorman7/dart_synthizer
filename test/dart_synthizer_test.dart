@@ -17,16 +17,17 @@ void main() {
     });
     test('Check properties', () async {
       final ctx = synthizer.createContext();
-      expect(ctx.orientation, equals(Double6(0.0, 1.0, 0.0, 0.0, 0.0, 1.0)));
-      expect(ctx.defaultClosenessBoost, equals(0.0));
-      expect(ctx.defaultClosenessBoostDistance, equals(0.0));
-      expect(ctx.defaultDistanceMax, equals(50.0));
-      expect(ctx.defaultDistanceModel, equals(DistanceModel.linear));
-      expect(ctx.defaultDistanceRef, equals(1.0));
-      expect(ctx.defaultPannerStrategy, equals(PannerStrategy.stereo));
-      expect(ctx.defaultRolloff, equals(1.0));
-      expect(ctx.position, equals(Double3(0.0, 0.0, 0.0)));
-      expect(ctx.gain, equals(1.0));
+      expect(
+          ctx.orientation.value, equals(Double6(0.0, 1.0, 0.0, 0.0, 0.0, 1.0)));
+      expect(ctx.defaultClosenessBoost.value, equals(0.0));
+      expect(ctx.defaultClosenessBoostDistance.value, equals(0.0));
+      expect(ctx.defaultDistanceMax.value, equals(50.0));
+      expect(ctx.defaultDistanceModel.value, equals(DistanceModel.linear));
+      expect(ctx.defaultDistanceRef.value, equals(1.0));
+      expect(ctx.defaultPannerStrategy.value, equals(PannerStrategy.stereo));
+      expect(ctx.defaultRolloff.value, equals(1.0));
+      expect(ctx.position.value, equals(Double3(0.0, 0.0, 0.0)));
+      expect(ctx.gain.value, equals(1.0));
     });
   });
 
