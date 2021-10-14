@@ -1717,7 +1717,7 @@ class syz_BiquadConfig extends ffi.Struct {
 }
 
 class syz_AutomationPoint extends ffi.Struct {
-  @ffi.Uint32()
+  @ffi.Int32()
   external int interpolation_type;
 
   @ffi.Array.multi([6])
