@@ -37,9 +37,9 @@ class Synthizer {
   Synthizer({String? filename})
       : _eventPointer = calloc<syz_Event>(),
         intPointer = calloc<Int32>(),
-        _majorPointer = calloc<Uint32>(),
-        _minorPointer = calloc<Uint32>(),
-        _patchPointer = calloc<Uint32>(),
+        majorPointer = calloc<Uint32>(),
+        minorPointer = calloc<Uint32>(),
+        patchPointer = calloc<Uint32>(),
         routeConfig = calloc<syz_RouteConfig>(),
         doublePointer = calloc<Double>(),
         x1 = calloc<Double>(),
@@ -94,10 +94,14 @@ class Synthizer {
   /// [SynthizerPannerStrategyProperty].
   final Pointer<Int32> intPointer;
 
-  /// The handles used by [version].
-  final Pointer<Uint32> _majorPointer;
-  final Pointer<Uint32> _minorPointer;
-  final Pointer<Uint32> _patchPointer;
+  /// Handles used by [version].
+  final Pointer<Uint32> majorPointer;
+
+  /// Handles used by [version].
+  final Pointer<Uint32> minorPointer;
+
+  /// Handles used by [version].
+  final Pointer<Uint32> patchPointer;
 
   /// The handle used by [Context.ConfigRoute].
   final Pointer<syz_RouteConfig> routeConfig;
@@ -186,9 +190,9 @@ class Synthizer {
     [
       _eventPointer,
       intPointer,
-      _majorPointer,
-      _minorPointer,
-      _patchPointer,
+      majorPointer,
+      minorPointer,
+      patchPointer,
       routeConfig,
       doublePointer,
       x1,
@@ -292,9 +296,9 @@ class Synthizer {
 
   /// Get the synthizer version.
   SynthizerVersion get version {
-    synthizer.syz_getVersion(_majorPointer, _minorPointer, _patchPointer);
+    synthizer.syz_getVersion(majorPointer, minorPointer, patchPointer);
     return SynthizerVersion(
-        _majorPointer.value, _minorPointer.value, _patchPointer.value);
+        majorPointer.value, minorPointer.value, patchPointer.value);
   }
 
   /// Increase the reference count for the object with the given [handle].
