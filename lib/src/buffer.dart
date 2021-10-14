@@ -96,32 +96,23 @@ class Buffer extends SynthizerObject {
 
   /// Get the number of channels for this buffer.
   int get channels {
-    final out = calloc<Uint32>();
-    synthizer
-        .check(synthizer.synthizer.syz_bufferGetChannels(out, handle.value));
-    final v = out.value;
-    calloc.free(out);
-    return v;
+    synthizer.check(synthizer.synthizer
+        .syz_bufferGetChannels(synthizer.majorPointer, handle.value));
+    return synthizer.majorPointer.value;
   }
 
   /// Get the length of this buffer in samples.
   int get lengthInSamples {
-    final out = calloc<Uint32>();
-    synthizer.check(
-        synthizer.synthizer.syz_bufferGetLengthInSamples(out, handle.value));
-    final v = out.value;
-    calloc.free(out);
-    return v;
+    synthizer.check(synthizer.synthizer
+        .syz_bufferGetLengthInSamples(synthizer.majorPointer, handle.value));
+    return synthizer.majorPointer.value;
   }
 
   /// Get the length of this buffer in seconds.
   double get lengthInSeconds {
-    final out = calloc<Double>();
-    synthizer.check(
-        synthizer.synthizer.syz_bufferGetLengthInSeconds(out, handle.value));
-    final v = out.value;
-    calloc.free(out);
-    return v;
+    synthizer.check(synthizer.synthizer
+        .syz_bufferGetLengthInSeconds(synthizer.doublePointer, handle.value));
+    return synthizer.doublePointer.value;
   }
 
   /// Get the amount of memory (in bytes) this buffer is taking up.
