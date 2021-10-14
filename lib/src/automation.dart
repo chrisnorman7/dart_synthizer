@@ -100,14 +100,17 @@ class AutomationBatch extends SynthizerObject {
     final a = malloc<syz_AutomationCommand>(commands.length);
     for (var i = 0; i < commands.length; i++) {
       final command = commands[i];
+      final targetHandle = target.handle.value;
       final ref = a[i]
         ..time = command.time
-        ..target = target.handle.value
+        ..target = targetHandle
         ..type = command.type.toInt();
       if (command is AutomationAppendPropertyCommand) {
         final append = ref.params.append_to_property
           ..property = command.property.toInt();
-        append.point.interpolation_type = command.interpolationType.toInt();
+        append.point
+          ..interpolation_type = command.interpolationType.toInt()
+          ..flags = 0;
         final dynamic value = command.value;
         if (value is double) {
           append.point.values[0] = value;
