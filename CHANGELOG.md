@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.7.0]
+
+### Added
+
+* Added the `SynthizerProperty` class, and it's subclasses.
+* It is now easier to create automation batches using various methods on the `AutomationBatch` class.
+
+### Changed
+
+* Any properties that support automation have been switch to use the new `SynthizerProperty` API.
+
+### Removed
+
+* You can no longer use the `AutomationCommand` classes or the `AutomationBatch.commands` list.
+* The automation batch method on `Context` has been removed. Now you must instantiate an `AutomationBatch` class and use its `execute` method.
+
 ## [0.6.5]
 
 ### Changed

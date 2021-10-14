@@ -1,7 +1,6 @@
 /// Provides source classes.
 import 'dart:ffi';
 
-import 'biquad.dart';
 import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
@@ -15,7 +14,9 @@ import 'synthizer_property.dart';
 abstract class Source extends SynthizerObject with PausableMixin {
   /// Create a source.
   Source(Context context) : super(context.synthizer) {
-    gain = SynthizerDoubleProperty(context, handle, Properties.gain);
+    gain = SynthizerDoubleProperty(synthizer, handle, Properties.gain);
+    filter =
+        SynthizerBiquadConfigProperty(synthizer, handle, Properties.filter);
   }
 
   /// Create an instance from a handle value.
@@ -25,9 +26,8 @@ abstract class Source extends SynthizerObject with PausableMixin {
   /// The gain for this source.
   late final SynthizerDoubleProperty gain;
 
-  /// Set filter property.
-  set filter(BiquadConfig config) =>
-      synthizer.setBiquad(handle, Properties.filter, config);
+  /// Filter property.
+  late final SynthizerBiquadConfigProperty filter;
 
   /// Add a generator to this source.
   void addGenerator(Generator generator) => synthizer.check(synthizer.synthizer
@@ -78,8 +78,9 @@ class AngularPannedSource extends Source {
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
-    azimuth = SynthizerDoubleProperty(context, handle, Properties.azimuth);
-    elevation = SynthizerDoubleProperty(context, handle, Properties.elevation);
+    azimuth = SynthizerDoubleProperty(synthizer, handle, Properties.azimuth);
+    elevation =
+        SynthizerDoubleProperty(synthizer, handle, Properties.elevation);
   }
 
   /// Get an instance from a handle.
@@ -113,7 +114,7 @@ class ScalarPannedSource extends Source {
         nullptr,
         synthizer.userdataFreeCallbackPointer));
     panningScalar =
-        SynthizerDoubleProperty(context, handle, Properties.panningScalar);
+        SynthizerDoubleProperty(synthizer, handle, Properties.panningScalar);
   }
 
   /// Create an instance from a handle value.
@@ -148,27 +149,25 @@ class Source3D extends Source {
         nullptr,
         synthizer.userdataFreeCallbackPointer));
     distanceMax =
-        SynthizerDoubleProperty(context, handle, Properties.distanceMax);
+        SynthizerDoubleProperty(synthizer, handle, Properties.distanceMax);
     distanceRef =
-        SynthizerDoubleProperty(context, handle, Properties.distanceRef);
-    rolloff = SynthizerDoubleProperty(context, handle, Properties.rolloff);
+        SynthizerDoubleProperty(synthizer, handle, Properties.distanceRef);
+    rolloff = SynthizerDoubleProperty(synthizer, handle, Properties.rolloff);
     closenessBoost =
-        SynthizerDoubleProperty(context, handle, Properties.closenessBoost);
+        SynthizerDoubleProperty(synthizer, handle, Properties.closenessBoost);
     closenessBoostDistance = SynthizerDoubleProperty(
-        context, handle, Properties.closenessBoostDistance);
-    position = SynthizerDouble3Property(context, handle, Properties.position);
+        synthizer, handle, Properties.closenessBoostDistance);
+    position = SynthizerDouble3Property(synthizer, handle, Properties.position);
+    distanceModel = SynthizerDistanceModelProperty(
+        synthizer, handle, Properties.distanceModel);
   }
 
   /// Create an instance from a handle value.
   Source3D.fromHandle(Synthizer synthizer, int pointer)
       : super.fromHandle(synthizer, pointer);
 
-  /// Get the distance model for this object.
-  DistanceModel get distanceModel => synthizer.getDistanceModel(handle);
-
-  /// Set the distance model for this object.
-  set distanceModel(DistanceModel value) =>
-      synthizer.setDistanceModel(handle, value);
+  /// The distance model for this object.
+  late final SynthizerDistanceModelProperty distanceModel;
 
   /// The distance ref for this object.
   late final SynthizerDoubleProperty distanceRef;

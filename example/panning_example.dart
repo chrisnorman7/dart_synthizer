@@ -10,7 +10,8 @@ Future<void> main() async {
   var scalar = -1.0;
   final source = ctx.createScalarPannedSource(panningScalar: scalar);
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
-  final generator = ctx.createBufferGenerator(buffer: buffer)..looping = true;
+  final generator = ctx.createBufferGenerator(buffer: buffer)
+    ..looping.value = true;
   source.addGenerator(generator);
   while (scalar < 1.0) {
     await Future<void>.delayed(Duration(milliseconds: 200));

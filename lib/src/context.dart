@@ -29,19 +29,23 @@ class Context extends SynthizerObject with PausableMixin {
       }
     }
     orientation =
-        SynthizerDouble6Property(this, handle, Properties.orientation);
-    defaultClosenessBoost =
-        SynthizerDoubleProperty(this, handle, Properties.defaultClosenessBoost);
+        SynthizerDouble6Property(synthizer, handle, Properties.orientation);
+    defaultClosenessBoost = SynthizerDoubleProperty(
+        synthizer, handle, Properties.defaultClosenessBoost);
     defaultClosenessBoostDistance = SynthizerDoubleProperty(
-        this, handle, Properties.defaultClosenessBoostDistance);
-    defaultDistanceMax =
-        SynthizerDoubleProperty(this, handle, Properties.defaultDistanceMax);
+        synthizer, handle, Properties.defaultClosenessBoostDistance);
+    defaultDistanceMax = SynthizerDoubleProperty(
+        synthizer, handle, Properties.defaultDistanceMax);
     defaultRolloff =
-        SynthizerDoubleProperty(this, handle, Properties.defaultRolloff);
-    defaultDistanceRef =
-        SynthizerDoubleProperty(this, handle, Properties.defaultDistanceRef);
-    position = SynthizerDouble3Property(this, handle, Properties.position);
-    gain = SynthizerDoubleProperty(this, handle, Properties.gain);
+        SynthizerDoubleProperty(synthizer, handle, Properties.defaultRolloff);
+    defaultDistanceRef = SynthizerDoubleProperty(
+        synthizer, handle, Properties.defaultDistanceRef);
+    position = SynthizerDouble3Property(synthizer, handle, Properties.position);
+    gain = SynthizerDoubleProperty(synthizer, handle, Properties.gain);
+    defaultPannerStrategy = SynthizerPannerStrategyProperty(
+        synthizer, handle, Properties.defaultPannerStrategy);
+    defaultDistanceModel = SynthizerDistanceModelProperty(
+        synthizer, handle, Properties.defaultDistanceModel);
   }
 
   /// Enable the streaming of context events.
@@ -51,13 +55,8 @@ class Context extends SynthizerObject with PausableMixin {
   /// The orientation of this context.
   late final SynthizerDouble6Property orientation;
 
-  /// Get the default panner strategy for this context.
-  PannerStrategy get defaultPannerStrategy =>
-      synthizer.getDefaultPannerStrategy(handle);
-
-  /// Set the default panner strategy for this context.
-  set defaultPannerStrategy(PannerStrategy value) =>
-      synthizer.setDefaultPannerStrategy(handle, value);
+  /// The default panner strategy for this context.
+  late final SynthizerPannerStrategyProperty defaultPannerStrategy;
 
   /// The default closeness boost for this object.
   late final SynthizerDoubleProperty defaultClosenessBoost;
@@ -71,13 +70,8 @@ class Context extends SynthizerObject with PausableMixin {
   /// The default rolloff for this object.
   late final SynthizerDoubleProperty defaultRolloff;
 
-  /// Get the default distance model for this object.
-  DistanceModel get defaultDistanceModel =>
-      synthizer.getDefaultDistanceModel(handle);
-
-  /// Set the default distance model for this object.
-  set defaultDistanceModel(DistanceModel value) =>
-      synthizer.setDefaultDistanceModel(handle, value);
+  /// The default distance model for this object.
+  late final SynthizerDistanceModelProperty defaultDistanceModel;
 
   /// The default distance ref for this object.
   late final SynthizerDoubleProperty defaultDistanceRef;

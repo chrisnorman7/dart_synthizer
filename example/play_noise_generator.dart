@@ -22,7 +22,7 @@ Future<void> main() async {
     for (final noiseType in NoiseType.values) {
       print('Noise type is ${noiseGenerator.noiseType}.');
       await Future<void>.delayed(Duration(seconds: 1));
-      noiseGenerator.noiseType = noiseType;
+      noiseGenerator.noiseType.value = noiseType;
     }
   }
 }

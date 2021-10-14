@@ -3,7 +3,6 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
-import 'biquad.dart';
 import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
@@ -17,18 +16,20 @@ import 'synthizer_property.dart';
 class GlobalEffect extends SynthizerObject {
   /// Create a global effect.
   GlobalEffect(Synthizer synthizer, {int? pointer})
-      : super(synthizer, pointer: pointer);
+      : super(synthizer, pointer: pointer) {
+    filterInput = SynthizerBiquadConfigProperty(
+        synthizer, handle, Properties.filterInput);
+  }
 
   /// The gain for this instance.
   late final SynthizerDoubleProperty gain;
 
+  /// The filter input.
+  late final SynthizerBiquadConfigProperty filterInput;
+
   /// Reset this effect.
   void reset() =>
       synthizer.check(synthizer.synthizer.syz_effectReset(handle.value));
-
-  /// Set the filter input.
-  set filterInput(BiquadConfig config) =>
-      synthizer.setBiquad(handle, Properties.filterInput, config);
 }
 
 /// An echo tap. Passed to GlobalEcho.set_taps.
@@ -60,7 +61,7 @@ class GlobalEcho extends GlobalEffect {
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
-    gain = SynthizerDoubleProperty(context, handle, Properties.gain);
+    gain = SynthizerDoubleProperty(synthizer, handle, Properties.gain);
   }
 
   /// Create an instance from a handle value.
@@ -100,26 +101,26 @@ class GlobalFdnReverb extends GlobalEffect {
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
-    gain = SynthizerDoubleProperty(context, handle, Properties.gain);
+    gain = SynthizerDoubleProperty(synthizer, handle, Properties.gain);
     meanFreePath =
-        SynthizerDoubleProperty(context, handle, Properties.meanFreePath);
-    t60 = SynthizerDoubleProperty(context, handle, Properties.t60);
+        SynthizerDoubleProperty(synthizer, handle, Properties.meanFreePath);
+    t60 = SynthizerDoubleProperty(synthizer, handle, Properties.t60);
     lateReflectionsLfRolloff = SynthizerDoubleProperty(
-        context, handle, Properties.lateReflectionsLfRolloff);
+        synthizer, handle, Properties.lateReflectionsLfRolloff);
     lateReflectionsLfReference = SynthizerDoubleProperty(
-        context, handle, Properties.lateReflectionsLfReference);
+        synthizer, handle, Properties.lateReflectionsLfReference);
     lateReflectionsHfRolloff = SynthizerDoubleProperty(
-        context, handle, Properties.lateReflectionsHfRolloff);
+        synthizer, handle, Properties.lateReflectionsHfRolloff);
     lateReflectionsHfReference = SynthizerDoubleProperty(
-        context, handle, Properties.lateReflectionsHfReference);
+        synthizer, handle, Properties.lateReflectionsHfReference);
     lateReflectionsDiffusion = SynthizerDoubleProperty(
-        context, handle, Properties.lateReflectionsDiffusion);
+        synthizer, handle, Properties.lateReflectionsDiffusion);
     lateReflectionsModulationDepth = SynthizerDoubleProperty(
-        context, handle, Properties.lateReflectionsModulationDepth);
+        synthizer, handle, Properties.lateReflectionsModulationDepth);
     lateReflectionsModulationFrequency = SynthizerDoubleProperty(
-        context, handle, Properties.lateReflectionsModulationFrequency);
+        synthizer, handle, Properties.lateReflectionsModulationFrequency);
     lateReflectionsDelay = SynthizerDoubleProperty(
-        context, handle, Properties.lateReflectionsDelay);
+        synthizer, handle, Properties.lateReflectionsDelay);
   }
 
   /// Create an instance from a handle value.

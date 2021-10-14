@@ -10,23 +10,24 @@ Future<void> main() async {
   final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext();
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
-  final generator = ctx.createBufferGenerator(buffer: buffer)..looping = true;
+  final generator = ctx.createBufferGenerator(buffer: buffer)
+    ..looping.value = true;
   final source = ctx.createDirectSource()..addGenerator(generator);
-  var timebase = ctx.currentTime;
-  generator.pitchBend.automate(
+  var timebase = ctx.currentTime.value;
+  generator.pitchBend.automate(ctx,
       startTime: timebase,
       startValue: 1.0,
       endTime: timebase + 10.0,
       endValue: 0.1);
-  generator.gain.automate(
+  generator.gain.automate(ctx,
       startTime: timebase,
       startValue: 1.0,
       endTime: timebase + 5.0,
       endValue: 0.0);
   await Future<void>.delayed(Duration(seconds: 5));
   print('Gain is ${generator.gain.value}.');
-  timebase = ctx.currentTime;
-  generator.gain.automate(
+  timebase = ctx.currentTime.value;
+  generator.gain.automate(ctx,
       startTime: timebase,
       startValue: 0.0,
       endTime: timebase + 5.0,

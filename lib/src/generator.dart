@@ -15,8 +15,10 @@ import 'synthizer_property.dart';
 abstract class Generator extends SynthizerObject with PausableMixin {
   /// Create a generator.
   Generator(Context context) : super(context.synthizer) {
-    gain = SynthizerDoubleProperty(context, handle, Properties.gain);
-    pitchBend = SynthizerDoubleProperty(context, handle, Properties.pitchBend);
+    gain = SynthizerDoubleProperty(synthizer, handle, Properties.gain);
+    looping = SynthizerBoolProperty(synthizer, handle, Properties.looping);
+    pitchBend =
+        SynthizerDoubleProperty(synthizer, handle, Properties.pitchBend);
   }
 
   /// Create an instance from a handle.
@@ -26,12 +28,8 @@ abstract class Generator extends SynthizerObject with PausableMixin {
   /// The gain for this object.
   late final SynthizerDoubleProperty gain;
 
-  /// Get whether or not this generator is looping.
-  bool get looping => synthizer.getBool(handle, Properties.looping);
-
-  /// Set whether or not this generator should loop.
-  set looping(bool value) =>
-      synthizer.setBool(handle, Properties.looping, value);
+  /// Whether or not this generator is looping.
+  late final SynthizerBoolProperty looping;
 
   /// Get the current pitch bend.
   late final SynthizerDoubleProperty pitchBend;
@@ -64,7 +62,7 @@ class StreamingGenerator extends Generator {
             synthizer.userdataFreeCallbackPointer));
     [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
     playbackPosition =
-        SynthizerDoubleProperty(context, handle, Properties.playbackPosition);
+        SynthizerDoubleProperty(synthizer, handle, Properties.playbackPosition);
   }
 
   /// Return an instance from a handle.
@@ -93,7 +91,7 @@ class BufferGenerator extends Generator {
       setBuffer(buffer);
     }
     playbackPosition =
-        SynthizerDoubleProperty(context, handle, Properties.playbackPosition);
+        SynthizerDoubleProperty(synthizer, handle, Properties.playbackPosition);
   }
 
   /// Return an instance from a handle.
@@ -124,6 +122,8 @@ class NoiseGenerator extends Generator {
         nullptr,
         nullptr,
         synthizer.userdataFreeCallbackPointer));
+    noiseType =
+        SynthizerNoiseTypeProperty(synthizer, handle, Properties.noiseType);
   }
 
   /// Create an instance from a handle value.
@@ -131,10 +131,5 @@ class NoiseGenerator extends Generator {
       : super.fromHandle(synthizer, pointer);
 
   /// Get the noise type for this generator.
-  NoiseType get noiseType =>
-      synthizer.getInt(handle, Properties.noiseType).toNoiseType();
-
-  /// Set the noise type for this generator.
-  set noiseType(NoiseType value) =>
-      synthizer.setInt(handle, Properties.noiseType, value.toInt());
+  late final SynthizerNoiseTypeProperty noiseType;
 }

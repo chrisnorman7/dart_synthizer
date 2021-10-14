@@ -13,7 +13,7 @@ Future<void> main() async {
   print('Created source.');
   final generator = ctx.createBufferGenerator(
       buffer: Buffer.fromFile(synthizer, File('sound.wav')))
-    ..looping = true;
+    ..looping.value = true;
   source.addGenerator(generator);
   await Future<void>.delayed(Duration(seconds: 2));
   generator.destroy();

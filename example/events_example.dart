@@ -19,7 +19,8 @@ Future<void> main() async {
     }
   });
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
-  final generator = ctx.createBufferGenerator(buffer: buffer)..looping = true;
+  final generator = ctx.createBufferGenerator(buffer: buffer)
+    ..looping.value = true;
   final source = ctx.createDirectSource()..addGenerator(generator);
   // final commands = [
   //   for (var i = 0; i < 10; i += 2)

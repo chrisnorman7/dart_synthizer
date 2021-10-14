@@ -4,9 +4,11 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 
+import '../dart_synthizer.dart';
 import 'enumerations.dart';
 import 'synthizer.dart';
 import 'synthizer_bindings.dart';
+import 'synthizer_property.dart';
 
 /// The base class for all synthizer objects.
 class SynthizerObject {
@@ -16,6 +18,10 @@ class SynthizerObject {
     if (pointer != null) {
       handle.value = pointer;
     }
+    currentTime =
+        SynthizerDoubleProperty(synthizer, handle, Properties.currentTime);
+    suggestedAutomationTime = SynthizerDoubleProperty(
+        synthizer, handle, Properties.suggestedAutomationTime);
   }
 
   /// The synthizer instance.
@@ -36,11 +42,10 @@ class SynthizerObject {
   bool get isValid => handle.value != 0;
 
   /// Get the current Synthizer time.
-  double get currentTime => synthizer.getDouble(handle, Properties.currentTime);
+  late final SynthizerDoubleProperty currentTime;
 
   /// Get the suggested automation time.
-  double get suggestedAutomationTime =>
-      synthizer.getDouble(handle, Properties.suggestedAutomationTime);
+  late final SynthizerDoubleProperty suggestedAutomationTime;
 
   /// Configure delete behaviour for this object.
   void configDeleteBehavior({bool? linger, double? timeout}) {

@@ -9,7 +9,8 @@ Future<void> main() async {
   final ctx = synthizer.createContext();
   final source = ctx.createDirectSource();
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
-  final generator = ctx.createBufferGenerator(buffer: buffer)..looping = true;
+  final generator = ctx.createBufferGenerator(buffer: buffer)
+    ..looping.value = true;
   source.addGenerator(generator);
   for (var i = 0; i < 5; i++) {
     await Future<void>.delayed(Duration(seconds: 1));

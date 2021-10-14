@@ -9,7 +9,7 @@ Future<void> main() async {
   final ctx = synthizer.createContext();
   final source = ctx.createDirectSource();
   final generator = ctx.createStreamingGenerator('file', 'sound.wav')
-    ..looping = true;
+    ..looping.value = true;
   source.addGenerator(generator);
   final reverb = ctx.createGlobalFdnReverb();
   await Future<void>.delayed(Duration(milliseconds: 200));

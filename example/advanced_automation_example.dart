@@ -38,18 +38,18 @@ void main() async {
     ..initialize(
         logLevel: LogLevel.debug, loggingBackend: LoggingBackend.stderr);
   final context = synthizer.createContext(events: true)
-    ..defaultPannerStrategy = PannerStrategy.hrtf;
+    ..defaultPannerStrategy.value = PannerStrategy.hrtf;
   final source = context.createSource3D();
   final buffer = Buffer.fromFile(synthizer, File('sound.wav'));
   final generator = context.createBufferGenerator(buffer: buffer)
-    ..looping = true;
+    ..looping.value = true;
   source.addGenerator(generator);
   // Create a reverb to make it a bit more obvious when the sound passes behind.
   final reverb = context.createGlobalFdnReverb()
     ..gain.value = 0.5
     ..t60.value = 3;
   context.ConfigRoute(source, reverb);
-  final timebase = context.currentTime;
+  final timebase = context.currentTime.value;
   var itersSoFar = 0;
   while (itersSoFar < 300) {
     print('Beginning iteration $itersSoFar.');

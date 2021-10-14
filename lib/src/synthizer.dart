@@ -14,9 +14,9 @@ import 'enumerations.dart';
 import 'error.dart';
 import 'events.dart';
 import 'generator.dart';
-import 'properties.dart';
 import 'source.dart';
 import 'synthizer_bindings.dart';
+import 'synthizer_property.dart';
 import 'synthizer_version.dart';
 
 /// The filename to use to load the Synthizer library from the current process.
@@ -36,18 +36,18 @@ class Synthizer {
   /// Create an instance.
   Synthizer({String? filename})
       : _eventPointer = calloc<syz_Event>(),
-        _intPointer = calloc<Int32>(),
+        intPointer = calloc<Int32>(),
         _majorPointer = calloc<Uint32>(),
         _minorPointer = calloc<Uint32>(),
         _patchPointer = calloc<Uint32>(),
         routeConfig = calloc<syz_RouteConfig>(),
-        _doublePointer = calloc<Double>(),
-        _x1 = calloc<Double>(),
-        _y1 = calloc<Double>(),
-        _z1 = calloc<Double>(),
-        _x2 = calloc<Double>(),
-        _y2 = calloc<Double>(),
-        _z2 = calloc<Double>(),
+        doublePointer = calloc<Double>(),
+        x1 = calloc<Double>(),
+        y1 = calloc<Double>(),
+        z1 = calloc<Double>(),
+        x2 = calloc<Double>(),
+        y2 = calloc<Double>(),
+        z2 = calloc<Double>(),
         userdataFreeCallbackPointer = nullptr.cast<syz_UserdataFreeCallback>(),
         deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>(),
         _wasInit = false {
@@ -90,9 +90,9 @@ class Synthizer {
   /// utility methods provided by this package should be used.
   late final DartSynthizer synthizer;
 
-  /// The handle used by all calls to [getInt], [setInt], [getBool], and
-  /// [setBool].
-  final Pointer<Int32> _intPointer;
+  /// The handle used by [SynthizerIntProperty], [SynthizerBoolProperty], and
+  /// [SynthizerPannerStrategyProperty].
+  final Pointer<Int32> intPointer;
 
   /// The handles used by [version].
   final Pointer<Uint32> _majorPointer;
@@ -102,18 +102,26 @@ class Synthizer {
   /// The handle used by [Context.ConfigRoute].
   final Pointer<syz_RouteConfig> routeConfig;
 
-  /// The handle used for all calls to [getDouble] and [setDouble].
-  final Pointer<Double> _doublePointer;
+  /// The handle used by [SynthizerDoubleProperty].
+  final Pointer<Double> doublePointer;
 
-  /// The handles used by [getDouble3].
-  final Pointer<Double> _x1;
-  final Pointer<Double> _y1;
-  final Pointer<Double> _z1;
+  /// Handles used by [SynthizerDouble3Property].
+  final Pointer<Double> x1;
 
-  /// The extra handles used by double6.
-  final Pointer<Double> _x2;
-  final Pointer<Double> _y2;
-  final Pointer<Double> _z2;
+  /// Handles used by [SynthizerDouble3Property].
+  final Pointer<Double> y1;
+
+  /// Handles used by [SynthizerDouble3Property].
+  final Pointer<Double> z1;
+
+  /// Extra handles used by double6.
+  final Pointer<Double> x2;
+
+  /// Extra handles used by double6.
+  final Pointer<Double> y2;
+
+  /// Extra handles used by double6.
+  final Pointer<Double> z2;
 
   /// The default pointer for freeing user data.
   final Pointer<syz_UserdataFreeCallback> userdataFreeCallbackPointer;
@@ -127,88 +135,6 @@ class Synthizer {
       throw SynthizerError.fromLib(synthizer);
     }
   }
-
-  /// Get an integer property.
-  int getInt(Pointer<Uint64> handle, Properties property) {
-    check(synthizer.syz_getI(_intPointer, handle.value, property.toInt()));
-    return _intPointer.value;
-  }
-
-  /// Set a int property.
-  void setInt(Pointer<Uint64> handle, Properties property, int value) =>
-      check(synthizer.syz_setI(handle.value, property.toInt(), value));
-
-  /// Get a boolean property.
-  bool getBool(Pointer<Uint64> handle, Properties property) =>
-      getInt(handle, property) == 1;
-
-  /// Set a boolean property.
-  void setBool(Pointer<Uint64> handle, Properties property, bool value) =>
-      check(synthizer.syz_setI(handle.value, property.toInt(), value ? 1 : 0));
-
-  /// Get a double property.
-  double getDouble(Pointer<Uint64> handle, Properties property) {
-    check(synthizer.syz_getD(_doublePointer, handle.value, property.toInt()));
-    return _doublePointer.value;
-  }
-
-  /// Set a double property.
-  void setDouble(Pointer<Uint64> handle, Properties property, double value) =>
-      check(synthizer.syz_setD(handle.value, property.toInt(), value));
-
-  /// Get a double3 property.
-  Double3 getDouble3(Pointer<Uint64> handle, Properties property) {
-    check(synthizer.syz_getD3(_x1, _y1, _z1, handle.value, property.toInt()));
-    return Double3(_x1.value, _y1.value, _z1.value);
-  }
-
-  /// Set a double3 property.
-  void setDouble3(Pointer<Uint64> handle, Properties property, Double3 value) =>
-      check(synthizer.syz_setD3(
-          handle.value, property.toInt(), value.x, value.y, value.z));
-
-  /// Get a double6 property.
-  Double6 getDouble6(Pointer<Uint64> handle, Properties property) {
-    check(synthizer.syz_getD6(
-        _x1, _y1, _z1, _x2, _y2, _z2, handle.value, property.toInt()));
-    return Double6(
-        _x1.value, _y1.value, _z1.value, _x2.value, _y2.value, _z2.value);
-  }
-
-  /// Set a double6 property.
-  void setDouble6(Pointer<Uint64> handle, Properties property, Double6 value) =>
-      check(synthizer.syz_setD6(handle.value, property.toInt(), value.x1,
-          value.y1, value.z1, value.x2, value.y2, value.z2));
-
-  /// Get a default panner strategy property.
-  PannerStrategy getDefaultPannerStrategy(Pointer<Uint64> handle) =>
-      getInt(handle, Properties.defaultPannerStrategy).toPannerStrategy();
-
-  /// Set a default panner strategy.
-  void setDefaultPannerStrategy(Pointer<Uint64> handle, PannerStrategy value) =>
-      setInt(handle, Properties.defaultPannerStrategy, value.toInt());
-
-  /// Get a distance model property.
-  DistanceModel getDistanceModel(Pointer<Uint64> handle) =>
-      getInt(handle, Properties.distanceModel).toDistanceModel();
-
-  /// Set a distance model property.
-  void setDistanceModel(Pointer<Uint64> handle, DistanceModel value) =>
-      setInt(handle, Properties.distanceModel, value.toInt());
-
-  /// Get a default distance model property.
-  DistanceModel getDefaultDistanceModel(Pointer<Uint64> handle) =>
-      getInt(handle, Properties.defaultDistanceModel).toDistanceModel();
-
-  /// Set a default distance model property.
-  void setDefaultDistanceModel(Pointer<Uint64> handle, DistanceModel value) =>
-      setInt(handle, Properties.defaultDistanceModel, value.toInt());
-
-  /// Set a biquad property.
-  void setBiquad(
-          Pointer<Uint64> handle, Properties property, BiquadConfig config) =>
-      check(synthizer.syz_setBiquad(
-          handle.value, property.toInt(), config.config));
 
   /// Initialise the library.
   void initialize(
@@ -259,18 +185,18 @@ class Synthizer {
     check(synthizer.syz_shutdown());
     [
       _eventPointer,
-      _intPointer,
+      intPointer,
       _majorPointer,
       _minorPointer,
       _patchPointer,
       routeConfig,
-      _doublePointer,
-      _x1,
-      _y1,
-      _z1,
-      _x2,
-      _y2,
-      _z2,
+      doublePointer,
+      x1,
+      y1,
+      z1,
+      x2,
+      y2,
+      z2,
     ].forEach(calloc.free);
     _wasInit = false;
   }
@@ -297,8 +223,8 @@ class Synthizer {
 
   /// Get the type of a handle.
   ObjectType getObjectType(int handle) {
-    check(synthizer.syz_handleGetObjectType(_intPointer, handle));
-    return _intPointer.value.toObjectType();
+    check(synthizer.syz_handleGetObjectType(intPointer, handle));
+    return intPointer.value.toObjectType();
   }
 
   /// Get an object from [handle].
@@ -306,7 +232,7 @@ class Synthizer {
   /// *NOTE*: Objects constructed by this method should be used for comparison
   /// only.
   ///
-  /// If you try to access properties for example, you *will* get errors.
+  /// If you try to access properties for example, the behaviour is undefined.
   SynthizerObject getObject(int handle) {
     final type = getObjectType(handle);
     switch (type) {
