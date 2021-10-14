@@ -1,8 +1,14 @@
 # Changelog
 
+## [0.6.5]
+
+### Changed
+
+* Update Synthizer.
+
 ## [0.6.4]
 
-### Changes
+### Changed
 
 * It is now possible to load Synthizer from the current process, or the current executable.
 
