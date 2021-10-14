@@ -23,6 +23,15 @@ abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
   SynthizerBiquadConfigProperty get filter =>
       SynthizerBiquadConfigProperty(synthizer, handle, Properties.filter);
 
+  /// The filter direct property.
+  SynthizerBiquadConfigProperty get filterDirect =>
+      SynthizerBiquadConfigProperty(synthizer, handle, Properties.filterDirect);
+
+  /// The filter effects property.
+  SynthizerBiquadConfigProperty get filterEffects =>
+      SynthizerBiquadConfigProperty(
+          synthizer, handle, Properties.filterEffects);
+
   /// Add a generator to this source.
   void addGenerator(Generator generator) => synthizer.check(synthizer.synthizer
       .syz_sourceAddGenerator(handle.value, generator.handle.value));
@@ -54,9 +63,19 @@ class DirectSource extends Source {
       : super.fromHandle(synthizer, pointer);
 }
 
+/// A source with some kind of panning applied.
+abstract class _PannedSource extends Source {
+  /// Create an instance.
+  _PannedSource(Context context) : super(context);
+
+  /// Create an instance from a handle.
+  _PannedSource.fromHandle(Synthizer synthizer, int pointer)
+      : super.fromHandle(synthizer, pointer);
+}
+
 /// A source with azimuth and elevation panning done by hand.
 ///
-class AngularPannedSource extends Source {
+class AngularPannedSource extends _PannedSource {
   /// Create an instance.
   AngularPannedSource(Context context,
       {PannerStrategy pannerStrategy = PannerStrategy.delegate,
@@ -92,7 +111,7 @@ class AngularPannedSource extends Source {
 /// [Synthizer docs](https://synthizer.github.io/object_reference/panned_source.html)
 ///
 /// Instances can be created with [Context.createScalarPannedSource].
-class ScalarPannedSource extends Source {
+class ScalarPannedSource extends _PannedSource {
   /// Create a panned source with a scalar.
   ScalarPannedSource(Context context,
       {PannerStrategy panningStrategy = PannerStrategy.delegate,
@@ -122,7 +141,7 @@ class ScalarPannedSource extends Source {
 /// [Synthizer docs](https://synthizer.github.io/object_reference/source_3d.html)
 ///
 /// Source 3ds can be created with [Context.createSource3D].
-class Source3D extends Source {
+class Source3D extends _PannedSource {
   /// Create a 3d source.
   Source3D(Context context,
       {double x = 0.0,
@@ -174,4 +193,8 @@ class Source3D extends Source {
   /// The position of this object.
   SynthizerDouble3Property get position =>
       SynthizerDouble3Property(synthizer, handle, Properties.position);
+
+  /// Orientation.
+  SynthizerDouble6Property get orientation =>
+      SynthizerDouble6Property(synthizer, handle, Properties.orientation);
 }
