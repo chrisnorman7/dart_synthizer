@@ -40,6 +40,5 @@ export 'src/properties.dart';
 export 'src/source.dart';
 export 'src/stream.dart';
 export 'src/synthizer.dart';
-export 'src/synthizer_bindings.dart';
 export 'src/synthizer_property.dart';
 export 'src/synthizer_version.dart';

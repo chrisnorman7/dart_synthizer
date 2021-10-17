@@ -1,8 +1,13 @@
+/// Provides property classes used by Synthizer.
 import 'package:quiver/core.dart';
 
-/// Provides property classes used by Synthizer.
+import 'context.dart';
+import 'source.dart';
 
-/// A double6 property.
+/// A double3 property.
+///
+/// Instances of this class are currently used by [Context.position], and
+/// [Source3D.position].
 class Double3 {
   /// Create an instance.
   const Double3(this.x, this.y, this.z);
@@ -21,6 +26,8 @@ class Double3 {
 }
 
 /// A double6 property.
+///
+/// Currently only used by [Context.orientation].
 class Double6 {
   /// Create an instance.
   const Double6(this.x1, this.y1, this.z1, this.x2, this.y2, this.z2);
