@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.1]
+
+### Changed
+
+* Exposed a bunch of previously-hidden classes.
+
 ## [0.7.0]
 
 ### Fixed

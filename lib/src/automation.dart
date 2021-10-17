@@ -12,9 +12,13 @@ import 'synthizer.dart';
 import 'synthizer_bindings.dart';
 
 /// The base class for all automation commands.
-abstract class _AutomationCommand {
+///
+/// Instances of this class - or any of its subclasses - should not be created
+/// directly for most use cases. Instead use the functions available on
+/// [AutomationBatch].
+abstract class AutomationCommand {
   /// Create an instance.
-  const _AutomationCommand(this.targetHandle, this.time, this.type);
+  const AutomationCommand(this.targetHandle, this.time, this.type);
 
   /// The handle of the target this command should work with.
   final Pointer<syz_Handle> targetHandle;
@@ -27,9 +31,9 @@ abstract class _AutomationCommand {
 }
 
 /// syz_AutomationAppendPropertyCommand.
-class _AutomationAppendPropertyCommand extends _AutomationCommand {
+class AutomationAppendPropertyCommand extends AutomationCommand {
   /// Create an instance.
-  const _AutomationAppendPropertyCommand(
+  const AutomationAppendPropertyCommand(
       Pointer<syz_Handle> targetHandle, double time, this.property, this.value,
       {this.interpolationType = InterpolationTypes.linear})
       : super(targetHandle, time, AutomationCommands.appendProperty);
@@ -53,9 +57,9 @@ class _AutomationAppendPropertyCommand extends _AutomationCommand {
 }
 
 /// syz_AutomationSendUserEventCommand
-class _AutomationSendUserEventCommand extends _AutomationCommand {
+class AutomationSendUserEventCommand extends AutomationCommand {
   /// Create an instance.
-  const _AutomationSendUserEventCommand(
+  const AutomationSendUserEventCommand(
       Pointer<syz_Handle> targetHandle, double time, this.param)
       : super(targetHandle, time, AutomationCommands.sendUserEvent);
 
@@ -64,9 +68,9 @@ class _AutomationSendUserEventCommand extends _AutomationCommand {
 }
 
 /// syz_AutomationClearPropertyCommand.
-class _AutomationClearPropertyCommand extends _AutomationCommand {
+class AutomationClearPropertyCommand extends AutomationCommand {
   /// Create an instance.
-  const _AutomationClearPropertyCommand(
+  const AutomationClearPropertyCommand(
       Pointer<syz_Handle> targetHandle, double time, this.property)
       : super(targetHandle, time, AutomationCommands.clearProperty);
 
@@ -75,17 +79,17 @@ class _AutomationClearPropertyCommand extends _AutomationCommand {
 }
 
 /// SYZ_AUTOMATION_COMMAND_CLEAR_EVENTS.
-class _AutomationClearEventsCommand extends _AutomationCommand {
+class AutomationClearEventsCommand extends AutomationCommand {
   /// Create an instance.
-  const _AutomationClearEventsCommand(
+  const AutomationClearEventsCommand(
       Pointer<syz_Handle> targetHandle, double time)
       : super(targetHandle, time, AutomationCommands.clearEvents);
 }
 
 /// SYZ_AUTOMATION_COMMAND_CLEAR_ALL_PROPERTIES.
-class _AutomationClearAllPropertiesCommand extends _AutomationCommand {
+class AutomationClearAllPropertiesCommand extends AutomationCommand {
   /// Create an instance.
-  const _AutomationClearAllPropertiesCommand(
+  const AutomationClearAllPropertiesCommand(
       Pointer<syz_Handle> targetHandle, double time)
       : super(targetHandle, time, AutomationCommands.clearAllProperties);
 }
@@ -106,13 +110,13 @@ class AutomationBatch extends SynthizerObject {
         super(synthizer, pointer: pointer);
 
   /// The commands for this batch.
-  final List<_AutomationCommand> _commands;
+  final List<AutomationCommand> _commands;
 
   /// Append a double value.
   void appendDouble(Pointer<syz_Handle> targetHandle, double time,
           Properties property, double value,
           {InterpolationTypes interpolationType = InterpolationTypes.linear}) =>
-      _commands.add(_AutomationAppendPropertyCommand(
+      _commands.add(AutomationAppendPropertyCommand(
           targetHandle, time, property, value,
           interpolationType: interpolationType));
 
@@ -120,7 +124,7 @@ class AutomationBatch extends SynthizerObject {
   void appendDouble3(Pointer<syz_Handle> targetHandle, double time,
           Properties property, Double3 value,
           {InterpolationTypes interpolationType = InterpolationTypes.linear}) =>
-      _commands.add(_AutomationAppendPropertyCommand(
+      _commands.add(AutomationAppendPropertyCommand(
           targetHandle, time, property, value,
           interpolationType: interpolationType));
 
@@ -128,7 +132,7 @@ class AutomationBatch extends SynthizerObject {
   void appendDouble6(Pointer<syz_Handle> targetHandle, double time,
           Properties property, Double6 value,
           {InterpolationTypes interpolationType = InterpolationTypes.linear}) =>
-      _commands.add(_AutomationAppendPropertyCommand(
+      _commands.add(AutomationAppendPropertyCommand(
           targetHandle, time, property, value,
           interpolationType: interpolationType));
 
@@ -136,20 +140,20 @@ class AutomationBatch extends SynthizerObject {
   void clearProperty(
           Pointer<syz_Handle> targetHandle, double time, Properties property) =>
       _commands
-          .add(_AutomationClearPropertyCommand(targetHandle, time, property));
+          .add(AutomationClearPropertyCommand(targetHandle, time, property));
 
   /// Clear all properties.
   void clearAllProperties(Pointer<syz_Handle> targetHandle, double time) =>
-      _commands.add(_AutomationClearAllPropertiesCommand(targetHandle, time));
+      _commands.add(AutomationClearAllPropertiesCommand(targetHandle, time));
 
   /// Send a user event.
   void sendUserEvent(
           Pointer<syz_Handle> targetHandle, double time, int event) =>
-      _commands.add(_AutomationSendUserEventCommand(targetHandle, time, event));
+      _commands.add(AutomationSendUserEventCommand(targetHandle, time, event));
 
   /// Clear all events.
   void clearEvents(Pointer<syz_Handle> targetHandle, double time) =>
-      _commands.add(_AutomationClearEventsCommand(targetHandle, time));
+      _commands.add(AutomationClearEventsCommand(targetHandle, time));
 
   /// Execute this batch.
   void execute() {
@@ -160,7 +164,7 @@ class AutomationBatch extends SynthizerObject {
         ..time = command.time
         ..target = command.targetHandle.value
         ..type = command.type.toInt();
-      if (command is _AutomationAppendPropertyCommand) {
+      if (command is AutomationAppendPropertyCommand) {
         final append = ref.params.append_to_property
           ..property = command.property.toInt();
         append.point
@@ -184,9 +188,9 @@ class AutomationBatch extends SynthizerObject {
           throw SynthizerError(
               'Invalid point type ${value.runtimeType}: $value.', -1);
         }
-      } else if (command is _AutomationClearPropertyCommand) {
+      } else if (command is AutomationClearPropertyCommand) {
         ref.params.clear_property.property = command.property.toInt();
-      } else if (command is _AutomationSendUserEventCommand) {
+      } else if (command is AutomationSendUserEventCommand) {
         ref.params.send_user_event.param = command.param;
       }
     }
