@@ -55,6 +55,8 @@ class Synthizer {
     if (filename == null) {
       if (Platform.isWindows) {
         library = DynamicLibrary.open('synthizer.dll');
+      } else if (Platform.isLinux) {
+        library = DynamicLibrary.open('libsynthizer.so');
       } else {
         throw SynthizerError('Unhandled platform.', -1);
       }

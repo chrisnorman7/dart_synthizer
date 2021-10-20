@@ -23,6 +23,7 @@
     "HRTF",
     "LF",
     "libsndfile",
+    "libsynthizer",
     "Loopable",
     "Lowpass",
     "LRU",

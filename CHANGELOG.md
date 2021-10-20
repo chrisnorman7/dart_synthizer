@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.3]
+
+### Changed
+
+* Hopefully start supporting Linux.
+
 ## [0.7.2]
 
 ### Changed
