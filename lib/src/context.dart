@@ -1,7 +1,7 @@
 /// Provides the [Context] class.
 import 'dart:ffi';
 
-import '../dart_synthizer.dart';
+import 'automation.dart';
 import 'biquad.dart';
 import 'buffer.dart';
 import 'classes.dart';

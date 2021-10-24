@@ -1,9 +1,13 @@
 /// Provides the [SynthizerProperty] class.
 import 'dart:ffi';
 
-import '../dart_synthizer.dart';
+import 'automation.dart';
+import 'biquad.dart';
+import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
+import 'properties.dart';
+import 'synthizer.dart';
 import 'synthizer_bindings.dart';
 
 /// A way of getting, setting, and automating synthizer properties.

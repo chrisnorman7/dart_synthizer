@@ -1225,6 +1225,23 @@ class DartSynthizer {
   late final _syz_bufferGetLengthInSeconds = _syz_bufferGetLengthInSecondsPtr
       .asFunction<int Function(ffi.Pointer<ffi.Double>, int)>();
 
+  int syz_bufferGetSizeInBytes(
+    ffi.Pointer<ffi.Uint64> size,
+    int buffer,
+  ) {
+    return _syz_bufferGetSizeInBytes(
+      size,
+      buffer,
+    );
+  }
+
+  late final _syz_bufferGetSizeInBytesPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(ffi.Pointer<ffi.Uint64>,
+              syz_Handle)>>('syz_bufferGetSizeInBytes');
+  late final _syz_bufferGetSizeInBytes = _syz_bufferGetSizeInBytesPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Uint64>, int)>();
+
   int syz_createBufferGenerator(
     ffi.Pointer<syz_Handle> out,
     int context,

@@ -116,5 +116,9 @@ class Buffer extends SynthizerObject {
   }
 
   /// Get the amount of memory (in bytes) this buffer is taking up.
-  int get size => lengthInSamples * channels * 2;
+  int get size {
+    synthizer.check(synthizer.synthizer
+        .syz_bufferGetSizeInBytes(synthizer.bigIntPointer, handle.value));
+    return synthizer.bigIntPointer.value;
+  }
 }

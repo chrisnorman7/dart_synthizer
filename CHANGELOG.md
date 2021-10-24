@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.4]
+
+### Changed
+
+* Updated Synthizer.
+* Use Synthizer's notion of buffer size, rather than the (probably mildly slower) Dart equivalent.
+
 ## [0.7.3]
 
 ### Changed

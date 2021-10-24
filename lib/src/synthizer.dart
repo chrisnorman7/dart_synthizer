@@ -37,6 +37,7 @@ class Synthizer {
   Synthizer({String? filename})
       : _eventPointer = calloc<syz_Event>(),
         intPointer = calloc<Int32>(),
+        bigIntPointer = calloc<Uint64>(),
         majorPointer = calloc<Uint32>(),
         minorPointer = calloc<Uint32>(),
         patchPointer = calloc<Uint32>(),
@@ -95,6 +96,9 @@ class Synthizer {
   /// The handle used by [SynthizerIntProperty], [SynthizerBoolProperty], and
   /// [SynthizerPannerStrategyProperty].
   final Pointer<Int32> intPointer;
+
+  /// The handle to a bigger int.
+  final Pointer<Uint64> bigIntPointer;
 
   /// Handles used by [version].
   final Pointer<Uint32> majorPointer;

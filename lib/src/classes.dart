@@ -4,7 +4,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 
-import '../dart_synthizer.dart';
 import 'enumerations.dart';
 import 'synthizer.dart';
 import 'synthizer_bindings.dart';
