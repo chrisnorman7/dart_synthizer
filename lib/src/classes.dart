@@ -37,10 +37,16 @@ class SynthizerObject {
   /// Returns `true` if this object is still valid.
   bool get isValid => handle.value != 0;
 
+  /// Increase the reference count.
+  void increaseReferenceCount() => synthizer.incRef(handle.value);
+
+  /// Decrease the reference count.
+  void decreaseReferenceCount() => synthizer.decRef(handle.value);
+
   /// Destroy this object.
   @mustCallSuper
   void destroy() {
-    synthizer.decRef(handle.value);
+    decreaseReferenceCount();
     calloc.free(handle);
     handle.value = 0;
   }

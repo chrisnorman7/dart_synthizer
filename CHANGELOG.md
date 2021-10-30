@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.5]
+
+### Added
+
+* Added methods for dealing with reference counts to the `SynthizerObject` class.
+
 ## [0.7.4]
 
 ### Changed
