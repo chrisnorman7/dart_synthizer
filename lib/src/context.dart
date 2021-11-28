@@ -8,7 +8,10 @@ import 'classes.dart';
 import 'effects.dart';
 import 'enumerations.dart';
 import 'events.dart';
-import 'generator.dart';
+import 'generators/buffer_generator.dart';
+import 'generators/fast_sine_bank_generator.dart';
+import 'generators/noise_generator.dart';
+import 'generators/streaming_generator.dart';
 import 'source.dart';
 import 'synthizer.dart';
 import 'synthizer_property.dart';
@@ -86,6 +89,22 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Create a noise generator.
   NoiseGenerator createNoiseGenerator({int channels = 1}) =>
       NoiseGenerator(this, channels: channels);
+
+  /// Create a sine generator.
+  FastSineBankGenerator createSine(double initialFrequency, int partials) =>
+      FastSineBankGenerator.sine(this, initialFrequency);
+
+  /// Create a Tri8angle wave.
+  FastSineBankGenerator createTriangle(double initialFrequency, int partials) =>
+      FastSineBankGenerator.triangle(this, initialFrequency, partials);
+
+  /// Create a square.
+  FastSineBankGenerator createSquare(double initialFrequency, int partials) =>
+      FastSineBankGenerator.square(this, initialFrequency, partials);
+
+  /// Create a saw tooth wave.
+  FastSineBankGenerator createSaw(double initialFrequency, int partials) =>
+      FastSineBankGenerator.saw(this, initialFrequency, partials);
 
   /// Create a direct source.
   DirectSource createDirectSource() => DirectSource(this);

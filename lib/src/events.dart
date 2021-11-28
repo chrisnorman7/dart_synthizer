@@ -2,7 +2,7 @@
 import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
-import 'generator.dart';
+import 'generators/base.dart';
 import 'source.dart';
 
 /// The base class for all Synthizer events.

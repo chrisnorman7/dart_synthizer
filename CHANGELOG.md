@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.6]
+
+### Added
+
+* Added the `AddGenerators` and `removeGenerators` methods to the `Source` class.
+* Bound the waves API.
+
 ## [0.7.5]
 
 ### Added

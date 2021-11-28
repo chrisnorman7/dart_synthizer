@@ -96,6 +96,9 @@ enum ObjectType {
 
   /// SYZ_OTYPE_AUTOMATION_BATCH = 12
   automationBatch,
+
+  /// SYZ_OTYPE_FAST_SINE_BANK_GENERATOR = 13
+  fastSineBankGenerator,
 }
 
 /// An extension for converting Dart to Synthizer values.
@@ -129,6 +132,8 @@ extension ObjectTypeToInt on ObjectType {
         return SYZ_OBJECT_TYPE.SYZ_OTYPE_STREAM_HANDLE;
       case ObjectType.automationBatch:
         return SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_BATCH;
+      case ObjectType.fastSineBankGenerator:
+        return SYZ_OBJECT_TYPE.SYZ_OTYPE_FAST_SINE_BANK_GENERATOR;
     }
   }
 }
@@ -361,6 +366,9 @@ enum Properties {
 
   /// SYZ_P_SUGGESTED_AUTOMATION_TIME = 41
   suggestedAutomationTime,
+
+  /// SYZ_P_FREQUENCY = 42
+  frequency,
 }
 
 /// An extension for converting Dart to Synthizer values.
@@ -452,6 +460,8 @@ extension PropertiesToInt on Properties {
         return SYZ_PROPERTIES.SYZ_P_CURRENT_TIME;
       case Properties.suggestedAutomationTime:
         return SYZ_PROPERTIES.SYZ_P_SUGGESTED_AUTOMATION_TIME;
+      case Properties.frequency:
+        return SYZ_PROPERTIES.SYZ_P_FREQUENCY;
     }
   }
 }
@@ -608,6 +618,8 @@ extension IntToSynthizer on int {
         return ObjectType.streamHandle;
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_AUTOMATION_BATCH:
         return ObjectType.automationBatch;
+      case SYZ_OBJECT_TYPE.SYZ_OTYPE_FAST_SINE_BANK_GENERATOR:
+        return ObjectType.fastSineBankGenerator;
       default:
         throw SynthizerError('Unrecognised `SYZ_OBJECT_TYPE` member.', this);
     }
@@ -751,6 +763,8 @@ extension IntToSynthizer on int {
         return Properties.currentTime;
       case SYZ_PROPERTIES.SYZ_P_SUGGESTED_AUTOMATION_TIME:
         return Properties.suggestedAutomationTime;
+      case SYZ_PROPERTIES.SYZ_P_FREQUENCY:
+        return Properties.frequency;
       default:
         throw SynthizerError('Unrecognised `SYZ_PROPERTIES` member.', this);
     }

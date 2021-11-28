@@ -29,6 +29,7 @@
     "LRU",
     "malloc",
     "msg",
+    "mul",
     "myparam",
     "mypath",
     "myprotocol",

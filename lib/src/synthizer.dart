@@ -13,7 +13,11 @@ import 'effects.dart';
 import 'enumerations.dart';
 import 'error.dart';
 import 'events.dart';
-import 'generator.dart';
+import 'generators/base.dart';
+import 'generators/buffer_generator.dart';
+import 'generators/fast_sine_bank_generator.dart';
+import 'generators/noise_generator.dart';
+import 'generators/streaming_generator.dart';
 import 'source.dart';
 import 'synthizer_bindings.dart';
 import 'synthizer_property.dart';
@@ -51,6 +55,8 @@ class Synthizer {
         z2 = calloc<Double>(),
         userdataFreeCallbackPointer = nullptr.cast<syz_UserdataFreeCallback>(),
         deleteBehaviorConfigPointer = calloc<syz_DeleteBehaviorConfig>(),
+        sineBankWavePointer = calloc<syz_SineBankWave>(),
+        sineBankConfigPointer = calloc<syz_SineBankConfig>(),
         _wasInit = false {
     final DynamicLibrary library;
     if (filename == null) {
@@ -139,6 +145,12 @@ class Synthizer {
   /// The delete configuration.
   final Pointer<syz_DeleteBehaviorConfig> deleteBehaviorConfigPointer;
 
+  /// A pointer for use by [FastSineBankGenerator].
+  final Pointer<syz_SineBankWave> sineBankWavePointer;
+
+  /// Another pointer used by [FastSineBankGenerator].
+  final Pointer<syz_SineBankConfig> sineBankConfigPointer;
+
   /// Check if a returned value is an error.
   void check(int value) {
     if (value != 0) {
@@ -196,6 +208,7 @@ class Synthizer {
     [
       _eventPointer,
       intPointer,
+      bigIntPointer,
       majorPointer,
       minorPointer,
       patchPointer,
@@ -207,6 +220,10 @@ class Synthizer {
       x2,
       y2,
       z2,
+      userdataFreeCallbackPointer,
+      deleteBehaviorConfigPointer,
+      sineBankWavePointer,
+      sineBankConfigPointer
     ].forEach(calloc.free);
     _wasInit = false;
   }
@@ -272,6 +289,8 @@ class Synthizer {
         throw UnimplementedError();
       case ObjectType.automationBatch:
         return AutomationBatch.fromHandle(this, handle);
+      case ObjectType.fastSineBankGenerator:
+        return FastSineBankGenerator.fromHandle(this, handle);
     }
   }
 

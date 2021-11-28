@@ -1502,6 +1502,223 @@ class DartSynthizer {
           int Function(ffi.Pointer<syz_Handle>, int, int, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 
+  void syz_initSineBankConfig(
+    ffi.Pointer<syz_SineBankConfig> cfg,
+  ) {
+    return _syz_initSineBankConfig(
+      cfg,
+    );
+  }
+
+  late final _syz_initSineBankConfigPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<syz_SineBankConfig>)>>('syz_initSineBankConfig');
+  late final _syz_initSineBankConfig = _syz_initSineBankConfigPtr
+      .asFunction<void Function(ffi.Pointer<syz_SineBankConfig>)>();
+
+  int syz_createFastSineBankGenerator(
+    ffi.Pointer<syz_Handle> out,
+    int context,
+    ffi.Pointer<syz_SineBankConfig> bank_config,
+    ffi.Pointer<ffi.Void> config,
+    ffi.Pointer<ffi.Void> userdata,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
+  ) {
+    return _syz_createFastSineBankGenerator(
+      out,
+      context,
+      bank_config,
+      config,
+      userdata,
+      userdata_free_callback,
+    );
+  }
+
+  late final _syz_createFastSineBankGeneratorPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Pointer<syz_SineBankConfig>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createFastSineBankGenerator');
+  late final _syz_createFastSineBankGenerator =
+      _syz_createFastSineBankGeneratorPtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              ffi.Pointer<syz_SineBankConfig>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
+
+  int syz_createFastSineBankGeneratorSine(
+    ffi.Pointer<syz_Handle> out,
+    int context,
+    double initial_frequency,
+    ffi.Pointer<ffi.Void> config,
+    ffi.Pointer<ffi.Void> userdata,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
+  ) {
+    return _syz_createFastSineBankGeneratorSine(
+      out,
+      context,
+      initial_frequency,
+      config,
+      userdata,
+      userdata_free_callback,
+    );
+  }
+
+  late final _syz_createFastSineBankGeneratorSinePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Double,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createFastSineBankGeneratorSine');
+  late final _syz_createFastSineBankGeneratorSine =
+      _syz_createFastSineBankGeneratorSinePtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              double,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
+
+  int syz_createFastSineBankGeneratorTriangle(
+    ffi.Pointer<syz_Handle> out,
+    int context,
+    double initial_frequency,
+    int partials,
+    ffi.Pointer<ffi.Void> config,
+    ffi.Pointer<ffi.Void> userdata,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
+  ) {
+    return _syz_createFastSineBankGeneratorTriangle(
+      out,
+      context,
+      initial_frequency,
+      partials,
+      config,
+      userdata,
+      userdata_free_callback,
+    );
+  }
+
+  late final _syz_createFastSineBankGeneratorTrianglePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Double,
+                  ffi.Uint32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createFastSineBankGeneratorTriangle');
+  late final _syz_createFastSineBankGeneratorTriangle =
+      _syz_createFastSineBankGeneratorTrianglePtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              double,
+              int,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
+
+  int syz_createFastSineBankGeneratorSquare(
+    ffi.Pointer<syz_Handle> out,
+    int context,
+    double initial_frequency,
+    int partials,
+    ffi.Pointer<ffi.Void> config,
+    ffi.Pointer<ffi.Void> userdata,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
+  ) {
+    return _syz_createFastSineBankGeneratorSquare(
+      out,
+      context,
+      initial_frequency,
+      partials,
+      config,
+      userdata,
+      userdata_free_callback,
+    );
+  }
+
+  late final _syz_createFastSineBankGeneratorSquarePtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Double,
+                  ffi.Uint32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createFastSineBankGeneratorSquare');
+  late final _syz_createFastSineBankGeneratorSquare =
+      _syz_createFastSineBankGeneratorSquarePtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              double,
+              int,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
+
+  int syz_createFastSineBankGeneratorSaw(
+    ffi.Pointer<syz_Handle> out,
+    int context,
+    double initial_frequency,
+    int partials,
+    ffi.Pointer<ffi.Void> config,
+    ffi.Pointer<ffi.Void> userdata,
+    ffi.Pointer<syz_UserdataFreeCallback> userdata_free_callback,
+  ) {
+    return _syz_createFastSineBankGeneratorSaw(
+      out,
+      context,
+      initial_frequency,
+      partials,
+      config,
+      userdata,
+      userdata_free_callback,
+    );
+  }
+
+  late final _syz_createFastSineBankGeneratorSawPtr = _lookup<
+          ffi.NativeFunction<
+              syz_ErrorCode Function(
+                  ffi.Pointer<syz_Handle>,
+                  syz_Handle,
+                  ffi.Double,
+                  ffi.Uint32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<syz_UserdataFreeCallback>)>>(
+      'syz_createFastSineBankGeneratorSaw');
+  late final _syz_createFastSineBankGeneratorSaw =
+      _syz_createFastSineBankGeneratorSawPtr.asFunction<
+          int Function(
+              ffi.Pointer<syz_Handle>,
+              int,
+              double,
+              int,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<syz_UserdataFreeCallback>)>();
+
   int syz_initRouteConfig(
     ffi.Pointer<syz_RouteConfig> cfg,
   ) {
@@ -1824,6 +2041,27 @@ typedef syz_StreamOpenCallback = ffi.NativeFunction<
         ffi.Pointer<ffi.Void>,
         ffi.Pointer<ffi.Pointer<ffi.Int8>>)>;
 
+class syz_SineBankWave extends ffi.Struct {
+  @ffi.Double()
+  external double frequency_mul;
+
+  @ffi.Double()
+  external double phase;
+
+  @ffi.Double()
+  external double gain;
+}
+
+class syz_SineBankConfig extends ffi.Struct {
+  external ffi.Pointer<syz_SineBankWave> waves;
+
+  @ffi.Uint64()
+  external int wave_count;
+
+  @ffi.Double()
+  external double initial_frequency;
+}
+
 class syz_RouteConfig extends ffi.Struct {
   @ffi.Double()
   external double gain;
@@ -1859,6 +2097,7 @@ abstract class SYZ_OBJECT_TYPE {
   static const int SYZ_OTYPE_GLOBAL_FDN_REVERB = 10;
   static const int SYZ_OTYPE_STREAM_HANDLE = 11;
   static const int SYZ_OTYPE_AUTOMATION_BATCH = 12;
+  static const int SYZ_OTYPE_FAST_SINE_BANK_GENERATOR = 13;
 }
 
 abstract class SYZ_PANNER_STRATEGY {
@@ -1926,6 +2165,7 @@ abstract class SYZ_PROPERTIES {
   static const int SYZ_P_FILTER_INPUT = 39;
   static const int SYZ_P_CURRENT_TIME = 40;
   static const int SYZ_P_SUGGESTED_AUTOMATION_TIME = 41;
+  static const int SYZ_P_FREQUENCY = 42;
 }
 
 abstract class SYZ_EVENT_TYPES {
