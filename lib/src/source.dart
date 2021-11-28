@@ -4,7 +4,7 @@ import 'dart:ffi';
 import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
-import 'generator.dart';
+import 'generators/base.dart';
 import 'synthizer.dart';
 import 'synthizer_property.dart';
 
@@ -36,10 +36,18 @@ abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
   void addGenerator(Generator generator) => synthizer.check(synthizer.synthizer
       .syz_sourceAddGenerator(handle.value, generator.handle.value));
 
+  /// Add an iterator of [generators] to this source.
+  void addGenerators(Iterable<Generator> generators) =>
+      generators.forEach(addGenerator);
+
   /// Remove a generator from this source.
   void removeGenerator(Generator generator) =>
       synthizer.check(synthizer.synthizer
           .syz_sourceRemoveGenerator(handle.value, generator.handle.value));
+
+  /// Remove every generator in [generators] from this source.
+  void removeGenerators(Iterable<Generator> generators) =>
+      generators.forEach(removeGenerator);
 }
 
 /// A source with no panning.
