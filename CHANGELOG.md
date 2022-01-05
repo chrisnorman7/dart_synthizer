@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.7]
+
+### Fixed
+
+* Cleaned up the `initialize` method.
+
 ## [0.7.6]
 
 ### Added
