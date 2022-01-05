@@ -166,39 +166,21 @@ class Synthizer {
     final config = calloc<syz_LibraryConfig>();
     synthizer.syz_libraryConfigSetDefaults(config);
     if (logLevel != null) {
-      final int level;
-      switch (logLevel) {
-        case LogLevel.error:
-          level = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_ERROR;
-          break;
-        case LogLevel.warn:
-          level = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_WARN;
-          break;
-        case LogLevel.info:
-          level = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_INFO;
-          break;
-        case LogLevel.debug:
-          level = SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_DEBUG;
-          break;
-      }
-      config.ref.log_level = level;
+      config.ref.log_level = logLevel.toInt();
     }
     if (loggingBackend != null) {
-      final int backend;
-      switch (loggingBackend) {
-        case LoggingBackend.none:
-          backend = SYZ_LOGGING_BACKEND.SYZ_LOGGING_BACKEND_NONE;
-          break;
-        case LoggingBackend.stderr:
-          backend = SYZ_LOGGING_BACKEND.SYZ_LOGGING_BACKEND_STDERR;
-          break;
-      }
-      config.ref.logging_backend = backend;
+      config.ref.logging_backend = loggingBackend.toInt();
     }
+    Pointer<Int8>? libSndFilePointer;
     if (libsndfilePath != null) {
-      config.ref.libsndfile_path = libsndfilePath.toNativeUtf8().cast<Int8>();
+      libSndFilePointer = libsndfilePath.toNativeUtf8().cast<Int8>();
+      config.ref.libsndfile_path = libSndFilePointer;
     }
     check(synthizer.syz_initializeWithConfig(config));
+    if (libSndFilePointer != null) {
+      malloc.free(libSndFilePointer);
+    }
+    calloc.free(config);
     _wasInit = true;
   }
 
