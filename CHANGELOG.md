@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.8]
+
+### Fixed
+
+* The library should now load unaided on Mac OS.
+
 ## [0.7.7]
 
 ### Fixed

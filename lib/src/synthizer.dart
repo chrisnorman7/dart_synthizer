@@ -64,6 +64,8 @@ class Synthizer {
         library = DynamicLibrary.open('synthizer.dll');
       } else if (Platform.isLinux) {
         library = DynamicLibrary.open('libsynthizer.so');
+      } else if (Platform.isMacOS) {
+        library = DynamicLibrary.open('libsynthizer.dylib');
       } else {
         throw SynthizerError('Unhandled platform.', -1);
       }

@@ -12,6 +12,7 @@
     "ctx",
     "CUTOFF",
     "Deinit",
+    "dylib",
     "Fdn",
     "ffi",
     "ffigen",
