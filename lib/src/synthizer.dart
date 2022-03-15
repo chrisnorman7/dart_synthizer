@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
+import 'package:path/path.dart' as path;
 
 import 'automation.dart';
 import 'biquad.dart';
@@ -63,7 +64,9 @@ class Synthizer {
       if (Platform.isWindows) {
         library = DynamicLibrary.open('synthizer.dll');
       } else if (Platform.isLinux) {
-        library = DynamicLibrary.open('libsynthizer.so');
+        library = DynamicLibrary.open(
+          path.join(Directory.current.path, 'libsynthizer.so'),
+        );
       } else if (Platform.isMacOS) {
         library = DynamicLibrary.open('libsynthizer.dylib');
       } else {
