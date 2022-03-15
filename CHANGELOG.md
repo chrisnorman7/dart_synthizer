@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.10]
+
+### Changed
+
+* Reverted the changes from [0.7.9].
+
 ## [0.7.9]
 
 ### Changed
