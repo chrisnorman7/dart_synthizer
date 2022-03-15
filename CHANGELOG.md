@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.9]
+
+### Changed
+
+* Start using a fully-qualified path when running under Linux.
+
 ## [0.7.8]
 
 ### Fixed
