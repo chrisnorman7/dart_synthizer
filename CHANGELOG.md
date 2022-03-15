@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.11]
+
+### Changed
+
+* Use an absolute path on Linux (again).
+
 ## [0.7.10]
 
 ### Changed
