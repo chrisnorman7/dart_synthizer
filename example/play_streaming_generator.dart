@@ -12,7 +12,7 @@ Future<void> main() async {
   final generator = StreamingGenerator(ctx, 'file', 'sound.wav');
   print('Created generator $generator.');
   source.addGenerator(generator);
-  await Future<void>.delayed(Duration(seconds: 2));
+  await Future<void>.delayed(const Duration(seconds: 2));
   print(generator.playbackPosition.value);
   synthizer.shutdown();
   print('Synthizer shutdown.');

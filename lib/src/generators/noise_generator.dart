@@ -14,18 +14,22 @@ import 'base.dart';
 /// Noise generators can be created with [Context.createNoiseGenerator].
 class NoiseGenerator extends Generator {
   /// Create a noise generator.
-  NoiseGenerator(Context context, {int channels = 1}) : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createNoiseGenerator(
+  NoiseGenerator(final Context context, {final int channels = 1})
+      : super(context) {
+    synthizer.check(
+      synthizer.synthizer.syz_createNoiseGenerator(
         handle,
         context.handle.value,
         channels,
         nullptr,
         nullptr,
-        synthizer.userdataFreeCallbackPointer));
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
   }
 
   /// Create an instance from a handle value.
-  NoiseGenerator.fromHandle(Synthizer synthizer, int pointer)
+  NoiseGenerator.fromHandle(final Synthizer synthizer, final int pointer)
       : super.fromHandle(synthizer, pointer);
 
   /// The noise type for this generator.

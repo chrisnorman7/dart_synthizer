@@ -22,7 +22,7 @@ Future<void> main() async {
   // create and connect the effect with a default gain of 1.0.
   final echo = ctx.createGlobalEcho();
   print('Created echo $echo.');
-  ctx.ConfigRoute(src, echo);
+  ctx.configRoute(src, echo);
 
   /// Generate uniformly distributed random taps.
   ///
@@ -33,8 +33,13 @@ Future<void> main() async {
   const delta = duration / nTaps;
   final taps = <EchoTapConfig>[];
   for (var i = 0; i < nTaps; i++) {
-    taps.add(EchoTapConfig(delta + i * delta + rng.nextDouble() * 0.01,
-        rng.nextDouble(), rng.nextDouble()));
+    taps.add(
+      EchoTapConfig(
+        delta + i * delta + rng.nextDouble() * 0.01,
+        rng.nextDouble(),
+        rng.nextDouble(),
+      ),
+    );
   }
 
   /// In general, you'll want to normalize by something, or otherwise work out
@@ -44,9 +49,13 @@ Future<void> main() async {
   /// around 1.0, but a simpler strategy is to simply compute an average.  Which
   /// works better depends highly on the use case.
   var normLeft = 0.0;
-  taps.forEach((element) => normLeft += pow(element.gainL, 2));
+  for (final element in taps) {
+    normLeft += pow(element.gainL, 2);
+  }
   var normRight = 0.0;
-  taps.forEach((element) => normRight += pow(element.gainR, 2));
+  for (final element in taps) {
+    normRight += pow(element.gainR, 2);
+  }
   final norm = 1.0 / sqrt(max(normLeft, normRight));
   for (final t in taps) {
     t
@@ -58,14 +67,14 @@ Future<void> main() async {
   print('Taps set.');
 
   /// Sleep for a bit, to let the audio be heard
-  await Future<void>.delayed(Duration(seconds: 10));
+  await Future<void>.delayed(const Duration(seconds: 10));
 
   /// Set the source's gain to 0, which will let the tail of the echo be heard.
   src.gain.value = 0.0;
   print('Now muted.');
 
   /// Sleep for a bit for the tail.
-  await Future<void>.delayed(Duration(seconds: 5));
+  await Future<void>.delayed(const Duration(seconds: 5));
 
   /// Bring it back. This causes a little bit of clipping because of the abrupt
   /// change.
@@ -73,12 +82,12 @@ Future<void> main() async {
   print('Full volume.');
 
   /// Sleep for long enough to build up audio in the echo:
-  await Future<void>.delayed(Duration(seconds: 5));
+  await Future<void>.delayed(const Duration(seconds: 5));
 
   /// Fade the send out over the next 1 seconds:
   ctx.removeRoute(src, echo, fadeTime: 1.0);
   print('Fading.');
-  await Future<void>.delayed(Duration(seconds: 2));
+  await Future<void>.delayed(const Duration(seconds: 2));
   echo.destroy();
   gen.destroy();
   src.destroy();

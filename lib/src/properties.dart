@@ -17,7 +17,7 @@ class Double3 {
 
   /// Compare two objects.
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(final Object other) =>
       other is Double3 && other.x == x && other.y == y && other.z == z;
 
   /// Return a hash of this object.
@@ -37,7 +37,7 @@ class Double6 {
 
   /// Compare two objects.
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(final Object other) =>
       other is Double6 &&
       other.x1 == x1 &&
       other.y1 == y1 &&

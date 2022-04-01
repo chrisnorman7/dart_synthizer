@@ -16,20 +16,24 @@ import 'base.dart';
 /// Buffer generators can be created with [Context.createBufferGenerator].
 class BufferGenerator extends Generator with PlaybackPosition {
   /// Create a buffer generator.
-  BufferGenerator(Context context, {Buffer? buffer}) : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createBufferGenerator(
+  BufferGenerator(final Context context, {final Buffer? buffer})
+      : super(context) {
+    synthizer.check(
+      synthizer.synthizer.syz_createBufferGenerator(
         handle,
         context.handle.value,
         nullptr,
         nullptr,
-        synthizer.userdataFreeCallbackPointer));
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
     if (buffer != null) {
       this.buffer.value = buffer;
     }
   }
 
   /// Return an instance from a handle.
-  BufferGenerator.fromHandle(Synthizer synthizer, int pointer)
+  BufferGenerator.fromHandle(final Synthizer synthizer, final int pointer)
       : super.fromHandle(synthizer, pointer);
 
   /// The buffer for this generator.

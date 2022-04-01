@@ -20,7 +20,7 @@ class SynthizerEvent {
 /// The [generator] finished a loop.
 class LoopedEvent extends SynthizerEvent {
   /// Create an instance.
-  const LoopedEvent(Context context, this.generator)
+  const LoopedEvent(final Context context, this.generator)
       : super(context, EventTypes.looped);
 
   /// The generator that finished the loop.
@@ -30,7 +30,7 @@ class LoopedEvent extends SynthizerEvent {
 /// An event that signals something has finished.
 class FinishedEvent extends SynthizerEvent {
   /// Create an instance.
-  const FinishedEvent(Context context, this.source)
+  const FinishedEvent(final Context context, this.source)
       : super(context, EventTypes.finished);
 
   /// The thing that has finished.
@@ -44,7 +44,7 @@ class FinishedEvent extends SynthizerEvent {
 /// The user finished event.
 class UserAutomationEvent extends SynthizerEvent {
   /// Create an instance.
-  const UserAutomationEvent(Context context, this.target, this.param)
+  const UserAutomationEvent(final Context context, this.target, this.param)
       : super(context, EventTypes.userAutomation);
 
   /// The target of the vent.

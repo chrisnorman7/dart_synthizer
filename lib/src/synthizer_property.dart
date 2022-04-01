@@ -29,21 +29,28 @@ abstract class SynthizerProperty<T> {
       throw UnsupportedError('You cannot get the value of this property.');
 
   /// Set the value for this property.
-  set value(T value) =>
+  set value(final T value) =>
       throw UnsupportedError('You cannot set the value of this property.');
 
   /// Clear this property.
-  void clear(Context context, {double? time}) => AutomationBatch(context)
-    ..clearProperty(targetHandle, time ?? context.currentTime.value, property)
-    ..execute()
-    ..destroy();
+  void clear(final Context context, {final double? time}) =>
+      AutomationBatch(context)
+        ..clearProperty(
+          targetHandle,
+          time ?? context.currentTime.value,
+          property,
+        )
+        ..execute()
+        ..destroy();
 
   /// Automate this property.
-  void automate(Context context,
-      {required double startTime,
-      required T startValue,
-      required double endTime,
-      required T endValue}) {
+  void automate(
+    final Context context, {
+    required final double startTime,
+    required final T startValue,
+    required final double endTime,
+    required final T endValue,
+  }) {
     throw UnsupportedError('This property cannot be automated.');
   }
 
@@ -54,69 +61,100 @@ abstract class SynthizerProperty<T> {
 /// An integer property.
 class SynthizerIntProperty extends SynthizerProperty<int> {
   /// Create an instance.
-  SynthizerIntProperty(Synthizer synthizer, Pointer<syz_Handle> targetHandle,
-      Properties property)
-      : super(synthizer, targetHandle, property);
+  SynthizerIntProperty(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
   int get value {
-    synthizer.check(synthizer.synthizer
-        .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()));
+    synthizer.check(
+      synthizer.synthizer
+          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+    );
     return synthizer.intPointer.value;
   }
 
   @override
-  set value(int value) => synthizer.check(synthizer.synthizer
-      .syz_setI(targetHandle.value, property.toInt(), value));
+  set value(final int value) => synthizer.check(
+        synthizer.synthizer
+            .syz_setI(targetHandle.value, property.toInt(), value),
+      );
 }
 
 /// A boolean property.
 class SynthizerBoolProperty extends SynthizerProperty<bool> {
   /// Create an instance.
-  SynthizerBoolProperty(Synthizer synthizer, Pointer<syz_Handle> targetHandle,
-      Properties property)
-      : super(synthizer, targetHandle, property);
+  SynthizerBoolProperty(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
   bool get value {
-    synthizer.check(synthizer.synthizer
-        .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()));
+    synthizer.check(
+      synthizer.synthizer
+          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+    );
     return synthizer.intPointer.value == 1;
   }
 
   @override
-  set value(bool value) => synthizer.check(synthizer.synthizer
-      .syz_setI(targetHandle.value, property.toInt(), value == true ? 1 : 0));
+  set value(final bool value) => synthizer.check(
+        synthizer.synthizer.syz_setI(
+          targetHandle.value,
+          property.toInt(),
+          value == true ? 1 : 0,
+        ),
+      );
 }
 
 /// A double property.
 class SynthizerDoubleProperty extends SynthizerProperty<double> {
   /// Create an instance.
-  const SynthizerDoubleProperty(Synthizer synthizer,
-      Pointer<syz_Handle> targetHandle, Properties property)
-      : super(synthizer, targetHandle, property);
+  const SynthizerDoubleProperty(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
   double get value {
-    synthizer.check(synthizer.synthizer.syz_getD(
-        synthizer.doublePointer, targetHandle.value, property.toInt()));
+    synthizer.check(
+      synthizer.synthizer.syz_getD(
+        synthizer.doublePointer,
+        targetHandle.value,
+        property.toInt(),
+      ),
+    );
     return synthizer.doublePointer.value;
   }
 
   @override
-  set value(double value) => synthizer.check(synthizer.synthizer
-      .syz_setD(targetHandle.value, property.toInt(), value));
+  set value(final double value) => synthizer.check(
+        synthizer.synthizer
+            .syz_setD(targetHandle.value, property.toInt(), value),
+      );
 
   /// Automate this property.
   @override
-  void automate(Context context,
-          {required double startTime,
-          required double startValue,
-          required double endTime,
-          required double endValue}) =>
+  void automate(
+    final Context context, {
+    required final double startTime,
+    required final double startValue,
+    required final double endTime,
+    required final double endValue,
+  }) =>
       AutomationBatch(context)
-        ..appendDouble(targetHandle, startTime, property, startValue,
-            interpolationType: InterpolationTypes.none)
+        ..appendDouble(
+          targetHandle,
+          startTime,
+          property,
+          startValue,
+          interpolationType: InterpolationTypes.none,
+        )
         ..appendDouble(targetHandle, endTime, property, endValue)
         ..execute()
         ..destroy();
@@ -125,31 +163,54 @@ class SynthizerDoubleProperty extends SynthizerProperty<double> {
 /// A double3 property.
 class SynthizerDouble3Property extends SynthizerProperty<Double3> {
   /// Create an instance.
-  const SynthizerDouble3Property(Synthizer synthizer,
-      Pointer<syz_Handle> targetHandle, Properties property)
-      : super(synthizer, targetHandle, property);
+  const SynthizerDouble3Property(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
   Double3 get value {
-    synthizer.check(synthizer.synthizer.syz_getD3(synthizer.x1, synthizer.y1,
-        synthizer.z1, targetHandle.value, property.toInt()));
+    synthizer.check(
+      synthizer.synthizer.syz_getD3(
+        synthizer.x1,
+        synthizer.y1,
+        synthizer.z1,
+        targetHandle.value,
+        property.toInt(),
+      ),
+    );
     return Double3(synthizer.x1.value, synthizer.y1.value, synthizer.z1.value);
   }
 
   @override
-  set value(Double3 value) => synthizer.check(synthizer.synthizer.syz_setD3(
-      targetHandle.value, property.toInt(), value.x, value.y, value.z));
+  set value(final Double3 value) => synthizer.check(
+        synthizer.synthizer.syz_setD3(
+          targetHandle.value,
+          property.toInt(),
+          value.x,
+          value.y,
+          value.z,
+        ),
+      );
 
   /// Automate this property.
   @override
-  void automate(Context context,
-          {required double startTime,
-          required Double3 startValue,
-          required double endTime,
-          required Double3 endValue}) =>
+  void automate(
+    final Context context, {
+    required final double startTime,
+    required final Double3 startValue,
+    required final double endTime,
+    required final Double3 endValue,
+  }) =>
       AutomationBatch(context)
-        ..appendDouble3(targetHandle, startTime, property, startValue,
-            interpolationType: InterpolationTypes.none)
+        ..appendDouble3(
+          targetHandle,
+          startTime,
+          property,
+          startValue,
+          interpolationType: InterpolationTypes.none,
+        )
         ..appendDouble3(targetHandle, endTime, property, endValue)
         ..execute()
         ..destroy();
@@ -158,13 +219,16 @@ class SynthizerDouble3Property extends SynthizerProperty<Double3> {
 /// A double6 property.
 class SynthizerDouble6Property extends SynthizerProperty<Double6> {
   /// Create an instance.
-  const SynthizerDouble6Property(Synthizer synthizer,
-      Pointer<syz_Handle> targetHandle, Properties property)
-      : super(synthizer, targetHandle, property);
+  const SynthizerDouble6Property(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
   Double6 get value {
-    synthizer.check(synthizer.synthizer.syz_getD6(
+    synthizer.check(
+      synthizer.synthizer.syz_getD6(
         synthizer.x1,
         synthizer.y1,
         synthizer.z1,
@@ -172,32 +236,50 @@ class SynthizerDouble6Property extends SynthizerProperty<Double6> {
         synthizer.y2,
         synthizer.z2,
         targetHandle.value,
-        property.toInt()));
-    return Double6(synthizer.x1.value, synthizer.y1.value, synthizer.z1.value,
-        synthizer.x2.value, synthizer.y2.value, synthizer.z2.value);
+        property.toInt(),
+      ),
+    );
+    return Double6(
+      synthizer.x1.value,
+      synthizer.y1.value,
+      synthizer.z1.value,
+      synthizer.x2.value,
+      synthizer.y2.value,
+      synthizer.z2.value,
+    );
   }
 
   @override
-  set value(Double6 value) => synthizer.check(synthizer.synthizer.syz_setD6(
-      targetHandle.value,
-      property.toInt(),
-      value.x1,
-      value.y1,
-      value.z1,
-      value.x2,
-      value.y2,
-      value.z2));
+  set value(final Double6 value) => synthizer.check(
+        synthizer.synthizer.syz_setD6(
+          targetHandle.value,
+          property.toInt(),
+          value.x1,
+          value.y1,
+          value.z1,
+          value.x2,
+          value.y2,
+          value.z2,
+        ),
+      );
 
   /// Automate this property.
   @override
-  void automate(Context context,
-          {required double startTime,
-          required Double6 startValue,
-          required double endTime,
-          required Double6 endValue}) =>
+  void automate(
+    final Context context, {
+    required final double startTime,
+    required final Double6 startValue,
+    required final double endTime,
+    required final Double6 endValue,
+  }) =>
       AutomationBatch(context)
-        ..appendDouble6(targetHandle, startTime, property, startValue,
-            interpolationType: InterpolationTypes.none)
+        ..appendDouble6(
+          targetHandle,
+          startTime,
+          property,
+          startValue,
+          interpolationType: InterpolationTypes.none,
+        )
         ..appendDouble6(targetHandle, endTime, property, endValue)
         ..execute()
         ..destroy();
@@ -207,81 +289,109 @@ class SynthizerDouble6Property extends SynthizerProperty<Double6> {
 class SynthizerPannerStrategyProperty
     extends SynthizerProperty<PannerStrategy> {
   /// Create an instance.
-  SynthizerPannerStrategyProperty(Synthizer synthizer,
-      Pointer<syz_Handle> targetHandle, Properties property)
-      : super(synthizer, targetHandle, property);
+  SynthizerPannerStrategyProperty(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
   PannerStrategy get value {
-    synthizer.check(synthizer.synthizer
-        .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()));
+    synthizer.check(
+      synthizer.synthizer
+          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+    );
     return synthizer.intPointer.value.toPannerStrategy();
   }
 
   @override
-  set value(PannerStrategy value) => synthizer.check(synthizer.synthizer
-      .syz_setI(targetHandle.value, property.toInt(), value.toInt()));
+  set value(final PannerStrategy value) => synthizer.check(
+        synthizer.synthizer
+            .syz_setI(targetHandle.value, property.toInt(), value.toInt()),
+      );
 }
 
 /// A distance model property.
 class SynthizerDistanceModelProperty extends SynthizerProperty<DistanceModel> {
   /// Create an instance.
-  SynthizerDistanceModelProperty(Synthizer synthizer,
-      Pointer<syz_Handle> targetHandle, Properties property)
-      : super(synthizer, targetHandle, property);
+  SynthizerDistanceModelProperty(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
   DistanceModel get value {
-    synthizer.check(synthizer.synthizer
-        .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()));
+    synthizer.check(
+      synthizer.synthizer
+          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+    );
     return synthizer.intPointer.value.toDistanceModel();
   }
 
   @override
-  set value(DistanceModel value) => synthizer.check(synthizer.synthizer
-      .syz_setI(targetHandle.value, property.toInt(), value.toInt()));
+  set value(final DistanceModel value) => synthizer.check(
+        synthizer.synthizer
+            .syz_setI(targetHandle.value, property.toInt(), value.toInt()),
+      );
 }
 
 /// A noise type property.
 class SynthizerNoiseTypeProperty extends SynthizerProperty<NoiseType> {
   /// Create an instance.
-  SynthizerNoiseTypeProperty(Synthizer synthizer,
-      Pointer<syz_Handle> targetHandle, Properties property)
-      : super(synthizer, targetHandle, property);
+  SynthizerNoiseTypeProperty(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
   NoiseType get value {
-    synthizer.check(synthizer.synthizer
-        .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()));
+    synthizer.check(
+      synthizer.synthizer
+          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+    );
     return synthizer.intPointer.value.toNoiseType();
   }
 
   @override
-  set value(NoiseType value) => synthizer.check(synthizer.synthizer
-      .syz_setI(targetHandle.value, property.toInt(), value.toInt()));
+  set value(final NoiseType value) => synthizer.check(
+        synthizer.synthizer
+            .syz_setI(targetHandle.value, property.toInt(), value.toInt()),
+      );
 }
 
 /// A biquad config property.
 class SynthizerBiquadConfigProperty extends SynthizerProperty<BiquadConfig> {
   /// Create an instance.
-  SynthizerBiquadConfigProperty(Synthizer synthizer,
-      Pointer<syz_Handle> targetHandle, Properties property)
-      : super(synthizer, targetHandle, property);
+  SynthizerBiquadConfigProperty(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
-  set value(BiquadConfig value) => synthizer.check(synthizer.synthizer
-      .syz_setBiquad(targetHandle.value, property.toInt(), value.config));
+  set value(final BiquadConfig value) => synthizer.check(
+        synthizer.synthizer
+            .syz_setBiquad(targetHandle.value, property.toInt(), value.config),
+      );
 }
 
 /// An object property.
 class SynthizerObjectProperty extends SynthizerProperty<SynthizerObject> {
   /// Create an instance.
-  SynthizerObjectProperty(Synthizer synthizer, Pointer<syz_Handle> targetHandle,
-      Properties property)
-      : super(synthizer, targetHandle, property);
+  SynthizerObjectProperty(
+    final Synthizer synthizer,
+    final Pointer<syz_Handle> targetHandle,
+    final Properties property,
+  ) : super(synthizer, targetHandle, property);
 
   @override
-  set value(SynthizerObject? value) =>
-      synthizer.check(synthizer.synthizer.syz_setO(
-          targetHandle.value, property.toInt(), value?.handle.value ?? 0));
+  set value(final SynthizerObject? value) => synthizer.check(
+        synthizer.synthizer.syz_setO(
+          targetHandle.value,
+          property.toInt(),
+          value?.handle.value ?? 0,
+        ),
+      );
 }

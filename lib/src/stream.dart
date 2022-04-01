@@ -15,16 +15,22 @@ class SynthizerStream extends SynthizerObject {
   ///
   /// Don't use this constructor directly, but instead use one of the named
   /// constructors.
-  SynthizerStream(Synthizer synthizer) : super(synthizer);
+  SynthizerStream(final Synthizer synthizer) : super(synthizer);
 
   /// Create a stream from a file.
-  factory SynthizerStream.fromFile(Synthizer synthizer, String path) {
+  factory SynthizerStream.fromFile(
+    final Synthizer synthizer,
+    final String path,
+  ) {
     final s = SynthizerStream(synthizer);
-    synthizer.check(synthizer.synthizer.syz_createStreamHandleFromFile(
+    synthizer.check(
+      synthizer.synthizer.syz_createStreamHandleFromFile(
         s.handle,
         path.toNativeUtf8().cast<Int8>(),
         nullptr,
-        synthizer.userdataFreeCallbackPointer));
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
     return s;
   }
 }

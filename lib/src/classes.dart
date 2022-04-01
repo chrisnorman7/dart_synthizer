@@ -12,7 +12,7 @@ import 'synthizer_property.dart';
 /// The base class for all synthizer objects.
 class SynthizerObject {
   /// Create an instance.
-  SynthizerObject(this.synthizer, {int? pointer})
+  SynthizerObject(this.synthizer, {final int? pointer})
       : handle = calloc<syz_Handle>() {
     if (pointer != null) {
       handle.value = pointer;
@@ -32,7 +32,10 @@ class SynthizerObject {
   /// The suggested automation time.
   SynthizerDoubleProperty get suggestedAutomationTime =>
       SynthizerDoubleProperty(
-          synthizer, handle, Properties.suggestedAutomationTime);
+        synthizer,
+        handle,
+        Properties.suggestedAutomationTime,
+      );
 
   /// Returns `true` if this object is still valid.
   bool get isValid => handle.value != 0;
@@ -52,7 +55,7 @@ class SynthizerObject {
   }
 
   /// Configure delete behaviour for this object.
-  void configDeleteBehavior({bool? linger, double? timeout}) {
+  void configDeleteBehavior({final bool? linger, final double? timeout}) {
     synthizer.synthizer
         .syz_initDeleteBehaviorConfig(synthizer.deleteBehaviorConfigPointer);
     if (linger != null) {
@@ -61,13 +64,17 @@ class SynthizerObject {
     if (timeout != null) {
       synthizer.deleteBehaviorConfigPointer.ref.linger_timeout = timeout;
     }
-    synthizer.check(synthizer.synthizer.syz_configDeleteBehavior(
-        handle.value, synthizer.deleteBehaviorConfigPointer));
+    synthizer.check(
+      synthizer.synthizer.syz_configDeleteBehavior(
+        handle.value,
+        synthizer.deleteBehaviorConfigPointer,
+      ),
+    );
   }
 
   /// Used to compare two objects.
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     if (other is! SynthizerObject) {
       return false;
     }

@@ -11,11 +11,11 @@ Future<void> main() async {
   final generator = ctx.createBufferGenerator(buffer: buffer)
     ..looping.value = true;
   final source = ctx.createDirectSource()..addGenerator(generator);
-  await Future<void>.delayed(Duration(seconds: 1));
+  await Future<void>.delayed(const Duration(seconds: 1));
   generator.pause();
-  await Future<void>.delayed(Duration(seconds: 1));
+  await Future<void>.delayed(const Duration(seconds: 1));
   generator.play();
-  await Future<void>.delayed(Duration(seconds: 1));
+  await Future<void>.delayed(const Duration(seconds: 1));
   for (final thing in [buffer, generator, source, ctx]) {
     thing.destroy();
   }

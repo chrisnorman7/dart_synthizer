@@ -7,7 +7,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 Future<void> main() async {
   final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext(events: true);
-  ctx.events.listen((event) {
+  ctx.events.listen((final event) {
     if (event is FinishedEvent) {
       print('Finished: ${event.source}');
     } else if (event is LoopedEvent) {
@@ -27,7 +27,7 @@ Future<void> main() async {
   //     AutomationSendUserEventCommand(i.toDouble(), i * 2)
   // ];
   // ctx.executeAutomation(source, commands);
-  await Future<void>.delayed(Duration(seconds: 10));
+  await Future<void>.delayed(const Duration(seconds: 10));
   source.destroy();
   generator.destroy();
   ctx.destroy();

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.0]
+
+### Changed
+
+* Updated analysis options.
+
 ## [0.7.11]
 
 ### Changed

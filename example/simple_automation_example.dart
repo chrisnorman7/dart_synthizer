@@ -14,25 +14,31 @@ Future<void> main() async {
     ..looping.value = true;
   final source = ctx.createDirectSource()..addGenerator(generator);
   var timebase = ctx.currentTime.value;
-  generator.pitchBend.automate(ctx,
-      startTime: timebase,
-      startValue: 1.0,
-      endTime: timebase + 10.0,
-      endValue: 0.1);
-  generator.gain.automate(ctx,
-      startTime: timebase,
-      startValue: 1.0,
-      endTime: timebase + 5.0,
-      endValue: 0.0);
-  await Future<void>.delayed(Duration(seconds: 5));
+  generator.pitchBend.automate(
+    ctx,
+    startTime: timebase,
+    startValue: 1.0,
+    endTime: timebase + 10.0,
+    endValue: 0.1,
+  );
+  generator.gain.automate(
+    ctx,
+    startTime: timebase,
+    startValue: 1.0,
+    endTime: timebase + 5.0,
+    endValue: 0.0,
+  );
+  await Future<void>.delayed(const Duration(seconds: 5));
   print('Gain is ${generator.gain.value}.');
   timebase = ctx.currentTime.value;
-  generator.gain.automate(ctx,
-      startTime: timebase,
-      startValue: 0.0,
-      endTime: timebase + 5.0,
-      endValue: 1.0);
-  await Future<void>.delayed(Duration(seconds: 5));
+  generator.gain.automate(
+    ctx,
+    startTime: timebase,
+    startValue: 0.0,
+    endTime: timebase + 5.0,
+    endValue: 1.0,
+  );
+  await Future<void>.delayed(const Duration(seconds: 5));
   print('Final gain is ${generator.gain.value}.');
   for (final thing in <SynthizerObject>[
     ctx,

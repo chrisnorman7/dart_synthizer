@@ -15,8 +15,8 @@ import 'synthizer_property.dart';
 /// [Synthizer docs](https://synthizer.github.io/concepts/effects.html)
 class GlobalEffect extends SynthizerObject with GainMixin {
   /// Create a global effect.
-  GlobalEffect(Synthizer synthizer, {int? pointer})
-      : super(synthizer, pointer: pointer) {}
+  GlobalEffect(final Synthizer synthizer, {final int? pointer})
+      : super(synthizer, pointer: pointer);
 
   /// The filter input.
   SynthizerBiquadConfigProperty get filterInput =>
@@ -49,24 +49,28 @@ class EchoTapConfig {
 /// [Synthizer docs](https://synthizer.github.io/object_reference/echo.html)
 class GlobalEcho extends GlobalEffect {
   /// Create an echo.
-  GlobalEcho(Context context) : super(context.synthizer) {
-    synthizer.check(synthizer.synthizer.syz_createGlobalEcho(
+  GlobalEcho(final Context context) : super(context.synthizer) {
+    synthizer.check(
+      synthizer.synthizer.syz_createGlobalEcho(
         handle,
         context.handle.value,
         nullptr,
         nullptr,
-        synthizer.userdataFreeCallbackPointer));
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
   }
 
   /// Create an instance from a handle value.
-  GlobalEcho.fromHandle(Synthizer synthizer, int pointer)
+  GlobalEcho.fromHandle(final Synthizer synthizer, final int pointer)
       : super(synthizer, pointer: pointer);
 
   /// Sets the taps of the echo.
-  void setTaps(List<EchoTapConfig>? taps) {
+  void setTaps(final List<EchoTapConfig>? taps) {
     if (taps == null || taps.isEmpty) {
       synthizer.check(
-          synthizer.synthizer.syz_globalEchoSetTaps(handle.value, 0, nullptr));
+        synthizer.synthizer.syz_globalEchoSetTaps(handle.value, 0, nullptr),
+      );
     } else {
       final a = malloc<syz_EchoTapConfig>(taps.length);
       for (var i = 0; i < taps.length; i++) {
@@ -76,8 +80,9 @@ class GlobalEcho extends GlobalEffect {
           ..gain_l = t.gainL
           ..gain_r = t.gainR;
       }
-      synthizer.check(synthizer.synthizer
-          .syz_globalEchoSetTaps(handle.value, taps.length, a));
+      synthizer.check(
+        synthizer.synthizer.syz_globalEchoSetTaps(handle.value, taps.length, a),
+      );
       malloc.free(a);
     }
   }
@@ -88,17 +93,20 @@ class GlobalEcho extends GlobalEffect {
 /// [Synthizer docs](https://synthizer.github.io/object_reference/fdn_reverb.html)
 class GlobalFdnReverb extends GlobalEffect {
   /// Create a reverb.
-  GlobalFdnReverb(Context context) : super(context.synthizer) {
-    synthizer.check(synthizer.synthizer.syz_createGlobalFdnReverb(
+  GlobalFdnReverb(final Context context) : super(context.synthizer) {
+    synthizer.check(
+      synthizer.synthizer.syz_createGlobalFdnReverb(
         handle,
         context.handle.value,
         nullptr,
         nullptr,
-        synthizer.userdataFreeCallbackPointer));
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
   }
 
   /// Create an instance from a handle value.
-  GlobalFdnReverb.fromHandle(Synthizer synthizer, int pointer)
+  GlobalFdnReverb.fromHandle(final Synthizer synthizer, final int pointer)
       : super(synthizer, pointer: pointer);
 
   /// The mean free path.
@@ -112,39 +120,63 @@ class GlobalFdnReverb extends GlobalEffect {
   /// The late reflections LF rolloff.
   SynthizerDoubleProperty get lateReflectionsLfRolloff =>
       SynthizerDoubleProperty(
-          synthizer, handle, Properties.lateReflectionsLfRolloff);
+        synthizer,
+        handle,
+        Properties.lateReflectionsLfRolloff,
+      );
 
   /// The late reflections LF reference.
   SynthizerDoubleProperty get lateReflectionsLfReference =>
       SynthizerDoubleProperty(
-          synthizer, handle, Properties.lateReflectionsLfReference);
+        synthizer,
+        handle,
+        Properties.lateReflectionsLfReference,
+      );
 
   /// The late reflections HF rolloff.
   SynthizerDoubleProperty get lateReflectionsHfRolloff =>
       SynthizerDoubleProperty(
-          synthizer, handle, Properties.lateReflectionsHfRolloff);
+        synthizer,
+        handle,
+        Properties.lateReflectionsHfRolloff,
+      );
 
   /// The late reflections HF reference.
   SynthizerDoubleProperty get lateReflectionsHfReference =>
       SynthizerDoubleProperty(
-          synthizer, handle, Properties.lateReflectionsHfReference);
+        synthizer,
+        handle,
+        Properties.lateReflectionsHfReference,
+      );
 
   /// The late reflections diffusion.
   SynthizerDoubleProperty get lateReflectionsDiffusion =>
       SynthizerDoubleProperty(
-          synthizer, handle, Properties.lateReflectionsDiffusion);
+        synthizer,
+        handle,
+        Properties.lateReflectionsDiffusion,
+      );
 
   /// The late reflections modulation depth.
   SynthizerDoubleProperty get lateReflectionsModulationDepth =>
       SynthizerDoubleProperty(
-          synthizer, handle, Properties.lateReflectionsModulationDepth);
+        synthizer,
+        handle,
+        Properties.lateReflectionsModulationDepth,
+      );
 
   /// The late reflections modulation frequency.
   SynthizerDoubleProperty get lateReflectionsModulationFrequency =>
       SynthizerDoubleProperty(
-          synthizer, handle, Properties.lateReflectionsModulationFrequency);
+        synthizer,
+        handle,
+        Properties.lateReflectionsModulationFrequency,
+      );
 
   /// The late reflections delay.
   SynthizerDoubleProperty get lateReflectionsDelay => SynthizerDoubleProperty(
-      synthizer, handle, Properties.lateReflectionsDelay);
+        synthizer,
+        handle,
+        Properties.lateReflectionsDelay,
+      );
 }

@@ -17,26 +17,31 @@ import 'base.dart';
 /// The `options` argument is as yet undocumented.
 class StreamingGenerator extends Generator with PlaybackPosition {
   /// Create a generator.
-  StreamingGenerator(Context context, String protocol, String path,
-      {String options = ''})
-      : super(context) {
+  StreamingGenerator(
+    final Context context,
+    final String protocol,
+    final String path, {
+    final String options = '',
+  }) : super(context) {
     final protocolPointer = protocol.toNativeUtf8().cast<Int8>();
     final pathPointer = path.toNativeUtf8().cast<Int8>();
     final optionsPointer = options.toNativeUtf8().cast<Void>();
-    synthizer.check(synthizer.synthizer
-        .syz_createStreamingGeneratorFromStreamParams(
-            handle,
-            context.handle.value,
-            protocolPointer,
-            pathPointer,
-            optionsPointer,
-            nullptr,
-            nullptr,
-            synthizer.userdataFreeCallbackPointer));
+    synthizer.check(
+      synthizer.synthizer.syz_createStreamingGeneratorFromStreamParams(
+        handle,
+        context.handle.value,
+        protocolPointer,
+        pathPointer,
+        optionsPointer,
+        nullptr,
+        nullptr,
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
     [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
   }
 
   /// Return an instance from a handle.
-  StreamingGenerator.fromHandle(Synthizer synthizer, int pointer)
+  StreamingGenerator.fromHandle(final Synthizer synthizer, final int pointer)
       : super.fromHandle(synthizer, pointer);
 }

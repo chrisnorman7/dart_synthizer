@@ -14,7 +14,7 @@ class SynthizerError implements Exception {
   /// Create an instance with a [DartSynthizer] instance.
   ///
   /// If you want to create an instance by hand, use the unnamed constructor.
-  factory SynthizerError.fromLib(DartSynthizer lib) {
+  factory SynthizerError.fromLib(final DartSynthizer lib) {
     final msg = lib.syz_getLastErrorMessage().cast<Utf8>().toDartString();
     return SynthizerError(msg, lib.syz_getLastErrorCode());
   }

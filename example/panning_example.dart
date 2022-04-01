@@ -14,7 +14,7 @@ Future<void> main() async {
     ..looping.value = true;
   source.addGenerator(generator);
   while (scalar < 1.0) {
-    await Future<void>.delayed(Duration(milliseconds: 200));
+    await Future<void>.delayed(const Duration(milliseconds: 200));
     scalar += 0.2;
     print('Scalar is $scalar.');
     source.panningScalar.value = scalar;

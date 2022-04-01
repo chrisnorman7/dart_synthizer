@@ -39,7 +39,7 @@ const synthizerExecutableFilename = ':executable:';
 /// You must create an instance of this class in order to use the library.
 class Synthizer {
   /// Create an instance.
-  Synthizer({String? filename})
+  Synthizer({final String? filename})
       : _eventPointer = calloc<syz_Event>(),
         intPointer = calloc<Int32>(),
         bigIntPointer = calloc<Uint64>(),
@@ -120,7 +120,7 @@ class Synthizer {
   /// Handles used by [version].
   final Pointer<Uint32> patchPointer;
 
-  /// The handle used by [Context.ConfigRoute].
+  /// The handle used by [Context.configRoute].
   final Pointer<syz_RouteConfig> routeConfig;
 
   /// The handle used by [SynthizerDoubleProperty].
@@ -157,17 +157,18 @@ class Synthizer {
   final Pointer<syz_SineBankConfig> sineBankConfigPointer;
 
   /// Check if a returned value is an error.
-  void check(int value) {
+  void check(final int value) {
     if (value != 0) {
       throw SynthizerError.fromLib(synthizer);
     }
   }
 
   /// Initialise the library.
-  void initialize(
-      {LogLevel? logLevel,
-      LoggingBackend? loggingBackend,
-      String? libsndfilePath}) {
+  void initialize({
+    final LogLevel? logLevel,
+    final LoggingBackend? loggingBackend,
+    final String? libsndfilePath,
+  }) {
     final config = calloc<syz_LibraryConfig>();
     synthizer.syz_libraryConfigSetDefaults(config);
     if (logLevel != null) {
@@ -216,27 +217,32 @@ class Synthizer {
   }
 
   /// Create a context.
-  Context createContext({bool events = false}) => Context(this, events: events);
+  Context createContext({final bool events = false}) =>
+      Context(this, events: events);
 
   /// Shorthand for [BiquadConfig.designIdentity].
   BiquadConfig designIdentify() => BiquadConfig.designIdentity(this);
 
   /// Shorthand for [BiquadConfig.designLowpass].
-  BiquadConfig designLowpass(double frequency,
-          {double q = 0.7071135624381276}) =>
+  BiquadConfig designLowpass(
+    final double frequency, {
+    final double q = 0.7071135624381276,
+  }) =>
       BiquadConfig.designLowpass(this, frequency, q: q);
 
   /// Shorthand for [BiquadConfig.designHighpass].
-  BiquadConfig designHighpass(double frequency,
-          {double q = 0.7071135624381276}) =>
+  BiquadConfig designHighpass(
+    final double frequency, {
+    final double q = 0.7071135624381276,
+  }) =>
       BiquadConfig.designHighpass(this, frequency, q: q);
 
   /// Shorthand for [BiquadConfig.designBandpass].
-  BiquadConfig designBandpass(double frequency, double bandwidth) =>
+  BiquadConfig designBandpass(final double frequency, final double bandwidth) =>
       BiquadConfig.designBandpass(this, frequency, bandwidth);
 
   /// Get the type of a handle.
-  ObjectType getObjectType(int handle) {
+  ObjectType getObjectType(final int handle) {
     check(synthizer.syz_handleGetObjectType(intPointer, handle));
     return intPointer.value.toObjectType();
   }
@@ -247,7 +253,7 @@ class Synthizer {
   /// only.
   ///
   /// If you try to access properties for example, the behaviour is undefined.
-  SynthizerObject getObject(int handle) {
+  SynthizerObject getObject(final int handle) {
     final type = getObjectType(handle);
     switch (type) {
       case ObjectType.context:
@@ -282,10 +288,15 @@ class Synthizer {
   }
 
   /// Get the next event for [context].
-  SynthizerEvent? getContextEvent(Context context) {
+  SynthizerEvent? getContextEvent(final Context context) {
     SynthizerEvent? value;
-    check(synthizer.syz_contextGetNextEvent(
-        _eventPointer, context.handle.value, 0));
+    check(
+      synthizer.syz_contextGetNextEvent(
+        _eventPointer,
+        context.handle.value,
+        0,
+      ),
+    );
     final sourceHandle = _eventPointer.ref.source;
     final eventType = _eventPointer.ref.type.toEventTypes();
     switch (eventType) {
@@ -296,8 +307,11 @@ class Synthizer {
         value = LoopedEvent(context, getObject(sourceHandle) as Generator);
         break;
       case EventTypes.userAutomation:
-        value = UserAutomationEvent(context, getObject(sourceHandle),
-            _eventPointer.ref.payload.user_automation.param);
+        value = UserAutomationEvent(
+          context,
+          getObject(sourceHandle),
+          _eventPointer.ref.payload.user_automation.param,
+        );
         break;
       case EventTypes.invalid:
         return null;
@@ -310,12 +324,15 @@ class Synthizer {
   SynthizerVersion get version {
     synthizer.syz_getVersion(majorPointer, minorPointer, patchPointer);
     return SynthizerVersion(
-        majorPointer.value, minorPointer.value, patchPointer.value);
+      majorPointer.value,
+      minorPointer.value,
+      patchPointer.value,
+    );
   }
 
   /// Increase the reference count for the object with the given [handle].
-  void incRef(int handle) => check(synthizer.syz_handleIncRef(handle));
+  void incRef(final int handle) => check(synthizer.syz_handleIncRef(handle));
 
   /// Decrease the reference count for the object with the given [handle].
-  void decRef(int handle) => check(synthizer.syz_handleDecRef(handle));
+  void decRef(final int handle) => check(synthizer.syz_handleDecRef(handle));
 }

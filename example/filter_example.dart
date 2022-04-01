@@ -11,7 +11,7 @@ Future<void> main() async {
   while (frequency > 20) {
     s.filter.value = synthizer.designLowpass(frequency);
     frequency -= 10;
-    await Future<void>.delayed(Duration(milliseconds: 1));
+    await Future<void>.delayed(const Duration(milliseconds: 1));
   }
   g.destroy();
   s.destroy();
