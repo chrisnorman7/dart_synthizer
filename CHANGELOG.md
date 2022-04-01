@@ -5,6 +5,7 @@
 ### Changed
 
 * Updated analysis options.
+* Fixed the name of `Context.configRoute`.
 
 ## [0.7.11]
 
