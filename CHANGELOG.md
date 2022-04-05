@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0]
+
+### Changed
+
+* Updated the SDK constraint.
+
 ## [0.8.0]
 
 ### Changed
