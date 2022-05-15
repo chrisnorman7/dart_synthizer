@@ -16,8 +16,7 @@ import 'synthizer.dart';
 /// [Synthizer docs](https://synthizer.github.io/object_reference/buffer.html)
 class Buffer extends SynthizerObject {
   /// Default constructor. Do not use.
-  Buffer(final Synthizer synthizer, {final int? handle})
-      : super(synthizer, pointer: handle);
+  Buffer(super.synthizer, {final int? handle}) : super(pointer: handle);
 
   /// Create a buffer from stream parameters.
   factory Buffer.fromStreamParams(

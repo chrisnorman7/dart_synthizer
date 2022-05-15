@@ -5,7 +5,6 @@ import '../buffer.dart';
 import '../classes.dart';
 import '../context.dart';
 import '../enumerations.dart';
-import '../synthizer.dart';
 import '../synthizer_property.dart';
 import 'base.dart';
 
@@ -33,8 +32,8 @@ class BufferGenerator extends Generator with PlaybackPosition {
   }
 
   /// Return an instance from a handle.
-  BufferGenerator.fromHandle(final Synthizer synthizer, final int pointer)
-      : super.fromHandle(synthizer, pointer);
+  BufferGenerator.fromHandle(super.synthizer, super.pointer)
+      : super.fromHandle();
 
   /// The buffer for this generator.
   SynthizerObjectProperty get buffer =>

@@ -15,7 +15,7 @@ class SynthizerStream extends SynthizerObject {
   ///
   /// Don't use this constructor directly, but instead use one of the named
   /// constructors.
-  SynthizerStream(final Synthizer synthizer) : super(synthizer);
+  SynthizerStream(super.synthizer);
 
   /// Create a stream from a file.
   factory SynthizerStream.fromFile(

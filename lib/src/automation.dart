@@ -8,7 +8,6 @@ import 'context.dart';
 import 'enumerations.dart';
 import 'error.dart';
 import 'properties.dart';
-import 'synthizer.dart';
 import 'synthizer_bindings.dart';
 
 /// The base class for all automation commands.
@@ -120,9 +119,9 @@ class AutomationBatch extends SynthizerObject {
   }
 
   /// Create an instance from a handle.
-  AutomationBatch.fromHandle(final Synthizer synthizer, final int pointer)
+  AutomationBatch.fromHandle(super.synthizer, final int pointer)
       : _commands = [],
-        super(synthizer, pointer: pointer);
+        super(pointer: pointer);
 
   /// The commands for this batch.
   final List<AutomationCommand> _commands;

@@ -3,7 +3,6 @@ import 'dart:ffi';
 
 import '../context.dart';
 import '../enumerations.dart';
-import '../synthizer.dart';
 import '../synthizer_property.dart';
 import 'base.dart';
 
@@ -29,8 +28,8 @@ class NoiseGenerator extends Generator {
   }
 
   /// Create an instance from a handle value.
-  NoiseGenerator.fromHandle(final Synthizer synthizer, final int pointer)
-      : super.fromHandle(synthizer, pointer);
+  NoiseGenerator.fromHandle(super.synthizer, super.pointer)
+      : super.fromHandle();
 
   /// The noise type for this generator.
   SynthizerNoiseTypeProperty get noiseType =>

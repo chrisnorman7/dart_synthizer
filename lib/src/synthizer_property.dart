@@ -62,10 +62,10 @@ abstract class SynthizerProperty<T> {
 class SynthizerIntProperty extends SynthizerProperty<int> {
   /// Create an instance.
   SynthizerIntProperty(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   int get value {
@@ -87,10 +87,10 @@ class SynthizerIntProperty extends SynthizerProperty<int> {
 class SynthizerBoolProperty extends SynthizerProperty<bool> {
   /// Create an instance.
   SynthizerBoolProperty(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   bool get value {
@@ -115,10 +115,10 @@ class SynthizerBoolProperty extends SynthizerProperty<bool> {
 class SynthizerDoubleProperty extends SynthizerProperty<double> {
   /// Create an instance.
   const SynthizerDoubleProperty(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   double get value {
@@ -164,10 +164,10 @@ class SynthizerDoubleProperty extends SynthizerProperty<double> {
 class SynthizerDouble3Property extends SynthizerProperty<Double3> {
   /// Create an instance.
   const SynthizerDouble3Property(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   Double3 get value {
@@ -220,10 +220,10 @@ class SynthizerDouble3Property extends SynthizerProperty<Double3> {
 class SynthizerDouble6Property extends SynthizerProperty<Double6> {
   /// Create an instance.
   const SynthizerDouble6Property(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   Double6 get value {
@@ -290,10 +290,10 @@ class SynthizerPannerStrategyProperty
     extends SynthizerProperty<PannerStrategy> {
   /// Create an instance.
   SynthizerPannerStrategyProperty(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   PannerStrategy get value {
@@ -315,10 +315,10 @@ class SynthizerPannerStrategyProperty
 class SynthizerDistanceModelProperty extends SynthizerProperty<DistanceModel> {
   /// Create an instance.
   SynthizerDistanceModelProperty(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   DistanceModel get value {
@@ -340,10 +340,10 @@ class SynthizerDistanceModelProperty extends SynthizerProperty<DistanceModel> {
 class SynthizerNoiseTypeProperty extends SynthizerProperty<NoiseType> {
   /// Create an instance.
   SynthizerNoiseTypeProperty(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   NoiseType get value {
@@ -365,10 +365,10 @@ class SynthizerNoiseTypeProperty extends SynthizerProperty<NoiseType> {
 class SynthizerBiquadConfigProperty extends SynthizerProperty<BiquadConfig> {
   /// Create an instance.
   SynthizerBiquadConfigProperty(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   set value(final BiquadConfig value) => synthizer.check(
@@ -381,10 +381,10 @@ class SynthizerBiquadConfigProperty extends SynthizerProperty<BiquadConfig> {
 class SynthizerObjectProperty extends SynthizerProperty<SynthizerObject> {
   /// Create an instance.
   SynthizerObjectProperty(
-    final Synthizer synthizer,
-    final Pointer<syz_Handle> targetHandle,
-    final Properties property,
-  ) : super(synthizer, targetHandle, property);
+    super.synthizer,
+    super.targetHandle,
+    super.property,
+  );
 
   @override
   set value(final SynthizerObject? value) => synthizer.check(

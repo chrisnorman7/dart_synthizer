@@ -5,7 +5,6 @@ import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
 import 'generators/base.dart';
-import 'synthizer.dart';
 import 'synthizer_property.dart';
 
 /// The base class for all sources.
@@ -16,8 +15,8 @@ abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
   Source(final Context context) : super(context.synthizer);
 
   /// Create an instance from a handle value.
-  Source.fromHandle(final Synthizer synthizer, final int pointer)
-      : super(synthizer, pointer: pointer);
+  Source.fromHandle(super.synthizer, final int pointer)
+      : super(pointer: pointer);
 
   /// Filter property.
   SynthizerBiquadConfigProperty get filter =>
@@ -76,18 +75,16 @@ class DirectSource extends Source {
   }
 
   /// Create an instance from a handle value.
-  DirectSource.fromHandle(final Synthizer synthizer, final int pointer)
-      : super.fromHandle(synthizer, pointer);
+  DirectSource.fromHandle(super.synthizer, super.pointer) : super.fromHandle();
 }
 
 /// A source with some kind of panning applied.
 abstract class _PannedSource extends Source {
   /// Create an instance.
-  _PannedSource(final Context context) : super(context);
+  _PannedSource(super.context);
 
   /// Create an instance from a handle.
-  _PannedSource.fromHandle(final Synthizer synthizer, final int pointer)
-      : super.fromHandle(synthizer, pointer);
+  _PannedSource.fromHandle(super.synthizer, super.pointer) : super.fromHandle();
 }
 
 /// A source with azimuth and elevation panning done by hand.
@@ -115,8 +112,8 @@ class AngularPannedSource extends _PannedSource {
   }
 
   /// Get an instance from a handle.
-  AngularPannedSource.fromHandle(final Synthizer synthizer, final int pointer)
-      : super.fromHandle(synthizer, pointer);
+  AngularPannedSource.fromHandle(super.synthizer, super.pointer)
+      : super.fromHandle();
 
   /// The azimuth for this source.
   SynthizerDoubleProperty get azimuth =>
@@ -153,8 +150,8 @@ class ScalarPannedSource extends _PannedSource {
   }
 
   /// Create an instance from a handle value.
-  ScalarPannedSource.fromHandle(final Synthizer synthizer, final int pointer)
-      : super.fromHandle(synthizer, pointer);
+  ScalarPannedSource.fromHandle(super.synthizer, super.pointer)
+      : super.fromHandle();
 
   /// The panning scalar for this source.
   SynthizerDoubleProperty get panningScalar =>
@@ -191,8 +188,7 @@ class Source3D extends _PannedSource {
   }
 
   /// Create an instance from a handle value.
-  Source3D.fromHandle(final Synthizer synthizer, final int pointer)
-      : super.fromHandle(synthizer, pointer);
+  Source3D.fromHandle(super.synthizer, super.pointer) : super.fromHandle();
 
   /// The distance model for this object.
   SynthizerDistanceModelProperty get distanceModel =>

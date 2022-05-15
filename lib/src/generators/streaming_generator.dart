@@ -5,7 +5,6 @@ import 'package:ffi/ffi.dart';
 
 import '../classes.dart';
 import '../context.dart';
-import '../synthizer.dart';
 import 'base.dart';
 
 /// A streaming generator.
@@ -42,6 +41,6 @@ class StreamingGenerator extends Generator with PlaybackPosition {
   }
 
   /// Return an instance from a handle.
-  StreamingGenerator.fromHandle(final Synthizer synthizer, final int pointer)
-      : super.fromHandle(synthizer, pointer);
+  StreamingGenerator.fromHandle(super.synthizer, super.pointer)
+      : super.fromHandle();
 }

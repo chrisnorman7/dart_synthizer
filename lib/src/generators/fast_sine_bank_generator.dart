@@ -4,7 +4,6 @@ import 'dart:ffi';
 import '../classes.dart';
 import '../context.dart';
 import '../enumerations.dart';
-import '../synthizer.dart';
 import '../synthizer_property.dart';
 import 'base.dart';
 
@@ -58,8 +57,8 @@ class FastSineBankGenerator extends Generator with GainMixin, PausableMixin {
   }
 
   /// Create an instance from a handle.
-  FastSineBankGenerator.fromHandle(final Synthizer synthizer, final int pointer)
-      : super.fromHandle(synthizer, pointer);
+  FastSineBankGenerator.fromHandle(super.synthizer, super.pointer)
+      : super.fromHandle();
 
   /// Sine wave.
   FastSineBankGenerator.sine(

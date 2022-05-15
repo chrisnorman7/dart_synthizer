@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_final_parameters
 /// Provides classes relating to effects.
 import 'dart:ffi';
 
@@ -6,7 +7,6 @@ import 'package:ffi/ffi.dart';
 import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
-import 'synthizer.dart';
 import 'synthizer_bindings.dart';
 import 'synthizer_property.dart';
 
@@ -15,8 +15,7 @@ import 'synthizer_property.dart';
 /// [Synthizer docs](https://synthizer.github.io/concepts/effects.html)
 class GlobalEffect extends SynthizerObject with GainMixin {
   /// Create a global effect.
-  GlobalEffect(final Synthizer synthizer, {final int? pointer})
-      : super(synthizer, pointer: pointer);
+  GlobalEffect(super.synthizer, {super.pointer});
 
   /// The filter input.
   SynthizerBiquadConfigProperty get filterInput =>
@@ -62,8 +61,8 @@ class GlobalEcho extends GlobalEffect {
   }
 
   /// Create an instance from a handle value.
-  GlobalEcho.fromHandle(final Synthizer synthizer, final int pointer)
-      : super(synthizer, pointer: pointer);
+  GlobalEcho.fromHandle(super.synthizer, final int pointer)
+      : super(pointer: pointer);
 
   /// Sets the taps of the echo.
   void setTaps(final List<EchoTapConfig>? taps) {
@@ -106,8 +105,8 @@ class GlobalFdnReverb extends GlobalEffect {
   }
 
   /// Create an instance from a handle value.
-  GlobalFdnReverb.fromHandle(final Synthizer synthizer, final int pointer)
-      : super(synthizer, pointer: pointer);
+  GlobalFdnReverb.fromHandle(super.synthizer, final int pointer)
+      : super(pointer: pointer);
 
   /// The mean free path.
   SynthizerDoubleProperty get meanFreePath =>
