@@ -41,11 +41,11 @@ class Synthizer {
   /// Create an instance.
   Synthizer({final String? filename})
       : _eventPointer = calloc<syz_Event>(),
-        intPointer = calloc<Int32>(),
-        bigIntPointer = calloc<Uint64>(),
-        majorPointer = calloc<Uint32>(),
-        minorPointer = calloc<Uint32>(),
-        patchPointer = calloc<Uint32>(),
+        intPointer = calloc<Int>(),
+        bigIntPointer = calloc<UnsignedLongLong>(),
+        majorPointer = calloc<UnsignedInt>(),
+        minorPointer = calloc<UnsignedInt>(),
+        patchPointer = calloc<UnsignedInt>(),
         routeConfig = calloc<syz_RouteConfig>(),
         doublePointer = calloc<Double>(),
         x1 = calloc<Double>(),
@@ -106,19 +106,19 @@ class Synthizer {
 
   /// The handle used by [SynthizerIntProperty], [SynthizerBoolProperty], and
   /// [SynthizerPannerStrategyProperty].
-  final Pointer<Int32> intPointer;
+  final Pointer<Int> intPointer;
 
   /// The handle to a bigger int.
-  final Pointer<Uint64> bigIntPointer;
+  final Pointer<UnsignedLongLong> bigIntPointer;
 
   /// Handles used by [version].
-  final Pointer<Uint32> majorPointer;
+  final Pointer<UnsignedInt> majorPointer;
 
   /// Handles used by [version].
-  final Pointer<Uint32> minorPointer;
+  final Pointer<UnsignedInt> minorPointer;
 
   /// Handles used by [version].
-  final Pointer<Uint32> patchPointer;
+  final Pointer<UnsignedInt> patchPointer;
 
   /// The handle used by [Context.configRoute].
   final Pointer<syz_RouteConfig> routeConfig;
@@ -177,9 +177,9 @@ class Synthizer {
     if (loggingBackend != null) {
       config.ref.logging_backend = loggingBackend.toInt();
     }
-    Pointer<Int8>? libSndFilePointer;
+    Pointer<Char>? libSndFilePointer;
     if (libsndfilePath != null) {
-      libSndFilePointer = libsndfilePath.toNativeUtf8().cast<Int8>();
+      libSndFilePointer = libsndfilePath.toNativeUtf8().cast<Char>();
       config.ref.libsndfile_path = libSndFilePointer;
     }
     check(synthizer.syz_initializeWithConfig(config));

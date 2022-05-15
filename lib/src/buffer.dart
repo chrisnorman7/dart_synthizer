@@ -25,9 +25,9 @@ class Buffer extends SynthizerObject {
     final String path, {
     final String options = '',
   }) {
-    final out = calloc<Uint64>();
-    final protocolPointer = protocol.toNativeUtf8().cast<Int8>();
-    final pathPointer = path.toNativeUtf8().cast<Int8>();
+    final out = calloc<UnsignedLongLong>();
+    final protocolPointer = protocol.toNativeUtf8().cast<Char>();
+    final pathPointer = path.toNativeUtf8().cast<Char>();
     final optionsPointer = options.toNativeUtf8().cast<Void>();
     synthizer.check(
       synthizer.synthizer.syz_createBufferFromStreamParams(
@@ -39,7 +39,7 @@ class Buffer extends SynthizerObject {
         synthizer.userdataFreeCallbackPointer,
       ),
     );
-    [protocolPointer, pathPointer, optionsPointer, out].forEach(calloc.free);
+    [protocolPointer, pathPointer, optionsPointer, out].forEach(malloc.free);
     return Buffer(synthizer, handle: out.value);
   }
 
@@ -48,7 +48,7 @@ class Buffer extends SynthizerObject {
     final Synthizer synthizer,
     final SynthizerStream stream,
   ) {
-    final out = calloc<Uint64>();
+    final out = calloc<UnsignedLongLong>();
     synthizer.check(
       synthizer.synthizer.syz_createBufferFromStreamHandle(
         out,
@@ -70,8 +70,8 @@ class Buffer extends SynthizerObject {
   /// You can use this with a list returned by [File.readAsBytesSync] for
   /// example.
   factory Buffer.fromBytes(final Synthizer synthizer, final List<int> bytes) {
-    final out = calloc<Uint64>();
-    final a = malloc<Int8>(bytes.length);
+    final out = calloc<UnsignedLongLong>();
+    final a = malloc<Char>(bytes.length);
     for (var i = 0; i < bytes.length; i++) {
       a[i] = bytes[i];
     }
@@ -102,7 +102,7 @@ class Buffer extends SynthizerObject {
     final int frames,
     final List<double> data,
   ) {
-    final out = calloc<Uint64>();
+    final out = calloc<UnsignedLongLong>();
     final a = malloc<Float>(data.length);
     for (var i = 0; i < data.length; i++) {
       a[i] = data[i];

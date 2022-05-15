@@ -23,14 +23,16 @@ class SynthizerStream extends SynthizerObject {
     final String path,
   ) {
     final s = SynthizerStream(synthizer);
+    final pathPtr = path.toNativeUtf8().cast<Char>();
     synthizer.check(
       synthizer.synthizer.syz_createStreamHandleFromFile(
         s.handle,
-        path.toNativeUtf8().cast<Int8>(),
+        pathPtr,
         nullptr,
         synthizer.userdataFreeCallbackPointer,
       ),
     );
+    malloc.free(pathPtr);
     return s;
   }
 }

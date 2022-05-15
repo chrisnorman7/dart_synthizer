@@ -22,8 +22,8 @@ class StreamingGenerator extends Generator with PlaybackPosition {
     final String path, {
     final String options = '',
   }) : super(context) {
-    final protocolPointer = protocol.toNativeUtf8().cast<Int8>();
-    final pathPointer = path.toNativeUtf8().cast<Int8>();
+    final protocolPointer = protocol.toNativeUtf8().cast<Char>();
+    final pathPointer = path.toNativeUtf8().cast<Char>();
     final optionsPointer = options.toNativeUtf8().cast<Void>();
     synthizer.check(
       synthizer.synthizer.syz_createStreamingGeneratorFromStreamParams(
@@ -37,7 +37,7 @@ class StreamingGenerator extends Generator with PlaybackPosition {
         synthizer.userdataFreeCallbackPointer,
       ),
     );
-    [protocolPointer, pathPointer, optionsPointer].forEach(calloc.free);
+    [protocolPointer, pathPointer, optionsPointer].forEach(malloc.free);
   }
 
   /// Return an instance from a handle.
