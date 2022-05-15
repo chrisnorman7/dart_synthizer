@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0]
+
+### Changed
+
+* Updated minimum SDK constraint.
+* Regenerate bindings.
+
 ## [0.9.0]
 
 ### Changed
