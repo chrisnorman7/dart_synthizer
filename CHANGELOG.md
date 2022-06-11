@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.11.0]
+
+### Changed
+
+* Many property fixes.
+* Properties now accept only named arguments.
+* The `automate` method is only available on properties that can actually be automated.
+* The `automate` method now takes no arguments.
+* Synthizer events now use handles, rather than trying to guess objects.
+
+### Removed
+
+* Removed the `Synthizer.getObject` method.
+
 ## [0.10.0]
 
 ### Changed
