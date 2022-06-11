@@ -57,6 +57,15 @@ abstract class Source extends ContextualSynthizerObject
   /// Remove every generator in [generators] from this source.
   void removeGenerators(final Iterable<Generator> generators) =>
       generators.forEach(removeGenerator);
+
+  /// Remove all routes from this source.
+  void removeAllRoutes({final double fadeout = 0.1}) => synthizer.check(
+        synthizer.synthizer.syz_routingRemoveAllRoutes(
+          context.handle.value,
+          handle.value,
+          fadeout,
+        ),
+      );
 }
 
 /// A source with no panning.
