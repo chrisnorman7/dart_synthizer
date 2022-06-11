@@ -23,7 +23,7 @@ class SynthizerObject {
   final Synthizer synthizer;
 
   /// The handle for this object.
-  late final Pointer<syz_Handle> handle;
+  final Pointer<syz_Handle> handle;
 
   /// The current Synthizer time.
   SynthizerDoubleProperty get currentTime =>
