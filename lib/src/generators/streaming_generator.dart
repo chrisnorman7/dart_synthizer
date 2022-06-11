@@ -39,8 +39,4 @@ class StreamingGenerator extends Generator with PlaybackPosition {
     );
     [protocolPointer, pathPointer, optionsPointer].forEach(malloc.free);
   }
-
-  /// Return an instance from a handle.
-  StreamingGenerator.fromHandle(super.synthizer, super.pointer)
-      : super.fromHandle();
 }

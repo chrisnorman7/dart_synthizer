@@ -29,7 +29,6 @@ Future<void> main() async {
   final timebase = ctx.suggestedAutomationTime.value;
   for (final note in notes) {
     note.gain.automate(
-      ctx,
       startTime: timebase,
       startValue: note.gain.value,
       endTime: timebase + 5.0,

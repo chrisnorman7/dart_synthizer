@@ -15,14 +15,12 @@ Future<void> main() async {
   final source = ctx.createDirectSource()..addGenerator(generator);
   var timebase = ctx.currentTime.value;
   generator.pitchBend.automate(
-    ctx,
     startTime: timebase,
     startValue: 1.0,
     endTime: timebase + 10.0,
     endValue: 0.1,
   );
   generator.gain.automate(
-    ctx,
     startTime: timebase,
     startValue: 1.0,
     endTime: timebase + 5.0,
@@ -32,7 +30,6 @@ Future<void> main() async {
   print('Gain is ${generator.gain.value}.');
   timebase = ctx.currentTime.value;
   generator.gain.automate(
-    ctx,
     startTime: timebase,
     startValue: 0.0,
     endTime: timebase + 5.0,

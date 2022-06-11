@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
@@ -206,7 +207,7 @@ void main() {
       event = ctx.getEvent();
       expect(event, isA<FinishedEvent>());
       event as FinishedEvent;
-      expect(event.source, equals(generator));
+      expect(event.sourceHandle, equals(generator.handle.value));
       expect(event.context, equals(ctx));
       expect(event.type, equals(EventTypes.finished));
       for (final thing in [buffer, source, generator, ctx]) {

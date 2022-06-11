@@ -5,21 +5,11 @@ import 'dart:io';
 import 'package:ffi/ffi.dart';
 import 'package:path/path.dart' as path;
 
-import 'automation.dart';
 import 'biquad.dart';
-import 'buffer.dart';
-import 'classes.dart';
 import 'context.dart';
-import 'effects.dart';
 import 'enumerations.dart';
 import 'error.dart';
-import 'events.dart';
-import 'generators/base.dart';
-import 'generators/buffer_generator.dart';
 import 'generators/fast_sine_bank_generator.dart';
-import 'generators/noise_generator.dart';
-import 'generators/streaming_generator.dart';
-import 'source.dart';
 import 'synthizer_bindings.dart';
 import 'synthizer_property.dart';
 import 'synthizer_version.dart';
@@ -40,7 +30,7 @@ const synthizerExecutableFilename = ':executable:';
 class Synthizer {
   /// Create an instance.
   Synthizer({final String? filename})
-      : _eventPointer = calloc<syz_Event>(),
+      : eventPointer = calloc<syz_Event>(),
         intPointer = calloc<Int>(),
         bigIntPointer = calloc<UnsignedLongLong>(),
         majorPointer = calloc<UnsignedInt>(),
@@ -90,8 +80,8 @@ class Synthizer {
   factory Synthizer.fromExecutable() =>
       Synthizer(filename: synthizerExecutableFilename);
 
-  /// The handle used by [getContextEvent].
-  final Pointer<syz_Event> _eventPointer;
+  /// The handle used by [Context.getEvent].
+  final Pointer<syz_Event> eventPointer;
 
   bool _wasInit;
 
@@ -123,7 +113,7 @@ class Synthizer {
   /// The handle used by [Context.configRoute].
   final Pointer<syz_RouteConfig> routeConfig;
 
-  /// The handle used by [SynthizerDoubleProperty].
+  /// The handle used by [SynthizerAutomatableDoubleProperty].
   final Pointer<Double> doublePointer;
 
   /// Handles used by [SynthizerDouble3Property].
@@ -194,7 +184,7 @@ class Synthizer {
   void shutdown() {
     check(synthizer.syz_shutdown());
     [
-      _eventPointer,
+      eventPointer,
       intPointer,
       bigIntPointer,
       majorPointer,
@@ -245,79 +235,6 @@ class Synthizer {
   ObjectType getObjectType(final int handle) {
     check(synthizer.syz_handleGetObjectType(intPointer, handle));
     return intPointer.value.toObjectType();
-  }
-
-  /// Get an object from [handle].
-  ///
-  /// *NOTE*: Objects constructed by this method should be used for comparison
-  /// only.
-  ///
-  /// If you try to access properties for example, the behaviour is undefined.
-  SynthizerObject getObject(final int handle) {
-    final type = getObjectType(handle);
-    switch (type) {
-      case ObjectType.context:
-        return Context(this, pointer: handle);
-      case ObjectType.buffer:
-        return Buffer(this, handle: handle);
-      case ObjectType.bufferGenerator:
-        return BufferGenerator.fromHandle(this, handle);
-      case ObjectType.streamingGenerator:
-        return StreamingGenerator.fromHandle(this, handle);
-      case ObjectType.noiseGenerator:
-        return NoiseGenerator.fromHandle(this, handle);
-      case ObjectType.directSource:
-        return DirectSource.fromHandle(this, handle);
-      case ObjectType.angularPannedSource:
-        return AngularPannedSource.fromHandle(this, handle);
-      case ObjectType.scalarPannedSource:
-        return ScalarPannedSource.fromHandle(this, handle);
-      case ObjectType.source3d:
-        return Source3D.fromHandle(this, handle);
-      case ObjectType.globalEcho:
-        return GlobalEcho.fromHandle(this, handle);
-      case ObjectType.globalFdnReverb:
-        return GlobalFdnReverb.fromHandle(this, handle);
-      case ObjectType.streamHandle:
-        throw UnimplementedError();
-      case ObjectType.automationBatch:
-        return AutomationBatch.fromHandle(this, handle);
-      case ObjectType.fastSineBankGenerator:
-        return FastSineBankGenerator.fromHandle(this, handle);
-    }
-  }
-
-  /// Get the next event for [context].
-  SynthizerEvent? getContextEvent(final Context context) {
-    SynthizerEvent? value;
-    check(
-      synthizer.syz_contextGetNextEvent(
-        _eventPointer,
-        context.handle.value,
-        0,
-      ),
-    );
-    final sourceHandle = _eventPointer.ref.source;
-    final eventType = _eventPointer.ref.type.toEventTypes();
-    switch (eventType) {
-      case EventTypes.finished:
-        value = FinishedEvent(context, getObject(sourceHandle));
-        break;
-      case EventTypes.looped:
-        value = LoopedEvent(context, getObject(sourceHandle) as Generator);
-        break;
-      case EventTypes.userAutomation:
-        value = UserAutomationEvent(
-          context,
-          getObject(sourceHandle),
-          _eventPointer.ref.payload.user_automation.param,
-        );
-        break;
-      case EventTypes.invalid:
-        return null;
-    }
-    synthizer.syz_eventDeinit(_eventPointer);
-    return value;
   }
 
   /// Get the synthizer version.

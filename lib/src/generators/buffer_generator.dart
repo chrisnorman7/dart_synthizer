@@ -31,11 +31,10 @@ class BufferGenerator extends Generator with PlaybackPosition {
     }
   }
 
-  /// Return an instance from a handle.
-  BufferGenerator.fromHandle(super.synthizer, super.pointer)
-      : super.fromHandle();
-
   /// The buffer for this generator.
-  SynthizerObjectProperty get buffer =>
-      SynthizerObjectProperty(synthizer, handle, Properties.buffer);
+  SynthizerObjectProperty get buffer => SynthizerObjectProperty(
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.buffer,
+      );
 }

@@ -27,11 +27,10 @@ class NoiseGenerator extends Generator {
     );
   }
 
-  /// Create an instance from a handle value.
-  NoiseGenerator.fromHandle(super.synthizer, super.pointer)
-      : super.fromHandle();
-
   /// The noise type for this generator.
-  SynthizerNoiseTypeProperty get noiseType =>
-      SynthizerNoiseTypeProperty(synthizer, handle, Properties.noiseType);
+  SynthizerNoiseTypeProperty get noiseType => SynthizerNoiseTypeProperty(
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.noiseType,
+      );
 }

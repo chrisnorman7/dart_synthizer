@@ -11,11 +11,15 @@ import 'synthizer.dart';
 import 'synthizer_bindings.dart';
 
 /// A way of getting, setting, and automating synthizer properties.
-abstract class SynthizerProperty<T> {
+class _SynthizerPropertyBase<T> {
   /// Create the property.
-  const SynthizerProperty(this.synthizer, this.targetHandle, this.property);
+  const _SynthizerPropertyBase({
+    required this.synthizer,
+    required this.targetHandle,
+    required this.property,
+  });
 
-  /// The synthizer instance this property works with.
+  /// The synthizer instance to work with.
   final Synthizer synthizer;
 
   /// The target of this property.
@@ -24,54 +28,74 @@ abstract class SynthizerProperty<T> {
   /// The property to get.
   final Properties property;
 
+  @override
+  String toString() => '$runtimeType<$property>';
+}
+
+/// A synthizer property.
+abstract class SynthizerProperty<T> extends _SynthizerPropertyBase<T> {
+  /// Create an instance.
+  const SynthizerProperty({
+    required super.synthizer,
+    required super.targetHandle,
+    required super.property,
+  });
+
   /// Get the value of this property.
-  T get value =>
-      throw UnsupportedError('You cannot get the value of this property.');
+  T get value;
 
   /// Set the value for this property.
-  set value(final T value) =>
-      throw UnsupportedError('You cannot set the value of this property.');
+  set value(final T value);
+}
+
+/// A property that can be automated.
+abstract class AutomatableSynthizerProperty<T> extends SynthizerProperty<T> {
+  /// Create an instance.
+  AutomatableSynthizerProperty({
+    required this.context,
+    required super.targetHandle,
+    required super.property,
+  }) : super(synthizer: context.synthizer);
+
+  /// The context to use.
+  final Context context;
 
   /// Clear this property.
-  void clear(final Context context, {final double? time}) =>
-      AutomationBatch(context)
-        ..clearProperty(
-          targetHandle,
-          time ?? context.currentTime.value,
-          property,
-        )
-        ..execute()
-        ..destroy();
+  void clear({final double? time}) => AutomationBatch(context)
+    ..clearProperty(
+      targetHandle,
+      time ?? context.currentTime.value,
+      property,
+    )
+    ..execute()
+    ..destroy();
 
   /// Automate this property.
-  void automate(
-    final Context context, {
+  void automate({
     required final double startTime,
     required final T startValue,
     required final double endTime,
     required final T endValue,
-  }) {
-    throw UnsupportedError('This property cannot be automated.');
-  }
-
-  @override
-  String toString() => '$runtimeType<$property>';
+  });
 }
 
 /// An integer property.
 class SynthizerIntProperty extends SynthizerProperty<int> {
   /// Create an instance.
-  SynthizerIntProperty(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  const SynthizerIntProperty({
+    required super.synthizer,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   int get value {
     synthizer.check(
-      synthizer.synthizer
-          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+      synthizer.synthizer.syz_getI(
+        synthizer.intPointer,
+        targetHandle.value,
+        property.toInt(),
+      ),
     );
     return synthizer.intPointer.value;
   }
@@ -86,17 +110,20 @@ class SynthizerIntProperty extends SynthizerProperty<int> {
 /// A boolean property.
 class SynthizerBoolProperty extends SynthizerProperty<bool> {
   /// Create an instance.
-  SynthizerBoolProperty(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  const SynthizerBoolProperty({
+    required super.synthizer,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   bool get value {
     synthizer.check(
-      synthizer.synthizer
-          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+      synthizer.synthizer.syz_getI(
+        synthizer.intPointer,
+        targetHandle.value,
+        property.toInt(),
+      ),
     );
     return synthizer.intPointer.value == 1;
   }
@@ -111,14 +138,43 @@ class SynthizerBoolProperty extends SynthizerProperty<bool> {
       );
 }
 
-/// A double property.
+/// A double property that cannot be automated.
 class SynthizerDoubleProperty extends SynthizerProperty<double> {
   /// Create an instance.
-  const SynthizerDoubleProperty(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  const SynthizerDoubleProperty({
+    required super.synthizer,
+    required super.targetHandle,
+    required super.property,
+  });
+
+  @override
+  double get value {
+    synthizer.check(
+      synthizer.synthizer.syz_getD(
+        synthizer.doublePointer,
+        targetHandle.value,
+        property.toInt(),
+      ),
+    );
+    return synthizer.doublePointer.value;
+  }
+
+  @override
+  set value(final double value) => synthizer.check(
+        synthizer.synthizer
+            .syz_setD(targetHandle.value, property.toInt(), value),
+      );
+}
+
+/// A double property that can be automated.
+class SynthizerAutomatableDoubleProperty
+    extends AutomatableSynthizerProperty<double> {
+  /// Create an instance.
+  SynthizerAutomatableDoubleProperty({
+    required super.context,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   double get value {
@@ -140,8 +196,7 @@ class SynthizerDoubleProperty extends SynthizerProperty<double> {
 
   /// Automate this property.
   @override
-  void automate(
-    final Context context, {
+  void automate({
     required final double startTime,
     required final double startValue,
     required final double endTime,
@@ -161,13 +216,13 @@ class SynthizerDoubleProperty extends SynthizerProperty<double> {
 }
 
 /// A double3 property.
-class SynthizerDouble3Property extends SynthizerProperty<Double3> {
+class SynthizerDouble3Property extends AutomatableSynthizerProperty<Double3> {
   /// Create an instance.
-  const SynthizerDouble3Property(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  SynthizerDouble3Property({
+    required super.context,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   Double3 get value {
@@ -196,8 +251,7 @@ class SynthizerDouble3Property extends SynthizerProperty<Double3> {
 
   /// Automate this property.
   @override
-  void automate(
-    final Context context, {
+  void automate({
     required final double startTime,
     required final Double3 startValue,
     required final double endTime,
@@ -217,13 +271,13 @@ class SynthizerDouble3Property extends SynthizerProperty<Double3> {
 }
 
 /// A double6 property.
-class SynthizerDouble6Property extends SynthizerProperty<Double6> {
+class SynthizerDouble6Property extends AutomatableSynthizerProperty<Double6> {
   /// Create an instance.
-  const SynthizerDouble6Property(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  SynthizerDouble6Property({
+    required super.context,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   Double6 get value {
@@ -265,8 +319,7 @@ class SynthizerDouble6Property extends SynthizerProperty<Double6> {
 
   /// Automate this property.
   @override
-  void automate(
-    final Context context, {
+  void automate({
     required final double startTime,
     required final Double6 startValue,
     required final double endTime,
@@ -289,102 +342,127 @@ class SynthizerDouble6Property extends SynthizerProperty<Double6> {
 class SynthizerPannerStrategyProperty
     extends SynthizerProperty<PannerStrategy> {
   /// Create an instance.
-  SynthizerPannerStrategyProperty(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  SynthizerPannerStrategyProperty({
+    required super.synthizer,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   PannerStrategy get value {
     synthizer.check(
-      synthizer.synthizer
-          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+      synthizer.synthizer.syz_getI(
+        synthizer.intPointer,
+        targetHandle.value,
+        property.toInt(),
+      ),
     );
     return synthizer.intPointer.value.toPannerStrategy();
   }
 
   @override
   set value(final PannerStrategy value) => synthizer.check(
-        synthizer.synthizer
-            .syz_setI(targetHandle.value, property.toInt(), value.toInt()),
+        synthizer.synthizer.syz_setI(
+          targetHandle.value,
+          property.toInt(),
+          value.toInt(),
+        ),
       );
 }
 
 /// A distance model property.
 class SynthizerDistanceModelProperty extends SynthizerProperty<DistanceModel> {
   /// Create an instance.
-  SynthizerDistanceModelProperty(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  SynthizerDistanceModelProperty({
+    required super.synthizer,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   DistanceModel get value {
     synthizer.check(
-      synthizer.synthizer
-          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+      synthizer.synthizer.syz_getI(
+        synthizer.intPointer,
+        targetHandle.value,
+        property.toInt(),
+      ),
     );
     return synthizer.intPointer.value.toDistanceModel();
   }
 
   @override
   set value(final DistanceModel value) => synthizer.check(
-        synthizer.synthizer
-            .syz_setI(targetHandle.value, property.toInt(), value.toInt()),
+        synthizer.synthizer.syz_setI(
+          targetHandle.value,
+          property.toInt(),
+          value.toInt(),
+        ),
       );
 }
 
 /// A noise type property.
 class SynthizerNoiseTypeProperty extends SynthizerProperty<NoiseType> {
   /// Create an instance.
-  SynthizerNoiseTypeProperty(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  SynthizerNoiseTypeProperty({
+    required super.synthizer,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   NoiseType get value {
     synthizer.check(
-      synthizer.synthizer
-          .syz_getI(synthizer.intPointer, targetHandle.value, property.toInt()),
+      synthizer.synthizer.syz_getI(
+        synthizer.intPointer,
+        targetHandle.value,
+        property.toInt(),
+      ),
     );
     return synthizer.intPointer.value.toNoiseType();
   }
 
   @override
   set value(final NoiseType value) => synthizer.check(
-        synthizer.synthizer
-            .syz_setI(targetHandle.value, property.toInt(), value.toInt()),
+        synthizer.synthizer.syz_setI(
+          targetHandle.value,
+          property.toInt(),
+          value.toInt(),
+        ),
       );
 }
 
 /// A biquad config property.
 class SynthizerBiquadConfigProperty extends SynthizerProperty<BiquadConfig> {
   /// Create an instance.
-  SynthizerBiquadConfigProperty(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  const SynthizerBiquadConfigProperty({
+    required super.synthizer,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   set value(final BiquadConfig value) => synthizer.check(
-        synthizer.synthizer
-            .syz_setBiquad(targetHandle.value, property.toInt(), value.config),
+        synthizer.synthizer.syz_setBiquad(
+          targetHandle.value,
+          property.toInt(),
+          value.config,
+        ),
       );
+
+  @override
+  BiquadConfig get value =>
+      throw UnsupportedError('You cannot get biquad values.');
 }
 
 /// An object property.
 class SynthizerObjectProperty extends SynthizerProperty<SynthizerObject> {
   /// Create an instance.
-  SynthizerObjectProperty(
-    super.synthizer,
-    super.targetHandle,
-    super.property,
-  );
+  SynthizerObjectProperty({
+    required super.synthizer,
+    required super.targetHandle,
+    required super.property,
+  });
 
   @override
   set value(final SynthizerObject? value) => synthizer.check(
@@ -394,4 +472,8 @@ class SynthizerObjectProperty extends SynthizerProperty<SynthizerObject> {
           value?.handle.value ?? 0,
         ),
       );
+
+  @override
+  SynthizerObject get value =>
+      throw UnsupportedError('You cannot get synthizer objects.');
 }

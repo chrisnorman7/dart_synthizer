@@ -56,10 +56,6 @@ class FastSineBankGenerator extends Generator with GainMixin, PausableMixin {
     );
   }
 
-  /// Create an instance from a handle.
-  FastSineBankGenerator.fromHandle(super.synthizer, super.pointer)
-      : super.fromHandle();
-
   /// Sine wave.
   FastSineBankGenerator.sine(
     final Context context,
@@ -135,6 +131,10 @@ class FastSineBankGenerator extends Generator with GainMixin, PausableMixin {
   }
 
   /// The frequency of this wave.
-  SynthizerDoubleProperty get frequency =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.frequency);
+  SynthizerAutomatableDoubleProperty get frequency =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.frequency,
+      );
 }

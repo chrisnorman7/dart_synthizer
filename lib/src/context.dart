@@ -21,7 +21,7 @@ import 'synthizer_property.dart';
 /// [Synthizer docs](https://synthizer.github.io/object_reference/context.html)
 ///
 /// Contexts can be created with the [Synthizer.createContext] function.
-class Context extends SynthizerObject with PausableMixin, GainMixin {
+class Context extends SynthizerObject with PausableMixin {
   /// Create a context.
   Context(
     final Synthizer synthizer, {
@@ -46,56 +46,83 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   void enableEvents() => synthizer
       .check(synthizer.synthizer.syz_contextEnableEvents(handle.value));
 
+  /// The gain of this context.
+  SynthizerAutomatableDoubleProperty get gain =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.gain,
+      );
+
   /// The orientation of this context.
-  SynthizerDouble6Property get orientation =>
-      SynthizerDouble6Property(synthizer, handle, Properties.orientation);
+  SynthizerDouble6Property get orientation => SynthizerDouble6Property(
+        context: this,
+        targetHandle: handle,
+        property: Properties.orientation,
+      );
 
   /// The default panner strategy for this context.
   SynthizerPannerStrategyProperty get defaultPannerStrategy =>
       SynthizerPannerStrategyProperty(
-        synthizer,
-        handle,
-        Properties.defaultPannerStrategy,
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.defaultPannerStrategy,
       );
 
   /// The default closeness boost for this object.
-  SynthizerDoubleProperty get defaultClosenessBoost => SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.defaultClosenessBoost,
+  SynthizerAutomatableDoubleProperty get defaultClosenessBoost =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultClosenessBoost,
       );
 
   /// The default closeness boost distance for this object.
-  SynthizerDoubleProperty get defaultClosenessBoostDistance =>
-      SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.defaultClosenessBoostDistance,
+  SynthizerAutomatableDoubleProperty get defaultClosenessBoostDistance =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultClosenessBoostDistance,
       );
 
   /// The default distance max for this object.
-  SynthizerDoubleProperty get defaultDistanceMax =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.defaultDistanceMax);
+  SynthizerAutomatableDoubleProperty get defaultDistanceMax =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultDistanceMax,
+      );
 
   /// The default rolloff for this object.
-  SynthizerDoubleProperty get defaultRolloff =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.defaultRolloff);
+  SynthizerAutomatableDoubleProperty get defaultRolloff =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultRolloff,
+      );
 
   /// The default distance model for this object.
   SynthizerDistanceModelProperty get defaultDistanceModel =>
       SynthizerDistanceModelProperty(
-        synthizer,
-        handle,
-        Properties.defaultDistanceModel,
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.defaultDistanceModel,
       );
 
   /// The default distance ref for this object.
-  SynthizerDoubleProperty get defaultDistanceRef =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.defaultDistanceRef);
+  SynthizerAutomatableDoubleProperty get defaultDistanceRef =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultDistanceRef,
+      );
 
   /// The position of this object.
-  SynthizerDouble3Property get position =>
-      SynthizerDouble3Property(synthizer, handle, Properties.position);
+  SynthizerDouble3Property get position => SynthizerDouble3Property(
+        context: this,
+        targetHandle: handle,
+        property: Properties.position,
+      );
 
   /// Create a buffer generator.
   BufferGenerator createBufferGenerator({final Buffer? buffer}) =>
@@ -225,7 +252,33 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
       );
 
   /// Get the next Synthizer event.
-  SynthizerEvent? getEvent() => synthizer.getContextEvent(this);
+  SynthizerEvent? getEvent() {
+    synthizer.check(
+      synthizer.synthizer.syz_contextGetNextEvent(
+        synthizer.eventPointer,
+        handle.value,
+        0,
+      ),
+    );
+    final sourceHandle = synthizer.eventPointer.ref.source;
+    final eventType = synthizer.eventPointer.ref.type.toEventTypes();
+    final param = synthizer.eventPointer.ref.payload.user_automation.param;
+    synthizer.synthizer.syz_eventDeinit(synthizer.eventPointer);
+    switch (eventType) {
+      case EventTypes.finished:
+        return FinishedEvent(context: this, sourceHandle: sourceHandle);
+      case EventTypes.looped:
+        return LoopedEvent(context: this, generatorHandle: sourceHandle);
+      case EventTypes.userAutomation:
+        return UserAutomationEvent(
+          context: this,
+          targetHandle: sourceHandle,
+          param: param,
+        );
+      case EventTypes.invalid:
+        return null;
+    }
+  }
 
   /// Get a stream of events.
   ///

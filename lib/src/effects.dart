@@ -5,7 +5,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 
 import 'classes.dart';
-import 'context.dart';
 import 'enumerations.dart';
 import 'synthizer_bindings.dart';
 import 'synthizer_property.dart';
@@ -13,13 +12,17 @@ import 'synthizer_property.dart';
 /// The base class for all global effects.
 ///
 /// [Synthizer docs](https://synthizer.github.io/concepts/effects.html)
-class GlobalEffect extends SynthizerObject with GainMixin {
+class GlobalEffect extends ContextualSynthizerObject with GainMixin {
   /// Create a global effect.
-  GlobalEffect(super.synthizer, {super.pointer});
+  GlobalEffect(super.context, {super.pointer});
 
   /// The filter input.
   SynthizerBiquadConfigProperty get filterInput =>
-      SynthizerBiquadConfigProperty(synthizer, handle, Properties.filterInput);
+      SynthizerBiquadConfigProperty(
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.filterInput,
+      );
 
   /// Reset this effect.
   void reset() =>
@@ -48,7 +51,7 @@ class EchoTapConfig {
 /// [Synthizer docs](https://synthizer.github.io/object_reference/echo.html)
 class GlobalEcho extends GlobalEffect {
   /// Create an echo.
-  GlobalEcho(final Context context) : super(context.synthizer) {
+  GlobalEcho(super.context) {
     synthizer.check(
       synthizer.synthizer.syz_createGlobalEcho(
         handle,
@@ -92,7 +95,7 @@ class GlobalEcho extends GlobalEffect {
 /// [Synthizer docs](https://synthizer.github.io/object_reference/fdn_reverb.html)
 class GlobalFdnReverb extends GlobalEffect {
   /// Create a reverb.
-  GlobalFdnReverb(final Context context) : super(context.synthizer) {
+  GlobalFdnReverb(super.context) {
     synthizer.check(
       synthizer.synthizer.syz_createGlobalFdnReverb(
         handle,
@@ -109,73 +112,82 @@ class GlobalFdnReverb extends GlobalEffect {
       : super(pointer: pointer);
 
   /// The mean free path.
-  SynthizerDoubleProperty get meanFreePath =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.meanFreePath);
+  SynthizerAutomatableDoubleProperty get meanFreePath =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.meanFreePath,
+      );
 
   /// The t60.
-  SynthizerDoubleProperty get t60 =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.t60);
+  SynthizerAutomatableDoubleProperty get t60 =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.t60,
+      );
 
   /// The late reflections LF rolloff.
-  SynthizerDoubleProperty get lateReflectionsLfRolloff =>
-      SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.lateReflectionsLfRolloff,
+  SynthizerAutomatableDoubleProperty get lateReflectionsLfRolloff =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.lateReflectionsLfRolloff,
       );
 
   /// The late reflections LF reference.
-  SynthizerDoubleProperty get lateReflectionsLfReference =>
-      SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.lateReflectionsLfReference,
+  SynthizerAutomatableDoubleProperty get lateReflectionsLfReference =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.lateReflectionsLfReference,
       );
 
   /// The late reflections HF rolloff.
-  SynthizerDoubleProperty get lateReflectionsHfRolloff =>
-      SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.lateReflectionsHfRolloff,
+  SynthizerAutomatableDoubleProperty get lateReflectionsHfRolloff =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.lateReflectionsHfRolloff,
       );
 
   /// The late reflections HF reference.
-  SynthizerDoubleProperty get lateReflectionsHfReference =>
-      SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.lateReflectionsHfReference,
+  SynthizerAutomatableDoubleProperty get lateReflectionsHfReference =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.lateReflectionsHfReference,
       );
 
   /// The late reflections diffusion.
-  SynthizerDoubleProperty get lateReflectionsDiffusion =>
-      SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.lateReflectionsDiffusion,
+  SynthizerAutomatableDoubleProperty get lateReflectionsDiffusion =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.lateReflectionsDiffusion,
       );
 
   /// The late reflections modulation depth.
-  SynthizerDoubleProperty get lateReflectionsModulationDepth =>
-      SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.lateReflectionsModulationDepth,
+  SynthizerAutomatableDoubleProperty get lateReflectionsModulationDepth =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.lateReflectionsModulationDepth,
       );
 
   /// The late reflections modulation frequency.
-  SynthizerDoubleProperty get lateReflectionsModulationFrequency =>
-      SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.lateReflectionsModulationFrequency,
+  SynthizerAutomatableDoubleProperty get lateReflectionsModulationFrequency =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.lateReflectionsModulationFrequency,
       );
 
   /// The late reflections delay.
-  SynthizerDoubleProperty get lateReflectionsDelay => SynthizerDoubleProperty(
-        synthizer,
-        handle,
-        Properties.lateReflectionsDelay,
+  SynthizerAutomatableDoubleProperty get lateReflectionsDelay =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.lateReflectionsDelay,
       );
 }

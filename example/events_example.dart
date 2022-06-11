@@ -9,11 +9,11 @@ Future<void> main() async {
   final ctx = synthizer.createContext(events: true);
   ctx.events.listen((final event) {
     if (event is FinishedEvent) {
-      print('Finished: ${event.source}');
+      print('Finished: ${event.sourceHandle}');
     } else if (event is LoopedEvent) {
-      print('Looped: ${event.generator}');
+      print('Looped: ${event.generatorHandle}');
     } else if (event is UserAutomationEvent) {
-      print('User automation: ${event.target} ${event.param}.');
+      print('User automation: ${event.targetHandle} ${event.param}.');
     } else {
       print(event);
     }
