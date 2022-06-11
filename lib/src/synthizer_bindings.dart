@@ -1775,6 +1775,25 @@ class DartSynthizer {
   late final _syz_routingRemoveRoute = _syz_routingRemoveRoutePtr
       .asFunction<int Function(int, int, int, double)>();
 
+  int syz_routingRemoveAllRoutes(
+    int context,
+    int output,
+    double fade_out,
+  ) {
+    return _syz_routingRemoveAllRoutes(
+      context,
+      output,
+      fade_out,
+    );
+  }
+
+  late final _syz_routingRemoveAllRoutesPtr = _lookup<
+      ffi.NativeFunction<
+          syz_ErrorCode Function(syz_Handle, syz_Handle,
+              ffi.Double)>>('syz_routingRemoveAllRoutes');
+  late final _syz_routingRemoveAllRoutes = _syz_routingRemoveAllRoutesPtr
+      .asFunction<int Function(int, int, double)>();
+
   int syz_effectReset(
     int effect,
   ) {
