@@ -13,7 +13,6 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 
 Future<void> main() async {
   final synthizer = Synthizer()..initialize();
-  // Normal source setup from a CLI arg.
   final ctx = synthizer.createContext();
   final buffer = Buffer.fromStreamParams(synthizer, 'file', 'sound.wav');
   final gen = ctx.createBufferGenerator(buffer: buffer);
@@ -43,11 +42,11 @@ Future<void> main() async {
   }
 
   /// In general, you'll want to normalize by something, or otherwise work out
-  /// how to prevent clipping.
-  /// Synthizer as well as any other audio library can't protect from clipping due to too many sources/loud effects/etc.
-  /// This script normalizes so that the constant overall power of the echo is
-  /// around 1.0, but a simpler strategy is to simply compute an average.  Which
-  /// works better depends highly on the use case.
+  /// how to prevent clipping. Synthizer as well as any other audio library
+  /// can't protect from clipping due to too many sources/loud effects/etc. This
+  /// script normalizes so that the constant overall power of the echo is around
+  /// 1.0, but a simpler strategy is to simply compute an average.  Which works
+  /// better depends highly on the use case.
   var normLeft = 0.0;
   for (final element in taps) {
     normLeft += pow(element.gainL, 2);
@@ -57,13 +56,18 @@ Future<void> main() async {
     normRight += pow(element.gainR, 2);
   }
   final norm = 1.0 / sqrt(max(normLeft, normRight));
-  for (final t in taps) {
-    t
-      ..gainL *= norm
-      ..gainR *= norm;
-  }
-  print('Taps configured.');
-  echo.setTaps(taps);
+  print('Taps will be normalised to $norm.');
+  echo.setTaps(
+    taps
+        .map(
+          (final e) => EchoTapConfig(
+            e.delay,
+            e.gainL * norm,
+            e.gainR * norm,
+          ),
+        )
+        .toList(),
+  );
   print('Taps set.');
 
   /// Sleep for a bit, to let the audio be heard
