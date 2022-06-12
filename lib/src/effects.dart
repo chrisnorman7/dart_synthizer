@@ -29,21 +29,21 @@ class GlobalEffect extends ContextualSynthizerObject with GainMixin {
       synthizer.check(synthizer.synthizer.syz_effectReset(handle.value));
 }
 
-/// An echo tap. Passed to GlobalEcho.set_taps.
+/// An echo tap. Passed to [GlobalEcho.setTaps].
 ///
 /// For more information on configuring a global echo, see [this page](https://synthizer.github.io/object_reference/echo.html).
 class EchoTapConfig {
   /// Create a tap configuration.
-  EchoTapConfig(this.delay, this.gainL, this.gainR);
+  const EchoTapConfig(this.delay, this.gainL, this.gainR);
 
   /// The number of milliseconds before this delay is heard.
   final double delay;
 
   /// The gain of the left channel.
-  double gainL;
+  final double gainL;
 
   /// The gain of the right channel.
-  double gainR;
+  final double gainR;
 }
 
 /// Global echo.
