@@ -7,16 +7,16 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
-  ffi: ^1.2.1
+  ffi: ^2.0.1
   meta: ^1.8.0
   path: ^1.8.2
   quiver: ^3.1.0
 
 dev_dependencies:
   dart_style: ^2.2.3
-  ffigen: ^6.0.0
+  ffigen: ^6.0.1
   lints: ^2.0.0
-  test: ^1.21.1
+  test: ^1.21.4
 
 ffigen:
   output: "lib/src/synthizer_bindings.dart"
