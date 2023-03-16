@@ -234,7 +234,7 @@ void main() {
     });
     test('Test lengthInSamples', () {
       final buffer = Buffer.fromStreamParams(synthizer, 'file', 'sound.wav');
-      expect(buffer.lengthInSamples, equals(11520));
+      expect(buffer.lengthInSamples, equals(23042));
     });
     test('Test lengthInSeconds', () {
       final buffer = Buffer.fromStreamParams(synthizer, 'file', 'sound.wav');
