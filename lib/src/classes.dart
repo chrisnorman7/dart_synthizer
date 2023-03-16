@@ -4,15 +4,13 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 
-import 'enumerations.dart';
-import 'synthizer.dart';
+import '../dart_synthizer.dart';
 import 'synthizer_bindings.dart';
-import 'synthizer_property.dart';
 
 /// The base class for all synthizer objects.
 class SynthizerObject {
   /// Create an instance.
-  SynthizerObject(this.synthizer, {int? pointer})
+  SynthizerObject(this.synthizer, {final int? pointer})
       : handle = calloc<syz_Handle>() {
     if (pointer != null) {
       handle.value = pointer;
@@ -23,16 +21,22 @@ class SynthizerObject {
   final Synthizer synthizer;
 
   /// The handle for this object.
-  late final Pointer<syz_Handle> handle;
+  final Pointer<syz_Handle> handle;
 
   /// The current Synthizer time.
-  SynthizerDoubleProperty get currentTime =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.currentTime);
+  SynthizerDoubleProperty get currentTime => SynthizerDoubleProperty(
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.currentTime,
+      );
 
   /// The suggested automation time.
   SynthizerDoubleProperty get suggestedAutomationTime =>
       SynthizerDoubleProperty(
-          synthizer, handle, Properties.suggestedAutomationTime);
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.suggestedAutomationTime,
+      );
 
   /// Returns `true` if this object is still valid.
   bool get isValid => handle.value != 0;
@@ -52,22 +56,27 @@ class SynthizerObject {
   }
 
   /// Configure delete behaviour for this object.
-  void configDeleteBehavior({bool? linger, double? timeout}) {
-    synthizer.synthizer
-        .syz_initDeleteBehaviorConfig(synthizer.deleteBehaviorConfigPointer);
+  void configDeleteBehavior({final bool? linger, final double? timeout}) {
+    synthizer.synthizer.syz_initDeleteBehaviorConfig(
+      synthizer.deleteBehaviorConfigPointer,
+    );
     if (linger != null) {
       synthizer.deleteBehaviorConfigPointer.ref.linger = linger == true ? 1 : 0;
     }
     if (timeout != null) {
       synthizer.deleteBehaviorConfigPointer.ref.linger_timeout = timeout;
     }
-    synthizer.check(synthizer.synthizer.syz_configDeleteBehavior(
-        handle.value, synthizer.deleteBehaviorConfigPointer));
+    synthizer.check(
+      synthizer.synthizer.syz_configDeleteBehavior(
+        handle.value,
+        synthizer.deleteBehaviorConfigPointer,
+      ),
+    );
   }
 
   /// Used to compare two objects.
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     if (other is! SynthizerObject) {
       return false;
     }
@@ -78,11 +87,27 @@ class SynthizerObject {
   int get hashCode => handle.value.hashCode;
 }
 
-/// Add gain to any [SynthizerObject].
-mixin GainMixin on SynthizerObject {
+/// A synthizer object which relies on a context.
+class ContextualSynthizerObject extends SynthizerObject {
+  /// Create an instance.
+  ContextualSynthizerObject(
+    this.context, {
+    super.pointer,
+  }) : super(context.synthizer);
+
+  /// The synthizer context to bind this object to.
+  final Context context;
+}
+
+/// Add automatable gain to any [SynthizerObject].
+mixin GainMixin on ContextualSynthizerObject {
   /// The gain for this object.
-  SynthizerDoubleProperty get gain =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.gain);
+  SynthizerAutomatableDoubleProperty get gain =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.gain,
+      );
 }
 
 /// Base class for anything which can be paused. Adds pause and play methods.
@@ -95,8 +120,12 @@ mixin PausableMixin on SynthizerObject {
 }
 
 /// Add playback position to any object.
-mixin PlaybackPosition on SynthizerObject {
+mixin PlaybackPosition on ContextualSynthizerObject {
   /// The playback position for this object.
-  SynthizerDoubleProperty get playbackPosition =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.playbackPosition);
+  SynthizerAutomatableDoubleProperty get playbackPosition =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.playbackPosition,
+      );
 }

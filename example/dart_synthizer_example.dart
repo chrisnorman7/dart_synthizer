@@ -12,10 +12,10 @@ Future<void> main() async {
   final source = ctx.createDirectSource();
   print('Created source.');
   final generator = ctx.createBufferGenerator(
-      buffer: Buffer.fromFile(synthizer, File('sound.wav')))
-    ..looping.value = true;
+    buffer: Buffer.fromFile(synthizer, File('sound.wav')),
+  )..looping.value = true;
   source.addGenerator(generator);
-  await Future<void>.delayed(Duration(seconds: 2));
+  await Future<void>.delayed(const Duration(seconds: 2));
   generator.destroy();
   print('Generator destroyed.');
   source.destroy();

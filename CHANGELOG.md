@@ -1,5 +1,69 @@
 # Changelog
 
+## [0.11.1]
+
+### Changed
+
+* Updated dependencies.
+
+## [0.11.0]
+
+### Changed
+
+* Many property fixes.
+* Properties now accept only named arguments.
+* The `automate` method is only available on properties that can actually be automated.
+* The `automate` method now takes no arguments.
+* Synthizer events now use handles, rather than trying to guess objects.
+
+### Removed
+
+* Removed the `Synthizer.getObject` method.
+
+## [0.10.0]
+
+### Changed
+
+* Updated minimum SDK constraint.
+* Regenerate bindings.
+
+## [0.9.0]
+
+### Changed
+
+* Updated the SDK constraint.
+
+## [0.8.0]
+
+### Changed
+
+* Updated analysis options.
+* Fixed the name of `Context.configRoute`.
+
+## [0.7.11]
+
+### Changed
+
+* Use an absolute path on Linux (again).
+
+## [0.7.10]
+
+### Changed
+
+* Reverted the changes from [0.7.9].
+
+## [0.7.9]
+
+### Changed
+
+* Start using a fully-qualified path when running under Linux.
+
+## [0.7.8]
+
+### Fixed
+
+* The library should now load unaided on Mac OS.
+
 ## [0.7.7]
 
 ### Fixed

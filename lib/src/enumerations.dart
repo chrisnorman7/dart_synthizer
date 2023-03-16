@@ -569,7 +569,9 @@ extension IntToSynthizer on int {
         return LoggingBackend.stderr;
       default:
         throw SynthizerError(
-            'Unrecognised `SYZ_LOGGING_BACKEND` member.', this);
+          'Unrecognised `SYZ_LOGGING_BACKEND` member.',
+          this,
+        );
     }
   }
 
@@ -585,7 +587,10 @@ extension IntToSynthizer on int {
       case SYZ_LOG_LEVEL.SYZ_LOG_LEVEL_DEBUG:
         return LogLevel.debug;
       default:
-        throw SynthizerError('Unrecognised `SYZ_LOG_LEVEL` member.', this);
+        throw SynthizerError(
+          'Unrecognised `SYZ_LOG_LEVEL` member.',
+          this,
+        );
     }
   }
 
@@ -621,7 +626,10 @@ extension IntToSynthizer on int {
       case SYZ_OBJECT_TYPE.SYZ_OTYPE_FAST_SINE_BANK_GENERATOR:
         return ObjectType.fastSineBankGenerator;
       default:
-        throw SynthizerError('Unrecognised `SYZ_OBJECT_TYPE` member.', this);
+        throw SynthizerError(
+          'Unrecognised `SYZ_OBJECT_TYPE` member.',
+          this,
+        );
     }
   }
 
@@ -638,7 +646,9 @@ extension IntToSynthizer on int {
         return PannerStrategy.count;
       default:
         throw SynthizerError(
-            'Unrecognised `SYZ_PANNER_STRATEGY` member.', this);
+          'Unrecognised `SYZ_PANNER_STRATEGY` member.',
+          this,
+        );
     }
   }
 
@@ -656,7 +666,10 @@ extension IntToSynthizer on int {
       case SYZ_DISTANCE_MODEL.SYZ_DISTANCE_MODEL_COUNT:
         return DistanceModel.count;
       default:
-        throw SynthizerError('Unrecognised `SYZ_DISTANCE_MODEL` member.', this);
+        throw SynthizerError(
+          'Unrecognised `SYZ_DISTANCE_MODEL` member.',
+          this,
+        );
     }
   }
 
@@ -672,7 +685,10 @@ extension IntToSynthizer on int {
       case SYZ_NOISE_TYPE.SYZ_NOISE_TYPE_COUNT:
         return NoiseType.count;
       default:
-        throw SynthizerError('Unrecognised `SYZ_NOISE_TYPE` member.', this);
+        throw SynthizerError(
+          'Unrecognised `SYZ_NOISE_TYPE` member.',
+          this,
+        );
     }
   }
 
@@ -766,7 +782,10 @@ extension IntToSynthizer on int {
       case SYZ_PROPERTIES.SYZ_P_FREQUENCY:
         return Properties.frequency;
       default:
-        throw SynthizerError('Unrecognised `SYZ_PROPERTIES` member.', this);
+        throw SynthizerError(
+          'Unrecognised `SYZ_PROPERTIES` member.',
+          this,
+        );
     }
   }
 
@@ -782,7 +801,10 @@ extension IntToSynthizer on int {
       case SYZ_EVENT_TYPES.SYZ_EVENT_TYPE_USER_AUTOMATION:
         return EventTypes.userAutomation;
       default:
-        throw SynthizerError('Unrecognised `SYZ_EVENT_TYPES` member.', this);
+        throw SynthizerError(
+          'Unrecognised `SYZ_EVENT_TYPES` member.',
+          this,
+        );
     }
   }
 
@@ -795,7 +817,9 @@ extension IntToSynthizer on int {
         return InterpolationTypes.linear;
       default:
         throw SynthizerError(
-            'Unrecognised `SYZ_INTERPOLATION_TYPES` member.', this);
+          'Unrecognised `SYZ_INTERPOLATION_TYPES` member.',
+          this,
+        );
     }
   }
 
@@ -814,7 +838,9 @@ extension IntToSynthizer on int {
         return AutomationCommands.clearAllProperties;
       default:
         throw SynthizerError(
-            'Unrecognised `SYZ_AUTOMATION_COMMANDS` member.', this);
+          'Unrecognised `SYZ_AUTOMATION_COMMANDS` member.',
+          this,
+        );
     }
   }
 }

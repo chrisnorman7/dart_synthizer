@@ -14,7 +14,7 @@ Future<void> main() async {
   print('Created generator $generator with gain ${generator.gain.value}.');
   generator.gain.value = 0.5;
   ctx.createDirectSource().addGenerator(generator);
-  await Future<void>.delayed(Duration(seconds: 2));
+  await Future<void>.delayed(const Duration(seconds: 2));
   synthizer.shutdown();
   print('Synthizer shutdown.');
 }

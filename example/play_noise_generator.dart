@@ -13,7 +13,7 @@ Future<void> main() async {
   source.addGenerator(noiseGenerator);
 
   /// Listen for kill signal.
-  ProcessSignal.sigint.watch().listen((event) {
+  ProcessSignal.sigint.watch().listen((final event) {
     synthizer.shutdown();
     print('Synthizer shutdown.');
     exit(0);
@@ -21,7 +21,7 @@ Future<void> main() async {
   while (true) {
     for (final noiseType in NoiseType.values) {
       print('Noise type is ${noiseGenerator.noiseType.value}.');
-      await Future<void>.delayed(Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 1));
       noiseGenerator.noiseType.value = noiseType;
     }
   }

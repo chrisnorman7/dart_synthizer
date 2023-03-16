@@ -21,13 +21,21 @@ import 'synthizer_property.dart';
 /// [Synthizer docs](https://synthizer.github.io/object_reference/context.html)
 ///
 /// Contexts can be created with the [Synthizer.createContext] function.
-class Context extends SynthizerObject with PausableMixin, GainMixin {
+class Context extends SynthizerObject with PausableMixin {
   /// Create a context.
-  Context(Synthizer synthizer, {bool events = false, int? pointer})
-      : super(synthizer, pointer: pointer) {
+  Context(
+    final Synthizer synthizer, {
+    final bool events = false,
+    final int? pointer,
+  }) : super(synthizer, pointer: pointer) {
     if (pointer == null) {
-      synthizer.check(synthizer.synthizer.syz_createContext(
-          handle, nullptr, synthizer.userdataFreeCallbackPointer));
+      synthizer.check(
+        synthizer.synthizer.syz_createContext(
+          handle,
+          nullptr,
+          synthizer.userdataFreeCallbackPointer,
+        ),
+      );
       if (events) {
         enableEvents();
       }
@@ -38,101 +46,162 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   void enableEvents() => synthizer
       .check(synthizer.synthizer.syz_contextEnableEvents(handle.value));
 
+  /// The gain of this context.
+  SynthizerAutomatableDoubleProperty get gain =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.gain,
+      );
+
   /// The orientation of this context.
-  SynthizerDouble6Property get orientation =>
-      SynthizerDouble6Property(synthizer, handle, Properties.orientation);
+  SynthizerDouble6Property get orientation => SynthizerDouble6Property(
+        context: this,
+        targetHandle: handle,
+        property: Properties.orientation,
+      );
 
   /// The default panner strategy for this context.
   SynthizerPannerStrategyProperty get defaultPannerStrategy =>
       SynthizerPannerStrategyProperty(
-          synthizer, handle, Properties.defaultPannerStrategy);
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.defaultPannerStrategy,
+      );
 
   /// The default closeness boost for this object.
-  SynthizerDoubleProperty get defaultClosenessBoost => SynthizerDoubleProperty(
-      synthizer, handle, Properties.defaultClosenessBoost);
+  SynthizerAutomatableDoubleProperty get defaultClosenessBoost =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultClosenessBoost,
+      );
 
   /// The default closeness boost distance for this object.
-  SynthizerDoubleProperty get defaultClosenessBoostDistance =>
-      SynthizerDoubleProperty(
-          synthizer, handle, Properties.defaultClosenessBoostDistance);
+  SynthizerAutomatableDoubleProperty get defaultClosenessBoostDistance =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultClosenessBoostDistance,
+      );
 
   /// The default distance max for this object.
-  SynthizerDoubleProperty get defaultDistanceMax =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.defaultDistanceMax);
+  SynthizerAutomatableDoubleProperty get defaultDistanceMax =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultDistanceMax,
+      );
 
   /// The default rolloff for this object.
-  SynthizerDoubleProperty get defaultRolloff =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.defaultRolloff);
+  SynthizerAutomatableDoubleProperty get defaultRolloff =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultRolloff,
+      );
 
   /// The default distance model for this object.
   SynthizerDistanceModelProperty get defaultDistanceModel =>
       SynthizerDistanceModelProperty(
-          synthizer, handle, Properties.defaultDistanceModel);
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.defaultDistanceModel,
+      );
 
   /// The default distance ref for this object.
-  SynthizerDoubleProperty get defaultDistanceRef =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.defaultDistanceRef);
+  SynthizerAutomatableDoubleProperty get defaultDistanceRef =>
+      SynthizerAutomatableDoubleProperty(
+        context: this,
+        targetHandle: handle,
+        property: Properties.defaultDistanceRef,
+      );
 
   /// The position of this object.
-  SynthizerDouble3Property get position =>
-      SynthizerDouble3Property(synthizer, handle, Properties.position);
+  SynthizerDouble3Property get position => SynthizerDouble3Property(
+        context: this,
+        targetHandle: handle,
+        property: Properties.position,
+      );
 
   /// Create a buffer generator.
-  BufferGenerator createBufferGenerator({Buffer? buffer}) =>
+  BufferGenerator createBufferGenerator({final Buffer? buffer}) =>
       BufferGenerator(this, buffer: buffer);
 
   /// Create a streaming generator.
-  StreamingGenerator createStreamingGenerator(String protocol, String path,
-          {String options = ''}) =>
+  StreamingGenerator createStreamingGenerator(
+    final String protocol,
+    final String path, {
+    final String options = '',
+  }) =>
       StreamingGenerator(this, protocol, path, options: options);
 
   /// Create a noise generator.
-  NoiseGenerator createNoiseGenerator({int channels = 1}) =>
+  NoiseGenerator createNoiseGenerator({final int channels = 1}) =>
       NoiseGenerator(this, channels: channels);
 
   /// Create a sine generator.
-  FastSineBankGenerator createSine(double initialFrequency, int partials) =>
+  FastSineBankGenerator createSine(
+    final double initialFrequency,
+    final int partials,
+  ) =>
       FastSineBankGenerator.sine(this, initialFrequency);
 
   /// Create a Tri8angle wave.
-  FastSineBankGenerator createTriangle(double initialFrequency, int partials) =>
+  FastSineBankGenerator createTriangle(
+    final double initialFrequency,
+    final int partials,
+  ) =>
       FastSineBankGenerator.triangle(this, initialFrequency, partials);
 
   /// Create a square.
-  FastSineBankGenerator createSquare(double initialFrequency, int partials) =>
+  FastSineBankGenerator createSquare(
+    final double initialFrequency,
+    final int partials,
+  ) =>
       FastSineBankGenerator.square(this, initialFrequency, partials);
 
   /// Create a saw tooth wave.
-  FastSineBankGenerator createSaw(double initialFrequency, int partials) =>
+  FastSineBankGenerator createSaw(
+    final double initialFrequency,
+    final int partials,
+  ) =>
       FastSineBankGenerator.saw(this, initialFrequency, partials);
 
   /// Create a direct source.
   DirectSource createDirectSource() => DirectSource(this);
 
   /// Create a panned source with an azimuth and an elevation.
-  AngularPannedSource createAngularPannedSource(
-          {PannerStrategy pannerStrategy = PannerStrategy.delegate,
-          double azimuth = 0.0,
-          double elevation = 0.0}) =>
-      AngularPannedSource(this,
-          initialAzimuth: azimuth,
-          initialElevation: elevation,
-          pannerStrategy: pannerStrategy);
+  AngularPannedSource createAngularPannedSource({
+    final PannerStrategy pannerStrategy = PannerStrategy.delegate,
+    final double azimuth = 0.0,
+    final double elevation = 0.0,
+  }) =>
+      AngularPannedSource(
+        this,
+        initialAzimuth: azimuth,
+        initialElevation: elevation,
+        pannerStrategy: pannerStrategy,
+      );
 
   /// Create a panned source with a scalar.
-  ScalarPannedSource createScalarPannedSource(
-          {PannerStrategy panningStrategy = PannerStrategy.delegate,
-          double panningScalar = 0.0}) =>
-      ScalarPannedSource(this,
-          initialPanningScalar: panningScalar,
-          panningStrategy: panningStrategy);
+  ScalarPannedSource createScalarPannedSource({
+    final PannerStrategy panningStrategy = PannerStrategy.delegate,
+    final double panningScalar = 0.0,
+  }) =>
+      ScalarPannedSource(
+        this,
+        initialPanningScalar: panningScalar,
+        panningStrategy: panningStrategy,
+      );
 
   /// Create a 3d source.
-  Source3D createSource3D(
-          {double x = 0.0,
-          double y = 0.0,
-          double z = 0.0,
-          PannerStrategy pannerStrategy = PannerStrategy.delegate}) =>
+  Source3D createSource3D({
+    final double x = 0.0,
+    final double y = 0.0,
+    final double z = 0.0,
+    final PannerStrategy pannerStrategy = PannerStrategy.delegate,
+  }) =>
       Source3D(this, pannerStrategy: pannerStrategy, x: x, y: y, z: z);
 
   /// Create a global echo.
@@ -142,8 +211,13 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   GlobalFdnReverb createGlobalFdnReverb() => GlobalFdnReverb(this);
 
   /// Configure an fx send.
-  void ConfigRoute(SynthizerObject output, SynthizerObject input,
-      {double gain = 1.0, double fadeTime = 0.01, BiquadConfig? filter}) {
+  void configRoute(
+    final SynthizerObject output,
+    final SynthizerObject input, {
+    final double gain = 1.0,
+    final double fadeTime = 0.01,
+    final BiquadConfig? filter,
+  }) {
     synthizer
         .check(synthizer.synthizer.syz_initRouteConfig(synthizer.routeConfig));
     if (filter != null) {
@@ -152,23 +226,66 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
     synthizer.routeConfig.ref
       ..gain = gain
       ..fade_time = fadeTime;
-    synthizer.check(synthizer.synthizer.syz_routingConfigRoute(handle.value,
-        output.handle.value, input.handle.value, synthizer.routeConfig));
+    synthizer.check(
+      synthizer.synthizer.syz_routingConfigRoute(
+        handle.value,
+        output.handle.value,
+        input.handle.value,
+        synthizer.routeConfig,
+      ),
+    );
   }
 
   /// Remove an fx route.
-  void removeRoute(SynthizerObject output, SynthizerObject input,
-          {double fadeTime = 0.01}) =>
-      synthizer.check(synthizer.synthizer.syz_routingRemoveRoute(
-          handle.value, output.handle.value, input.handle.value, fadeTime));
+  void removeRoute(
+    final SynthizerObject output,
+    final SynthizerObject input, {
+    final double fadeTime = 0.01,
+  }) =>
+      synthizer.check(
+        synthizer.synthizer.syz_routingRemoveRoute(
+          handle.value,
+          output.handle.value,
+          input.handle.value,
+          fadeTime,
+        ),
+      );
 
   /// Get the next Synthizer event.
-  SynthizerEvent? getEvent() => synthizer.getContextEvent(this);
+  SynthizerEvent? getEvent() {
+    synthizer.check(
+      synthizer.synthizer.syz_contextGetNextEvent(
+        synthizer.eventPointer,
+        handle.value,
+        0,
+      ),
+    );
+    final sourceHandle = synthizer.eventPointer.ref.source;
+    final eventType = synthizer.eventPointer.ref.type.toEventTypes();
+    final param = synthizer.eventPointer.ref.payload.user_automation.param;
+    synthizer.synthizer.syz_eventDeinit(synthizer.eventPointer);
+    switch (eventType) {
+      case EventTypes.finished:
+        return FinishedEvent(context: this, sourceHandle: sourceHandle);
+      case EventTypes.looped:
+        return LoopedEvent(context: this, generatorHandle: sourceHandle);
+      case EventTypes.userAutomation:
+        return UserAutomationEvent(
+          context: this,
+          targetHandle: sourceHandle,
+          param: param,
+        );
+      case EventTypes.invalid:
+        return null;
+    }
+  }
 
   /// Get a stream of events.
   ///
   /// A pause of [duration] will be awaited between polling for events.
-  Stream<SynthizerEvent> getEvents({Duration duration = Duration.zero}) async* {
+  Stream<SynthizerEvent> getEvents({
+    final Duration duration = Duration.zero,
+  }) async* {
     while (synthizer.wasInit) {
       final event = getEvent();
       if (event != null) {
@@ -186,7 +303,7 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Clear all properties for [object].
   ///
   /// If [time] is `null`, then [currentTime] will be used.
-  void clearAllProperties(SynthizerObject object, {double? time}) =>
+  void clearAllProperties(final SynthizerObject object, {final double? time}) =>
       AutomationBatch(this)
         ..clearAllProperties(object.handle, time ?? currentTime.value)
         ..execute()
@@ -195,7 +312,7 @@ class Context extends SynthizerObject with PausableMixin, GainMixin {
   /// Clear all events for [object].
   ///
   /// If [time] is `null`, then [currentTime] will be used.
-  void clearEvents(SynthizerObject object, {double? time}) =>
+  void clearEvents(final SynthizerObject object, {final double? time}) =>
       AutomationBatch(this)
         ..clearEvents(object.handle, time ?? currentTime.value)
         ..execute()

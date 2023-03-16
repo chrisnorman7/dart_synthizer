@@ -13,22 +13,31 @@ const degreesPerStep = 5.0;
 /// iters_so_far to maintain state, which we read back from the event this
 /// schedules.
 void enqueueAutomation(
-    Context context, Source3D source, double timebase, int iters_so_far) {
+  final Context context,
+  final Source3D source,
+  final double timebase,
+  final int itersSoFar,
+) {
   final batch = AutomationBatch(context);
   for (var i = 0; i < stepsBeforeWait; i++) {
-    final iter = iters_so_far + i;
+    final iter = itersSoFar + i;
     batch.appendDouble3(
-        source.handle,
-        timebase + iter * secondsPerStep,
-        Properties.position,
-        Double3(10.0 * sin(iter * degreesPerStep * pi / 180.0),
-            10.0 * cos(iter * degreesPerStep * pi / 180.0), 0));
+      source.handle,
+      timebase + iter * secondsPerStep,
+      Properties.position,
+      Double3(
+        10.0 * sin(iter * degreesPerStep * pi / 180.0),
+        10.0 * cos(iter * degreesPerStep * pi / 180.0),
+        0,
+      ),
+    );
   }
   batch
     ..sendUserEvent(
-        source.handle,
-        (iters_so_far + stepsBeforeWait) * secondsPerStep,
-        iters_so_far + stepsBeforeWait)
+      source.handle,
+      (itersSoFar + stepsBeforeWait) * secondsPerStep,
+      itersSoFar + stepsBeforeWait,
+    )
     ..execute()
     ..destroy();
 }
@@ -36,7 +45,9 @@ void enqueueAutomation(
 void main() async {
   final synthizer = Synthizer()
     ..initialize(
-        logLevel: LogLevel.debug, loggingBackend: LoggingBackend.stderr);
+      logLevel: LogLevel.debug,
+      loggingBackend: LoggingBackend.stderr,
+    );
   final context = synthizer.createContext(events: true)
     ..defaultPannerStrategy.value = PannerStrategy.hrtf;
   final source = context.createSource3D();
@@ -48,7 +59,7 @@ void main() async {
   final reverb = context.createGlobalFdnReverb()
     ..gain.value = 0.5
     ..t60.value = 3;
-  context.ConfigRoute(source, reverb);
+  context.configRoute(source, reverb);
   final timebase = context.currentTime.value;
   var itersSoFar = 0;
   while (itersSoFar < 300) {
@@ -56,7 +67,7 @@ void main() async {
     enqueueAutomation(context, source, timebase, itersSoFar);
     SynthizerEvent? event;
     do {
-      await Future<void>.delayed(Duration(milliseconds: 10));
+      await Future<void>.delayed(const Duration(milliseconds: 10));
       event = context.getEvent();
     } while (event is! UserAutomationEvent);
 

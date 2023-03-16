@@ -7,10 +7,11 @@ import 'package:dart_style/dart_style.dart';
 /// A member of a [SynthizerEnum].
 class SynthizerEnumMember {
   /// Create an instance.
-  SynthizerEnumMember(
-      {required this.dartName,
-      required this.synthizerName,
-      required this.value});
+  SynthizerEnumMember({
+    required this.dartName,
+    required this.synthizerName,
+    required this.value,
+  });
 
   /// The Dart name for this member.
   final String dartName;
@@ -22,11 +23,11 @@ class SynthizerEnumMember {
   final String value;
 
   /// Get the fully qualified synthizer member name.
-  String getSynthizerMemberName(SynthizerEnum e) =>
+  String getSynthizerMemberName(final SynthizerEnum e) =>
       '${e.synthizerName}.SYZ_$synthizerName';
 
   /// Get the fully qualified Dart member name.
-  String getDartMemberName(SynthizerEnum e) => '${e.dartName}.$dartName';
+  String getDartMemberName(final SynthizerEnum e) => '${e.dartName}.$dartName';
 }
 
 /// An enum to be written to disk.
@@ -47,7 +48,10 @@ class SynthizerEnum {
   final List<SynthizerEnumMember> members;
 }
 
-String getDartName(String synthizerName, {bool capitaliseFirst = false}) {
+String getDartName(
+  final String synthizerName, {
+  final bool capitaliseFirst = false,
+}) {
   final names = [
     for (final name in synthizerName.split('_'))
       name[0].toUpperCase() + name.substring(1).toLowerCase()
@@ -96,10 +100,13 @@ Future<void> main() async {
         if (prefix != null) {
           dartMemberName = dartMemberName.substring(prefix.length + 1);
         }
-        currentEnum.members.add(SynthizerEnumMember(
+        currentEnum.members.add(
+          SynthizerEnumMember(
             dartName: getDartName(dartMemberName),
             synthizerName: memberName,
-            value: memberValue));
+            value: memberValue,
+          ),
+        );
       }
     }
   }
@@ -146,7 +153,7 @@ Future<void> main() async {
     buffer
       ..writeln('default:')
       ..writeln('throw SynthizerError(')
-      ..writeln("'Unrecognised `${e.synthizerName}` member.', this);")
+      ..writeln("'Unrecognised `${e.synthizerName}` member.', this,);")
       ..writeln('}}');
   }
   buffer.writeln('}');

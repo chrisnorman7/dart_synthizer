@@ -5,49 +5,67 @@ import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
 import 'generators/base.dart';
-import 'synthizer.dart';
 import 'synthizer_property.dart';
 
 /// The base class for all sources.
 ///
 /// [Synthizer docs](https://synthizer.github.io/object_reference/source.html)
-abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
+abstract class Source extends ContextualSynthizerObject
+    with PausableMixin, GainMixin {
   /// Create a source.
-  Source(Context context) : super(context.synthizer);
-
-  /// Create an instance from a handle value.
-  Source.fromHandle(Synthizer synthizer, int pointer)
-      : super(synthizer, pointer: pointer);
+  Source(super.context);
 
   /// Filter property.
-  SynthizerBiquadConfigProperty get filter =>
-      SynthizerBiquadConfigProperty(synthizer, handle, Properties.filter);
+  SynthizerBiquadConfigProperty get filter => SynthizerBiquadConfigProperty(
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.filter,
+      );
 
   /// The filter direct property.
   SynthizerBiquadConfigProperty get filterDirect =>
-      SynthizerBiquadConfigProperty(synthizer, handle, Properties.filterDirect);
+      SynthizerBiquadConfigProperty(
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.filterDirect,
+      );
 
   /// The filter effects property.
   SynthizerBiquadConfigProperty get filterEffects =>
       SynthizerBiquadConfigProperty(
-          synthizer, handle, Properties.filterEffects);
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.filterEffects,
+      );
 
   /// Add a generator to this source.
-  void addGenerator(Generator generator) => synthizer.check(synthizer.synthizer
-      .syz_sourceAddGenerator(handle.value, generator.handle.value));
+  void addGenerator(final Generator generator) => synthizer.check(
+        synthizer.synthizer
+            .syz_sourceAddGenerator(handle.value, generator.handle.value),
+      );
 
   /// Add an iterator of [generators] to this source.
-  void addGenerators(Iterable<Generator> generators) =>
+  void addGenerators(final Iterable<Generator> generators) =>
       generators.forEach(addGenerator);
 
   /// Remove a generator from this source.
-  void removeGenerator(Generator generator) =>
-      synthizer.check(synthizer.synthizer
-          .syz_sourceRemoveGenerator(handle.value, generator.handle.value));
+  void removeGenerator(final Generator generator) => synthizer.check(
+        synthizer.synthizer
+            .syz_sourceRemoveGenerator(handle.value, generator.handle.value),
+      );
 
   /// Remove every generator in [generators] from this source.
-  void removeGenerators(Iterable<Generator> generators) =>
+  void removeGenerators(final Iterable<Generator> generators) =>
       generators.forEach(removeGenerator);
+
+  /// Remove all routes from this source.
+  void removeAllRoutes({final double fadeout = 0.1}) => synthizer.check(
+        synthizer.synthizer.syz_routingRemoveAllRoutes(
+          context.handle.value,
+          handle.value,
+          fadeout,
+        ),
+      );
 }
 
 /// A source with no panning.
@@ -57,40 +75,37 @@ abstract class Source extends SynthizerObject with PausableMixin, GainMixin {
 /// Direct sources can be created with [Context.createDirectSource].
 class DirectSource extends Source {
   /// Create a direct source.
-  DirectSource(Context context) : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createDirectSource(
+  DirectSource(final Context context) : super(context) {
+    synthizer.check(
+      synthizer.synthizer.syz_createDirectSource(
         handle,
         context.handle.value,
         nullptr,
         nullptr,
-        synthizer.userdataFreeCallbackPointer));
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
   }
-
-  /// Create an instance from a handle value.
-  DirectSource.fromHandle(Synthizer synthizer, int pointer)
-      : super.fromHandle(synthizer, pointer);
 }
 
 /// A source with some kind of panning applied.
 abstract class _PannedSource extends Source {
   /// Create an instance.
-  _PannedSource(Context context) : super(context);
-
-  /// Create an instance from a handle.
-  _PannedSource.fromHandle(Synthizer synthizer, int pointer)
-      : super.fromHandle(synthizer, pointer);
+  _PannedSource(super.context);
 }
 
 /// A source with azimuth and elevation panning done by hand.
 ///
 class AngularPannedSource extends _PannedSource {
   /// Create an instance.
-  AngularPannedSource(Context context,
-      {PannerStrategy pannerStrategy = PannerStrategy.delegate,
-      double initialAzimuth = 0.0,
-      double initialElevation = 0.0})
-      : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createAngularPannedSource(
+  AngularPannedSource(
+    final Context context, {
+    final PannerStrategy pannerStrategy = PannerStrategy.delegate,
+    final double initialAzimuth = 0.0,
+    final double initialElevation = 0.0,
+  }) : super(context) {
+    synthizer.check(
+      synthizer.synthizer.syz_createAngularPannedSource(
         handle,
         context.handle.value,
         pannerStrategy.toInt(),
@@ -98,20 +113,26 @@ class AngularPannedSource extends _PannedSource {
         initialElevation,
         nullptr,
         nullptr,
-        synthizer.userdataFreeCallbackPointer));
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
   }
 
-  /// Get an instance from a handle.
-  AngularPannedSource.fromHandle(Synthizer synthizer, int pointer)
-      : super.fromHandle(synthizer, pointer);
-
   /// The azimuth for this source.
-  SynthizerDoubleProperty get azimuth =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.azimuth);
+  SynthizerAutomatableDoubleProperty get azimuth =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.azimuth,
+      );
 
   /// The elevation for this source.
-  SynthizerDoubleProperty get elevation =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.elevation);
+  SynthizerAutomatableDoubleProperty get elevation =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.elevation,
+      );
 }
 
 /// A source with panning done by way of a [panningScalar].
@@ -121,27 +142,31 @@ class AngularPannedSource extends _PannedSource {
 /// Instances can be created with [Context.createScalarPannedSource].
 class ScalarPannedSource extends _PannedSource {
   /// Create a panned source with a scalar.
-  ScalarPannedSource(Context context,
-      {PannerStrategy panningStrategy = PannerStrategy.delegate,
-      double initialPanningScalar = 0.0})
-      : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createScalarPannedSource(
+  ScalarPannedSource(
+    final Context context, {
+    final PannerStrategy panningStrategy = PannerStrategy.delegate,
+    final double initialPanningScalar = 0.0,
+  }) : super(context) {
+    synthizer.check(
+      synthizer.synthizer.syz_createScalarPannedSource(
         handle,
         context.handle.value,
         panningStrategy.toInt(),
         initialPanningScalar,
         nullptr,
         nullptr,
-        synthizer.userdataFreeCallbackPointer));
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
   }
 
-  /// Create an instance from a handle value.
-  ScalarPannedSource.fromHandle(Synthizer synthizer, int pointer)
-      : super.fromHandle(synthizer, pointer);
-
   /// The panning scalar for this source.
-  SynthizerDoubleProperty get panningScalar =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.panningScalar);
+  SynthizerAutomatableDoubleProperty get panningScalar =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.panningScalar,
+      );
 }
 
 /// A source with 3D parameters.
@@ -151,13 +176,15 @@ class ScalarPannedSource extends _PannedSource {
 /// Source 3ds can be created with [Context.createSource3D].
 class Source3D extends _PannedSource {
   /// Create a 3d source.
-  Source3D(Context context,
-      {double x = 0.0,
-      double y = 0.0,
-      double z = 0.0,
-      PannerStrategy pannerStrategy = PannerStrategy.delegate})
-      : super(context) {
-    synthizer.check(synthizer.synthizer.syz_createSource3D(
+  Source3D(
+    final Context context, {
+    final double x = 0.0,
+    final double y = 0.0,
+    final double z = 0.0,
+    final PannerStrategy pannerStrategy = PannerStrategy.delegate,
+  }) : super(context) {
+    synthizer.check(
+      synthizer.synthizer.syz_createSource3D(
         handle,
         context.handle.value,
         pannerStrategy.toInt(),
@@ -166,43 +193,70 @@ class Source3D extends _PannedSource {
         z,
         nullptr,
         nullptr,
-        synthizer.userdataFreeCallbackPointer));
+        synthizer.userdataFreeCallbackPointer,
+      ),
+    );
   }
-
-  /// Create an instance from a handle value.
-  Source3D.fromHandle(Synthizer synthizer, int pointer)
-      : super.fromHandle(synthizer, pointer);
 
   /// The distance model for this object.
   SynthizerDistanceModelProperty get distanceModel =>
       SynthizerDistanceModelProperty(
-          synthizer, handle, Properties.distanceModel);
+        synthizer: synthizer,
+        targetHandle: handle,
+        property: Properties.distanceModel,
+      );
 
   /// The distance ref for this object.
-  SynthizerDoubleProperty get distanceRef =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.distanceRef);
+  SynthizerAutomatableDoubleProperty get distanceRef =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.distanceRef,
+      );
 
   /// The distance max for this object.
-  SynthizerDoubleProperty get distanceMax =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.distanceMax);
+  SynthizerAutomatableDoubleProperty get distanceMax =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.distanceMax,
+      );
 
   /// The rolloff for this object.
-  SynthizerDoubleProperty get rolloff =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.rolloff);
+  SynthizerAutomatableDoubleProperty get rolloff =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.rolloff,
+      );
 
   /// The closeness boost for this object.
-  SynthizerDoubleProperty get closenessBoost =>
-      SynthizerDoubleProperty(synthizer, handle, Properties.closenessBoost);
+  SynthizerAutomatableDoubleProperty get closenessBoost =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.closenessBoost,
+      );
 
   /// The closeness boost distance for this object.
-  SynthizerDoubleProperty get closenessBoostDistance => SynthizerDoubleProperty(
-      synthizer, handle, Properties.closenessBoostDistance);
+  SynthizerAutomatableDoubleProperty get closenessBoostDistance =>
+      SynthizerAutomatableDoubleProperty(
+        context: context,
+        targetHandle: handle,
+        property: Properties.closenessBoostDistance,
+      );
 
   /// The position of this object.
-  SynthizerDouble3Property get position =>
-      SynthizerDouble3Property(synthizer, handle, Properties.position);
+  SynthizerDouble3Property get position => SynthizerDouble3Property(
+        context: context,
+        targetHandle: handle,
+        property: Properties.position,
+      );
 
   /// Orientation.
-  SynthizerDouble6Property get orientation =>
-      SynthizerDouble6Property(synthizer, handle, Properties.orientation);
+  SynthizerDouble6Property get orientation => SynthizerDouble6Property(
+        context: context,
+        targetHandle: handle,
+        property: Properties.orientation,
+      );
 }

@@ -3,22 +3,13 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
+import 'package:path/path.dart' as path;
 
-import 'automation.dart';
 import 'biquad.dart';
-import 'buffer.dart';
-import 'classes.dart';
 import 'context.dart';
-import 'effects.dart';
 import 'enumerations.dart';
 import 'error.dart';
-import 'events.dart';
-import 'generators/base.dart';
-import 'generators/buffer_generator.dart';
 import 'generators/fast_sine_bank_generator.dart';
-import 'generators/noise_generator.dart';
-import 'generators/streaming_generator.dart';
-import 'source.dart';
 import 'synthizer_bindings.dart';
 import 'synthizer_property.dart';
 import 'synthizer_version.dart';
@@ -38,13 +29,13 @@ const synthizerExecutableFilename = ':executable:';
 /// You must create an instance of this class in order to use the library.
 class Synthizer {
   /// Create an instance.
-  Synthizer({String? filename})
-      : _eventPointer = calloc<syz_Event>(),
-        intPointer = calloc<Int32>(),
-        bigIntPointer = calloc<Uint64>(),
-        majorPointer = calloc<Uint32>(),
-        minorPointer = calloc<Uint32>(),
-        patchPointer = calloc<Uint32>(),
+  Synthizer({final String? filename})
+      : eventPointer = calloc<syz_Event>(),
+        intPointer = calloc<Int>(),
+        bigIntPointer = calloc<UnsignedLongLong>(),
+        majorPointer = calloc<UnsignedInt>(),
+        minorPointer = calloc<UnsignedInt>(),
+        patchPointer = calloc<UnsignedInt>(),
         routeConfig = calloc<syz_RouteConfig>(),
         doublePointer = calloc<Double>(),
         x1 = calloc<Double>(),
@@ -63,7 +54,11 @@ class Synthizer {
       if (Platform.isWindows) {
         library = DynamicLibrary.open('synthizer.dll');
       } else if (Platform.isLinux) {
-        library = DynamicLibrary.open('libsynthizer.so');
+        library = DynamicLibrary.open(
+          path.join(Directory.current.path, 'libsynthizer.so'),
+        );
+      } else if (Platform.isMacOS) {
+        library = DynamicLibrary.open('libsynthizer.dylib');
       } else {
         throw SynthizerError('Unhandled platform.', -1);
       }
@@ -85,8 +80,8 @@ class Synthizer {
   factory Synthizer.fromExecutable() =>
       Synthizer(filename: synthizerExecutableFilename);
 
-  /// The handle used by [getContextEvent].
-  final Pointer<syz_Event> _eventPointer;
+  /// The handle used by [Context.getEvent].
+  final Pointer<syz_Event> eventPointer;
 
   bool _wasInit;
 
@@ -101,24 +96,24 @@ class Synthizer {
 
   /// The handle used by [SynthizerIntProperty], [SynthizerBoolProperty], and
   /// [SynthizerPannerStrategyProperty].
-  final Pointer<Int32> intPointer;
+  final Pointer<Int> intPointer;
 
   /// The handle to a bigger int.
-  final Pointer<Uint64> bigIntPointer;
+  final Pointer<UnsignedLongLong> bigIntPointer;
 
   /// Handles used by [version].
-  final Pointer<Uint32> majorPointer;
+  final Pointer<UnsignedInt> majorPointer;
 
   /// Handles used by [version].
-  final Pointer<Uint32> minorPointer;
+  final Pointer<UnsignedInt> minorPointer;
 
   /// Handles used by [version].
-  final Pointer<Uint32> patchPointer;
+  final Pointer<UnsignedInt> patchPointer;
 
-  /// The handle used by [Context.ConfigRoute].
+  /// The handle used by [Context.configRoute].
   final Pointer<syz_RouteConfig> routeConfig;
 
-  /// The handle used by [SynthizerDoubleProperty].
+  /// The handle used by [SynthizerAutomatableDoubleProperty].
   final Pointer<Double> doublePointer;
 
   /// Handles used by [SynthizerDouble3Property].
@@ -152,17 +147,18 @@ class Synthizer {
   final Pointer<syz_SineBankConfig> sineBankConfigPointer;
 
   /// Check if a returned value is an error.
-  void check(int value) {
+  void check(final int value) {
     if (value != 0) {
       throw SynthizerError.fromLib(synthizer);
     }
   }
 
   /// Initialise the library.
-  void initialize(
-      {LogLevel? logLevel,
-      LoggingBackend? loggingBackend,
-      String? libsndfilePath}) {
+  void initialize({
+    final LogLevel? logLevel,
+    final LoggingBackend? loggingBackend,
+    final String? libsndfilePath,
+  }) {
     final config = calloc<syz_LibraryConfig>();
     synthizer.syz_libraryConfigSetDefaults(config);
     if (logLevel != null) {
@@ -171,9 +167,9 @@ class Synthizer {
     if (loggingBackend != null) {
       config.ref.logging_backend = loggingBackend.toInt();
     }
-    Pointer<Int8>? libSndFilePointer;
+    Pointer<Char>? libSndFilePointer;
     if (libsndfilePath != null) {
-      libSndFilePointer = libsndfilePath.toNativeUtf8().cast<Int8>();
+      libSndFilePointer = libsndfilePath.toNativeUtf8().cast<Char>();
       config.ref.libsndfile_path = libSndFilePointer;
     }
     check(synthizer.syz_initializeWithConfig(config));
@@ -188,7 +184,7 @@ class Synthizer {
   void shutdown() {
     check(synthizer.syz_shutdown());
     [
-      _eventPointer,
+      eventPointer,
       intPointer,
       bigIntPointer,
       majorPointer,
@@ -211,106 +207,49 @@ class Synthizer {
   }
 
   /// Create a context.
-  Context createContext({bool events = false}) => Context(this, events: events);
+  Context createContext({final bool events = false}) =>
+      Context(this, events: events);
 
   /// Shorthand for [BiquadConfig.designIdentity].
   BiquadConfig designIdentify() => BiquadConfig.designIdentity(this);
 
   /// Shorthand for [BiquadConfig.designLowpass].
-  BiquadConfig designLowpass(double frequency,
-          {double q = 0.7071135624381276}) =>
+  BiquadConfig designLowpass(
+    final double frequency, {
+    final double q = 0.7071135624381276,
+  }) =>
       BiquadConfig.designLowpass(this, frequency, q: q);
 
   /// Shorthand for [BiquadConfig.designHighpass].
-  BiquadConfig designHighpass(double frequency,
-          {double q = 0.7071135624381276}) =>
+  BiquadConfig designHighpass(
+    final double frequency, {
+    final double q = 0.7071135624381276,
+  }) =>
       BiquadConfig.designHighpass(this, frequency, q: q);
 
   /// Shorthand for [BiquadConfig.designBandpass].
-  BiquadConfig designBandpass(double frequency, double bandwidth) =>
+  BiquadConfig designBandpass(final double frequency, final double bandwidth) =>
       BiquadConfig.designBandpass(this, frequency, bandwidth);
 
   /// Get the type of a handle.
-  ObjectType getObjectType(int handle) {
+  ObjectType getObjectType(final int handle) {
     check(synthizer.syz_handleGetObjectType(intPointer, handle));
     return intPointer.value.toObjectType();
-  }
-
-  /// Get an object from [handle].
-  ///
-  /// *NOTE*: Objects constructed by this method should be used for comparison
-  /// only.
-  ///
-  /// If you try to access properties for example, the behaviour is undefined.
-  SynthizerObject getObject(int handle) {
-    final type = getObjectType(handle);
-    switch (type) {
-      case ObjectType.context:
-        return Context(this, pointer: handle);
-      case ObjectType.buffer:
-        return Buffer(this, handle: handle);
-      case ObjectType.bufferGenerator:
-        return BufferGenerator.fromHandle(this, handle);
-      case ObjectType.streamingGenerator:
-        return StreamingGenerator.fromHandle(this, handle);
-      case ObjectType.noiseGenerator:
-        return NoiseGenerator.fromHandle(this, handle);
-      case ObjectType.directSource:
-        return DirectSource.fromHandle(this, handle);
-      case ObjectType.angularPannedSource:
-        return AngularPannedSource.fromHandle(this, handle);
-      case ObjectType.scalarPannedSource:
-        return ScalarPannedSource.fromHandle(this, handle);
-      case ObjectType.source3d:
-        return Source3D.fromHandle(this, handle);
-      case ObjectType.globalEcho:
-        return GlobalEcho.fromHandle(this, handle);
-      case ObjectType.globalFdnReverb:
-        return GlobalFdnReverb.fromHandle(this, handle);
-      case ObjectType.streamHandle:
-        throw UnimplementedError();
-      case ObjectType.automationBatch:
-        return AutomationBatch.fromHandle(this, handle);
-      case ObjectType.fastSineBankGenerator:
-        return FastSineBankGenerator.fromHandle(this, handle);
-    }
-  }
-
-  /// Get the next event for [context].
-  SynthizerEvent? getContextEvent(Context context) {
-    SynthizerEvent? value;
-    check(synthizer.syz_contextGetNextEvent(
-        _eventPointer, context.handle.value, 0));
-    final sourceHandle = _eventPointer.ref.source;
-    final eventType = _eventPointer.ref.type.toEventTypes();
-    switch (eventType) {
-      case EventTypes.finished:
-        value = FinishedEvent(context, getObject(sourceHandle));
-        break;
-      case EventTypes.looped:
-        value = LoopedEvent(context, getObject(sourceHandle) as Generator);
-        break;
-      case EventTypes.userAutomation:
-        value = UserAutomationEvent(context, getObject(sourceHandle),
-            _eventPointer.ref.payload.user_automation.param);
-        break;
-      case EventTypes.invalid:
-        return null;
-    }
-    synthizer.syz_eventDeinit(_eventPointer);
-    return value;
   }
 
   /// Get the synthizer version.
   SynthizerVersion get version {
     synthizer.syz_getVersion(majorPointer, minorPointer, patchPointer);
     return SynthizerVersion(
-        majorPointer.value, minorPointer.value, patchPointer.value);
+      majorPointer.value,
+      minorPointer.value,
+      patchPointer.value,
+    );
   }
 
   /// Increase the reference count for the object with the given [handle].
-  void incRef(int handle) => check(synthizer.syz_handleIncRef(handle));
+  void incRef(final int handle) => check(synthizer.syz_handleIncRef(handle));
 
   /// Decrease the reference count for the object with the given [handle].
-  void decRef(int handle) => check(synthizer.syz_handleDecRef(handle));
+  void decRef(final int handle) => check(synthizer.syz_handleDecRef(handle));
 }
