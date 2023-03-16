@@ -25,13 +25,12 @@ class Buffer extends SynthizerObject {
     final String path, {
     final String options = '',
   }) {
-    final out = calloc<UnsignedLongLong>();
     final protocolPointer = protocol.toNativeUtf8().cast<Char>();
     final pathPointer = path.toNativeUtf8().cast<Char>();
     final optionsPointer = options.toNativeUtf8().cast<Void>();
     synthizer.check(
       synthizer.synthizer.syz_createBufferFromStreamParams(
-        out,
+        synthizer.bigIntPointer,
         protocolPointer,
         pathPointer,
         optionsPointer,
@@ -39,8 +38,12 @@ class Buffer extends SynthizerObject {
         synthizer.userdataFreeCallbackPointer,
       ),
     );
-    [protocolPointer, pathPointer, optionsPointer, out].forEach(malloc.free);
-    return Buffer(synthizer, handle: out.value);
+    [
+      protocolPointer,
+      pathPointer,
+      optionsPointer,
+    ].forEach(malloc.free);
+    return Buffer(synthizer, handle: synthizer.bigIntPointer.value);
   }
 
   /// Create a buffer from a stream.
@@ -48,17 +51,15 @@ class Buffer extends SynthizerObject {
     final Synthizer synthizer,
     final SynthizerStream stream,
   ) {
-    final out = calloc<UnsignedLongLong>();
     synthizer.check(
       synthizer.synthizer.syz_createBufferFromStreamHandle(
-        out,
+        synthizer.bigIntPointer,
         stream.handle.value,
         nullptr,
         synthizer.userdataFreeCallbackPointer,
       ),
     );
-    calloc.free(out);
-    return Buffer(synthizer, handle: out.value);
+    return Buffer(synthizer, handle: synthizer.bigIntPointer.value);
   }
 
   /// Create a buffer from a file object.
@@ -70,14 +71,13 @@ class Buffer extends SynthizerObject {
   /// You can use this with a list returned by [File.readAsBytesSync] for
   /// example.
   factory Buffer.fromBytes(final Synthizer synthizer, final List<int> bytes) {
-    final out = calloc<UnsignedLongLong>();
     final a = malloc<Char>(bytes.length);
     for (var i = 0; i < bytes.length; i++) {
       a[i] = bytes[i];
     }
     synthizer.check(
       synthizer.synthizer.syz_createBufferFromEncodedData(
-        out,
+        synthizer.bigIntPointer,
         bytes.length,
         a,
         nullptr,
@@ -85,7 +85,7 @@ class Buffer extends SynthizerObject {
       ),
     );
     malloc.free(a);
-    return Buffer(synthizer, handle: out.value);
+    return Buffer(synthizer, handle: synthizer.bigIntPointer.value);
   }
 
   /// Create a buffer from a string.
@@ -102,14 +102,13 @@ class Buffer extends SynthizerObject {
     final int frames,
     final List<double> data,
   ) {
-    final out = calloc<UnsignedLongLong>();
     final a = malloc<Float>(data.length);
     for (var i = 0; i < data.length; i++) {
       a[i] = data[i];
     }
     synthizer.check(
       synthizer.synthizer.syz_createBufferFromFloatArray(
-        out,
+        synthizer.bigIntPointer,
         sampleRate,
         channels,
         frames,
@@ -118,9 +117,8 @@ class Buffer extends SynthizerObject {
         synthizer.userdataFreeCallbackPointer,
       ),
     );
-    calloc.free(out);
     malloc.free(a);
-    return Buffer(synthizer, handle: out.value);
+    return Buffer(synthizer, handle: synthizer.bigIntPointer.value);
   }
 
   /// Get the number of channels for this buffer.
