@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.11.2]
+
+### Changed
+
+* Updated dependencies.
+* Updated Synthizer.
+
+### Fixed
+
+* Fixed a memory leak in buffer factory constructors.
+
 ## [0.11.1]
 
 ### Changed
