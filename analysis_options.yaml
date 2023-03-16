@@ -4,8 +4,6 @@ analyzer:
   exclude:
     - lib/src/synthizer_bindings.dart
   strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
 
 linter:
   rules:
