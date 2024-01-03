@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print
-/// Play noise until killed.
 import 'dart:io';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
 
+/// Play noise until killed.
 Future<void> main() async {
   final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext();

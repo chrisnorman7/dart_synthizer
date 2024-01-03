@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_final_parameters
-/// Provides classes relating to effects.
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';

@@ -1,4 +1,3 @@
-/// Provides the [StreamingGenerator] class.
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';

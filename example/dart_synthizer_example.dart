@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print
-/// The basics of Synthizer.
 import 'dart:io';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
 
+/// The basics of Synthizer.
 Future<void> main() async {
   final synthizer = Synthizer()..initialize();
   print('Using Synthizer v${synthizer.version}.');

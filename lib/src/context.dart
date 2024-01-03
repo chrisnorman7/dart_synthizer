@@ -1,4 +1,3 @@
-/// Provides the [Context] class.
 import 'dart:ffi';
 
 import 'automation.dart';

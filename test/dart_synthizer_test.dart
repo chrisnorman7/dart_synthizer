@@ -20,13 +20,13 @@ void main() {
       final ctx = synthizer.createContext();
       expect(
         ctx.orientation.value,
-        equals(const Double6(0.0, 1.0, 0.0, 0.0, 0.0, 1.0)),
+        const Double6(0.0, 1.0, 0.0, 0.0, 0.0, 1.0),
       );
       ctx.orientation.value = const Double6(1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
       await Future<void>.delayed(const Duration(milliseconds: 10));
       expect(
         ctx.orientation.value,
-        equals(const Double6(1.0, 0.0, 1.0, 1.0, 1.0, 0.0)),
+        const Double6(1.0, 0.0, 1.0, 1.0, 1.0, 0.0),
       );
       expect(ctx.defaultPannerStrategy.value, equals(PannerStrategy.stereo));
       ctx.defaultPannerStrategy.value = PannerStrategy.hrtf;
@@ -56,10 +56,10 @@ void main() {
       ctx.defaultDistanceRef.value = 0.5;
       await Future<void>.delayed(const Duration(milliseconds: 10));
       expect(ctx.defaultDistanceRef.value, equals(0.5));
-      expect(ctx.position.value, equals(const Double3(0.0, 0.0, 0.0)));
+      expect(ctx.position.value, const Double3(0.0, 0.0, 0.0));
       ctx.position.value = const Double3(3, 4, 5);
       await Future<void>.delayed(const Duration(milliseconds: 10));
-      expect(ctx.position.value, equals(const Double3(3, 4, 5)));
+      expect(ctx.position.value, const Double3(3, 4, 5));
       expect(ctx.gain.value, equals(1.0));
       ctx.gain.value = 0.5;
       await Future<void>.delayed(const Duration(milliseconds: 10));
@@ -144,7 +144,7 @@ void main() {
         equals(ctx.defaultDistanceModel.value),
       );
       expect(source.orientation.value, equals(ctx.orientation.value));
-      expect(source.position.value, equals(const Double3(0, 0, 0)));
+      expect(source.position.value, const Double3(0, 0, 0));
       expect(source.rolloff.value, equals(ctx.defaultRolloff.value));
       expect(source.gain.value, equals(1.0));
       source = ctx.createSource3D(x: 3, y: 4, z: 5);
@@ -163,7 +163,7 @@ void main() {
         equals(ctx.defaultDistanceModel.value),
       );
       expect(source.orientation.value, equals(ctx.orientation.value));
-      expect(source.position.value, equals(const Double3(3, 4, 5)));
+      expect(source.position.value, const Double3(3, 4, 5));
       expect(source.rolloff.value, equals(ctx.defaultRolloff.value));
       expect(source.gain.value, equals(1.0));
       source.destroy();

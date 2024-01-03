@@ -1,4 +1,3 @@
-/// Provides the [SynthizerProperty] class.
 import 'dart:ffi';
 
 import 'automation.dart';

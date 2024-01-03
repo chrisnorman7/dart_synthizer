@@ -60,5 +60,6 @@
     "writeln"
   ],
   "cSpell.enabled": true,
-  "accessibleCodeRuler.languageMaximumLineLength": {}
+  "accessibleCodeRuler.languageMaximumLineLength": {},
+  "dotnet.defaultSolution": "disable"
 }

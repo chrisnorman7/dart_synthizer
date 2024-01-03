@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print
-/// Play a buffer generator and exit.
 import 'dart:io';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
 
+/// Play a buffer generator and exit.
 Future<void> main() async {
   final synthizer = Synthizer()..initialize();
   print('Synthizer initialized.');

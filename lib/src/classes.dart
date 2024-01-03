@@ -1,4 +1,3 @@
-/// Provides various classes for use with Synthizer.
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';

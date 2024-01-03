@@ -1,4 +1,3 @@
-/// Provides the [FastSineBankGenerator] class.
 import 'dart:ffi';
 
 import '../classes.dart';

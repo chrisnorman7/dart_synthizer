@@ -1,4 +1,3 @@
-/// Provides the [NoiseGenerator] class.
 import 'dart:ffi';
 
 import '../context.dart';

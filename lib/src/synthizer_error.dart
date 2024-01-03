@@ -1,4 +1,3 @@
-/// Provides the [SynthizerError] class.
 import 'package:ffi/ffi.dart';
 
 import 'synthizer_bindings.dart';

@@ -4,19 +4,19 @@ description: Dart bindings for the Synthizer sound library.
 repository: https://www.github.com/chrisnorman7/dart_synthizer
 
 environment:
-  sdk: ">=2.18.0 <4.0.0"
+  sdk: ">=3.3.0-174.3.beta <4.0.0"
 
 dependencies:
   ffi: ^2.0.1
-  file: ^6.1.4
+  file: ^7.0.0
   meta: ^1.8.0
   path: ^1.8.2
-  quiver: ^3.1.0
+  quiver: ^3.2.1
 
 dev_dependencies:
   dart_style: ^2.2.4
-  ffigen: ^7.2.9
-  lints: ^2.0.0
+  ffigen: ^11.0.0
+  lints: ^3.0.0
   test: ^1.21.6
 
 ffigen:

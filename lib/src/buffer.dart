@@ -1,4 +1,3 @@
-/// Provides the [Buffer] class.
 import 'dart:ffi';
 import 'dart:io';
 

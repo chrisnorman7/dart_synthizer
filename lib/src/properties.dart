@@ -1,4 +1,3 @@
-/// Provides property classes used by Synthizer.
 import 'package:quiver/core.dart';
 
 import 'context.dart';

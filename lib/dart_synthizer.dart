@@ -24,6 +24,8 @@
 /// ```
 ///
 /// For more help, see the API docs.
+library dart_synthizer;
+
 import 'src/synthizer.dart';
 
 export 'src/automation.dart';
@@ -33,7 +35,6 @@ export 'src/classes.dart';
 export 'src/context.dart';
 export 'src/effects.dart';
 export 'src/enumerations.dart';
-export 'src/error.dart';
 export 'src/events.dart';
 export 'src/generators/base.dart';
 export 'src/generators/buffer_generator.dart';
@@ -44,5 +45,6 @@ export 'src/properties.dart';
 export 'src/source.dart';
 export 'src/stream.dart';
 export 'src/synthizer.dart';
+export 'src/synthizer_error.dart';
 export 'src/synthizer_property.dart';
 export 'src/synthizer_version.dart';

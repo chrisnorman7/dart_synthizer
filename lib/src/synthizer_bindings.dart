@@ -65,9 +65,9 @@ class DartSynthizer {
   }
 
   late final _syz_libraryConfigSetDefaultsPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<syz_LibraryConfig>)>>('syz_libraryConfigSetDefaults');
+          ffi
+          .NativeFunction<ffi.Void Function(ffi.Pointer<syz_LibraryConfig>)>>(
+      'syz_libraryConfigSetDefaults');
   late final _syz_libraryConfigSetDefaults = _syz_libraryConfigSetDefaultsPtr
       .asFunction<void Function(ffi.Pointer<syz_LibraryConfig>)>();
 
@@ -1511,9 +1511,9 @@ class DartSynthizer {
   }
 
   late final _syz_initSineBankConfigPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<syz_SineBankConfig>)>>('syz_initSineBankConfig');
+          ffi
+          .NativeFunction<ffi.Void Function(ffi.Pointer<syz_SineBankConfig>)>>(
+      'syz_initSineBankConfig');
   late final _syz_initSineBankConfig = _syz_initSineBankConfigPtr
       .asFunction<void Function(ffi.Pointer<syz_SineBankConfig>)>();
 
@@ -1887,12 +1887,12 @@ class DartSynthizer {
               ffi.Pointer<ffi.Void>, ffi.Pointer<syz_UserdataFreeCallback>)>();
 }
 
-class syz_UserAutomationEvent extends ffi.Struct {
+final class syz_UserAutomationEvent extends ffi.Struct {
   @ffi.UnsignedLongLong()
   external int param;
 }
 
-class syz_Event extends ffi.Struct {
+final class syz_Event extends ffi.Struct {
   @ffi.Int()
   external int type;
 
@@ -1906,8 +1906,9 @@ class syz_Event extends ffi.Struct {
 }
 
 typedef syz_Handle = ffi.UnsignedLongLong;
+typedef Dartsyz_Handle = int;
 
-class UnnamedUnion1 extends ffi.Union {
+final class UnnamedUnion1 extends ffi.Union {
   external syz_UserAutomationEvent user_automation;
 }
 
@@ -1923,7 +1924,7 @@ abstract class SYZ_LOG_LEVEL {
   static const int SYZ_LOG_LEVEL_DEBUG = 30;
 }
 
-class syz_LibraryConfig extends ffi.Struct {
+final class syz_LibraryConfig extends ffi.Struct {
   @ffi.UnsignedInt()
   external int log_level;
 
@@ -1934,8 +1935,9 @@ class syz_LibraryConfig extends ffi.Struct {
 }
 
 typedef syz_ErrorCode = ffi.Int;
+typedef Dartsyz_ErrorCode = int;
 
-class syz_DeleteBehaviorConfig extends ffi.Struct {
+final class syz_DeleteBehaviorConfig extends ffi.Struct {
   @ffi.Int()
   external int linger;
 
@@ -1946,7 +1948,7 @@ class syz_DeleteBehaviorConfig extends ffi.Struct {
 typedef syz_UserdataFreeCallback
     = ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>;
 
-class syz_BiquadConfig extends ffi.Struct {
+final class syz_BiquadConfig extends ffi.Struct {
   @ffi.Double()
   external double _b0;
 
@@ -1969,7 +1971,7 @@ class syz_BiquadConfig extends ffi.Struct {
   external int _is_wire;
 }
 
-class syz_AutomationPoint extends ffi.Struct {
+final class syz_AutomationPoint extends ffi.Struct {
   @ffi.Int()
   external int interpolation_type;
 
@@ -1980,24 +1982,24 @@ class syz_AutomationPoint extends ffi.Struct {
   external int flags;
 }
 
-class syz_AutomationAppendPropertyCommand extends ffi.Struct {
+final class syz_AutomationAppendPropertyCommand extends ffi.Struct {
   @ffi.Int()
   external int property;
 
   external syz_AutomationPoint point;
 }
 
-class syz_AutomationClearPropertyCommand extends ffi.Struct {
+final class syz_AutomationClearPropertyCommand extends ffi.Struct {
   @ffi.Int()
   external int property;
 }
 
-class syz_AutomationSendUserEventCommand extends ffi.Struct {
+final class syz_AutomationSendUserEventCommand extends ffi.Struct {
   @ffi.UnsignedLongLong()
   external int param;
 }
 
-class syz_AutomationCommandParams extends ffi.Union {
+final class syz_AutomationCommandParams extends ffi.Union {
   external syz_AutomationAppendPropertyCommand append_to_property;
 
   external syz_AutomationClearPropertyCommand clear_property;
@@ -2005,7 +2007,7 @@ class syz_AutomationCommandParams extends ffi.Union {
   external syz_AutomationSendUserEventCommand send_user_event;
 }
 
-class syz_AutomationCommand extends ffi.Struct {
+final class syz_AutomationCommand extends ffi.Struct {
   @syz_Handle()
   external int target;
 
@@ -2021,7 +2023,7 @@ class syz_AutomationCommand extends ffi.Struct {
   external syz_AutomationCommandParams params;
 }
 
-class syz_CustomStreamDef extends ffi.Struct {
+final class syz_CustomStreamDef extends ffi.Struct {
   external ffi.Pointer<syz_StreamReadCallback> read_cb;
 
   external ffi.Pointer<syz_StreamSeekCallback> seek_cb;
@@ -2038,29 +2040,29 @@ class syz_CustomStreamDef extends ffi.Struct {
 
 typedef syz_StreamReadCallback = ffi.NativeFunction<
     ffi.Int Function(
-        ffi.Pointer<ffi.UnsignedLongLong>,
-        ffi.UnsignedLongLong,
-        ffi.Pointer<ffi.Char>,
-        ffi.Pointer<ffi.Void>,
-        ffi.Pointer<ffi.Pointer<ffi.Char>>)>;
+        ffi.Pointer<ffi.UnsignedLongLong> read,
+        ffi.UnsignedLongLong requested,
+        ffi.Pointer<ffi.Char> destination,
+        ffi.Pointer<ffi.Void> userdata,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> err_msg)>;
 typedef syz_StreamSeekCallback = ffi.NativeFunction<
-    ffi.Int Function(ffi.UnsignedLongLong, ffi.Pointer<ffi.Void>,
-        ffi.Pointer<ffi.Pointer<ffi.Char>>)>;
+    ffi.Int Function(ffi.UnsignedLongLong pos, ffi.Pointer<ffi.Void> userdata,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> err_msg)>;
 typedef syz_StreamCloseCallback = ffi.NativeFunction<
-    ffi.Int Function(
-        ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Pointer<ffi.Char>>)>;
+    ffi.Int Function(ffi.Pointer<ffi.Void> userdata,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> err_msg)>;
 typedef syz_StreamDestroyCallback
-    = ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>;
+    = ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> userdata)>;
 typedef syz_StreamOpenCallback = ffi.NativeFunction<
     ffi.Int Function(
-        ffi.Pointer<syz_CustomStreamDef>,
-        ffi.Pointer<ffi.Char>,
-        ffi.Pointer<ffi.Char>,
-        ffi.Pointer<ffi.Void>,
-        ffi.Pointer<ffi.Void>,
-        ffi.Pointer<ffi.Pointer<ffi.Char>>)>;
+        ffi.Pointer<syz_CustomStreamDef> callbacks,
+        ffi.Pointer<ffi.Char> protocol,
+        ffi.Pointer<ffi.Char> path,
+        ffi.Pointer<ffi.Void> param,
+        ffi.Pointer<ffi.Void> userdata,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> err_msg)>;
 
-class syz_SineBankWave extends ffi.Struct {
+final class syz_SineBankWave extends ffi.Struct {
   @ffi.Double()
   external double frequency_mul;
 
@@ -2071,7 +2073,7 @@ class syz_SineBankWave extends ffi.Struct {
   external double gain;
 }
 
-class syz_SineBankConfig extends ffi.Struct {
+final class syz_SineBankConfig extends ffi.Struct {
   external ffi.Pointer<syz_SineBankWave> waves;
 
   @ffi.UnsignedLongLong()
@@ -2081,7 +2083,7 @@ class syz_SineBankConfig extends ffi.Struct {
   external double initial_frequency;
 }
 
-class syz_RouteConfig extends ffi.Struct {
+final class syz_RouteConfig extends ffi.Struct {
   @ffi.Double()
   external double gain;
 
@@ -2091,7 +2093,7 @@ class syz_RouteConfig extends ffi.Struct {
   external syz_BiquadConfig filter;
 }
 
-class syz_EchoTapConfig extends ffi.Struct {
+final class syz_EchoTapConfig extends ffi.Struct {
   @ffi.Double()
   external double delay;
 

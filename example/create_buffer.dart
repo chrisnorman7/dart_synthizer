@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 /// Create a buffer and quit.
+library;
+
 import 'package:dart_synthizer/dart_synthizer.dart';
 
 void main() {

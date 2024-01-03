@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print
-/// Load a file into memory, and play it.
 import 'dart:io';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
 
+/// Load a file into memory, and play it.
 Future<void> main() async {
   final f = File('sound.wav');
   final synthizer = Synthizer()..initialize();

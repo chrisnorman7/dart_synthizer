@@ -1,4 +1,3 @@
-/// Provides the [Synthizer] class.
 import 'dart:ffi';
 import 'dart:io';
 
@@ -8,9 +7,9 @@ import 'package:path/path.dart' as path;
 import 'biquad.dart';
 import 'context.dart';
 import 'enumerations.dart';
-import 'error.dart';
 import 'generators/fast_sine_bank_generator.dart';
 import 'synthizer_bindings.dart';
+import 'synthizer_error.dart';
 import 'synthizer_property.dart';
 import 'synthizer_version.dart';
 
@@ -201,7 +200,7 @@ class Synthizer {
       userdataFreeCallbackPointer,
       deleteBehaviorConfigPointer,
       sineBankWavePointer,
-      sineBankConfigPointer
+      sineBankConfigPointer,
     ].forEach(calloc.free);
     _wasInit = false;
   }

@@ -1,4 +1,3 @@
-/// Provides source classes.
 import 'dart:ffi';
 
 import 'classes.dart';

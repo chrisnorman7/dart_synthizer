@@ -1,4 +1,3 @@
-/// Provides classes relating to automation.
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
@@ -6,9 +5,9 @@ import 'package:ffi/ffi.dart';
 import 'classes.dart';
 import 'context.dart';
 import 'enumerations.dart';
-import 'error.dart';
 import 'properties.dart';
 import 'synthizer_bindings.dart';
+import 'synthizer_error.dart';
 
 /// The base class for all automation commands.
 ///

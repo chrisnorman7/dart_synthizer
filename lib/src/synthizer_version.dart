@@ -1,5 +1,3 @@
-/// Provides the [SynthizerVersion] class.
-
 /// A class which represents the version of Synthizer being used.
 class SynthizerVersion {
   /// Create an instance.

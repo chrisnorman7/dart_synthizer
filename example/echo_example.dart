@@ -1,16 +1,16 @@
 // ignore_for_file: avoid_print
-/// Demonstrates how to configure echo in a  relatively real-world scenario
-/// akin to what a reverb would do for early reflections.
+import 'dart:math';
+
+import 'package:dart_synthizer/dart_synthizer.dart';
+
+/// Demonstrates how to configure echo in a  relatively real-world scenario akin
+/// to what a reverb would do for early reflections.
 ///
 /// By setting taps up in various configurations, it's possible to get a number
 /// of different effects.
 ///
 /// For best results, use a music file or something that's long enough to play
-/// as long as the sleeps at the end of this file."""
-import 'dart:math';
-
-import 'package:dart_synthizer/dart_synthizer.dart';
-
+/// as long as the sleeps at the end of this file.
 Future<void> main() async {
   final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext();

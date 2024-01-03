@@ -1,4 +1,3 @@
-/// Provides the [BufferGenerator] class.
 import 'dart:ffi';
 
 import '../buffer.dart';

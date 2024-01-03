@@ -1,4 +1,3 @@
-/// Provides generator classes.
 import '../classes.dart';
 import '../enumerations.dart';
 import '../synthizer_property.dart';

@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print
-/// Demonstrate events in Synthizer.
 import 'dart:io';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
 
+/// Demonstrate events in Synthizer.
 Future<void> main() async {
   final synthizer = Synthizer()..initialize();
   final ctx = synthizer.createContext(events: true);
